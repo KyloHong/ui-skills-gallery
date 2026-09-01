@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After - Taste Skill 风格设计工作室</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #faf9f7; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 28px 64px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-logo { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.02em; }
+  .nav-links { display: flex; gap: 40px; }
+  .nav-links a { color: #666; text-decoration: none; font-size: 13px; font-weight: 400; letter-spacing: 0.02em; transition: color 0.3s; }
+  .nav-links a:hover { color: #1a1a1a; }
+  .nav-contact { font-size: 13px; color: #1a1a1a; text-decoration: none; border-bottom: 1px solid #1a1a1a; padding-bottom: 2px; }
+  .hero { padding: 200px 64px 160px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  .hero-label { font-size: 12px; color: #999; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 32px; }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: 96px; font-weight: 300; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 48px; max-width: 900px; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: #8b7355; }
+  .hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; max-width: 600px; }
+  .hero p { font-size: 16px; color: #666; line-height: 1.7; font-weight: 300; }
+  .scroll-indicator { font-size: 11px; color: #999; letter-spacing: 0.1em; writing-mode: vertical-rl; }
+  .work { padding: 120px 64px; }
+  .work-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 80px; }
+  .work-header h2 { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 300; letter-spacing: -0.02em; }
+  .work-header span { font-size: 13px; color: #999; }
+  .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 64px 48px; }
+  .work-item { cursor: pointer; }
+  .work-image { aspect-ratio: 4/3; background: #e8e4df; margin-bottom: 24px; position: relative; overflow: hidden; transition: transform 0.6s ease; }
+  .work-item:hover .work-image { transform: scale(1.02); }
+  .work-image-1 { background: linear-gradient(135deg, #d4c5b0 0%, #b8a88a 100%); }
+  .work-image-2 { background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%); }
+  .work-image-3 { background: linear-gradient(135deg, #c9b8a8 0%, #a89888 100%); }
+  .work-image-4 { background: linear-gradient(135deg, #e0d8d0 0%, #c8c0b8 100%); }
+  .work-info { display: flex; justify-content: space-between; align-items: baseline; }
+  .work-info h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.01em; }
+  .work-info span { font-size: 12px; color: #999; letter-spacing: 0.05em; }
+  .about { padding: 160px 64px; background: #1a1a1a; color: #faf9f7; }
+  .about-content { max-width: 800px; }
+  .about-label { font-size: 12px; color: #666; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 32px; }
+  .about h2 { font-family: 'Fraunces', serif; font-size: 56px; font-weight: 300; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 48px; }
+  .about h2 em { font-style: italic; color: #c9b8a8; }
+  .about p { font-size: 16px; color: #999; line-height: 1.8; font-weight: 300; margin-bottom: 24px; }
+  .contact { padding: 160px 64px; text-align: center; }
+  .contact-label { font-size: 12px; color: #999; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 32px; }
+  .contact h2 { font-family: 'Fraunces', serif; font-size: 72px; font-weight: 300; letter-spacing: -0.03em; margin-bottom: 32px; }
+  .contact h2 em { font-style: italic; color: #8b7355; }
+  .contact a { font-size: 18px; color: #1a1a1a; text-decoration: none; border-bottom: 1px solid #1a1a1a; padding-bottom: 4px; }
+  .footer { padding: 48px 64px; border-top: 1px solid #e8e4df; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #999; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-logo">Atelier Nord</div>
+    <div class="nav-links">
+      <a href="#">作品</a>
+      <a href="#">关于</a>
+      <a href="#">服务</a>
+      <a href="#">日志</a>
+    </div>
+    <a href="#" class="nav-contact">联系我们</a>
+  </nav>
+  <section class="hero">
+    <div class="hero-label">独立设计工作室 · 成立于 2019</div>
+    <h1>我们创造有<em>灵魂</em>的<br>数字体验</h1>
+    <div class="hero-bottom">
+      <p>专注于品牌识别、数字产品和交互设计。我们相信好的设计是克制的、有温度的、经得起时间考验的。</p>
+      <span class="scroll-indicator">向下滚动 ↓</span>
+    </div>
+  </section>
+  <section class="work">
+    <div class="work-header">
+      <h2>精选作品</h2>
+      <span>2023 — 2026</span>
+    </div>
+    <div class="work-grid">
+      <div class="work-item">
+        <div class="work-image work-image-1"></div>
+        <div class="work-info">
+          <h3>Maison Épicure</h3>
+          <span>品牌设计 · 2026</span>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-image work-image-2"></div>
+        <div class="work-info">
+          <h3>Obsidian Journal</h3>
+          <span>数字产品 · 2025</span>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-image work-image-3"></div>
+        <div class="work-info">
+          <h3>Studio Lumière</h3>
+          <span>网站设计 · 2025</span>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-image work-image-4"></div>
+        <div class="work-info">
+          <h3>Archive Studio</h3>
+          <span>品牌识别 · 2024</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="about">
+    <div class="about-content">
+      <div class="about-label">关于我们</div>
+      <h2>设计不是装饰，<br>而是<em>解决问题</em>的方式</h2>
+      <p>Atelier Nord 是一家位于哥本哈根的独立设计工作室。我们与全球的品牌和企业合作，创造有意义的数字体验。</p>
+      <p>我们的工作方式是缓慢的、深入的、注重细节的。每个项目都从理解开始——理解品牌、理解用户、理解问题。然后我们用设计给出答案。</p>
+    </div>
+  </section>
+  <section class="contact">
+    <div class="contact-label">开始合作</div>
+    <h2>有项目<em>想法</em>？</h2>
+    <a href="mailto:hello@ateliernord.studio">hello@ateliernord.studio</a>
+  </section>
+  <footer class="footer">
+    <span>© 2026 Atelier Nord Studio</span>
+    <span>哥本哈根 · 东京 · 上海</span>
+  </footer>
+</body>
+</html>

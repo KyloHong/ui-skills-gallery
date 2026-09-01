@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeMaster — 从零到全栈工程师</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0f; color: #e4e4e7; overflow-x: hidden; }
+  .gradient-text { background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #fb923c 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+  .glow { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; }
+  .btn-primary { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; padding: 0.875rem 2rem; border-radius: 0.75rem; font-size: 0.95rem; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 20px rgba(139,92,246,0.3); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(139,92,246,0.4); }
+  .course-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 1rem; padding: 1.5rem; transition: all 0.3s; }
+  .course-card:hover { border-color: rgba(167,139,250,0.3); background: rgba(255,255,255,0.04); transform: translateY(-4px); }
+  .avatar { width: 3.5rem; height: 3.5rem; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+  .stat-number { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #a78bfa, #f472b6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .code-window { background: #111118; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; overflow: hidden; }
+  .code-header { background: rgba(255,255,255,0.03); padding: 0.75rem 1rem; display: flex; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .code-dot { width: 0.75rem; height: 0.75rem; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="glow" style="width:600px;height:600px;background:#8b5cf6;top:-200px;left:-100px;"></div>
+<div class="glow" style="width:500px;height:500px;background:#ec4899;top:100px;right:-150px;"></div>
+
+<header class="relative z-10 border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <span class="text-xl font-bold gradient-text">CodeMaster</span>
+    <nav class="flex items-center gap-8 text-sm text-zinc-400">
+      <a href="#" class="hover:text-white transition-colors">课程</a>
+      <a href="#" class="hover:text-white transition-colors">学习路径</a>
+      <a href="#" class="hover:text-white transition-colors">讲师</a>
+      <a href="#" class="hover:text-white transition-colors">社区</a>
+      <button class="btn-primary" style="padding:0.5rem 1.25rem;font-size:0.85rem;">免费试学</button>
+    </nav>
+  </div>
+</header>
+
+<section class="relative z-10 max-w-7xl mx-auto px-6 py-24 text-center">
+  <div class="inline-flex items-center gap-2 glass px-4 py-2 rounded-full text-sm text-zinc-300 mb-8">
+    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+    已有 100,000+ 学员加入学习
+  </div>
+  <h1 class="text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+    从零开始<br><span class="gradient-text">成为全栈工程师</span>
+  </h1>
+  <p class="text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+    100+ 精品课程 · 50+ 资深讲师 · 项目驱动学习<br>从第一行代码到独立开发产品
+  </p>
+  <div class="flex justify-center gap-4">
+    <button class="btn-primary">开始免费学习</button>
+    <button class="glass px-8 py-3.5 rounded-xl text-sm font-medium text-zinc-300 hover:text-white transition-colors">浏览课程</button>
+  </div>
+</section>
+
+<section class="relative z-10 max-w-7xl mx-auto px-6 pb-20">
+  <h2 class="text-2xl font-bold mb-8">精选课程</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="course-card">
+      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-2xl mb-4">🐍</div>
+      <h3 class="text-lg font-semibold mb-2">Python 从入门到精通</h3>
+      <p class="text-sm text-zinc-400 mb-4 leading-relaxed">系统学习 Python 编程，涵盖基础语法、数据分析、Web 开发和自动化脚本。</p>
+      <div class="flex items-center justify-between text-xs text-zinc-500">
+        <span>48 课时 · 12 个项目</span>
+        <span class="text-amber-400">★ 4.9</span>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-2xl mb-4">⚛️</div>
+      <h3 class="text-lg font-semibold mb-2">React 实战开发</h3>
+      <p class="text-sm text-zinc-400 mb-4 leading-relaxed">掌握 React 核心概念，构建现代化单页应用，包含 Hooks、状态管理和性能优化。</p>
+      <div class="flex items-center justify-between text-xs text-zinc-500">
+        <span>36 课时 · 8 个项目</span>
+        <span class="text-amber-400">★ 4.8</span>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-2xl mb-4">☕</div>
+      <h3 class="text-lg font-semibold mb-2">Java 后端开发</h3>
+      <p class="text-sm text-zinc-400 mb-4 leading-relaxed">深入学习 Java 后端技术栈，Spring Boot、微服务架构和数据库设计。</p>
+      <div class="flex items-center justify-between text-xs text-zinc-500">
+        <span>60 课时 · 15 个项目</span>
+        <span class="text-amber-400">★ 4.7</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="relative z-10 max-w-7xl mx-auto px-6 pb-20">
+  <div class="glass rounded-2xl p-12">
+    <h2 class="text-2xl font-bold text-center mb-10">资深讲师团队</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="text-center">
+        <div class="avatar mx-auto mb-3">👨‍💻</div>
+        <h4 class="font-semibold">张老师</h4>
+        <p class="text-xs text-zinc-500 mt-1">前阿里高级工程师</p>
+      </div>
+      <div class="text-center">
+        <div class="avatar mx-auto mb-3" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">👩‍💻</div>
+        <h4 class="font-semibold">李老师</h4>
+        <p class="text-xs text-zinc-500 mt-1">前腾讯技术专家</p>
+      </div>
+      <div class="text-center">
+        <div class="avatar mx-auto mb-3" style="background:linear-gradient(135deg,#10b981,#06b6d4)">👨‍🏫</div>
+        <h4 class="font-semibold">王老师</h4>
+        <p class="text-xs text-zinc-500 mt-1">前字节架构师</p>
+      </div>
+      <div class="text-center">
+        <div class="avatar mx-auto mb-3" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">👩‍🏫</div>
+        <h4 class="font-semibold">陈老师</h4>
+        <p class="text-xs text-zinc-500 mt-1">前美团技术总监</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="relative z-10 max-w-7xl mx-auto px-6 pb-20">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div><div class="stat-number">100+</div><div class="text-sm text-zinc-500 mt-1">精品课程</div></div>
+    <div><div class="stat-number">50+</div><div class="text-sm text-zinc-500 mt-1">资深讲师</div></div>
+    <div><div class="stat-number">10万+</div><div class="text-sm text-zinc-500 mt-1">注册学员</div></div>
+    <div><div class="stat-number">98%</div><div class="text-sm text-zinc-500 mt-1">好评率</div></div>
+  </div>
+</section>
+
+<footer class="relative z-10 border-t border-white/5 mt-10">
+  <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between text-sm text-zinc-600">
+    <span>© 2024 CodeMaster. 让编程学习更高效。</span>
+    <div class="flex gap-6"><a href="#" class="hover:text-zinc-400">关于我们</a><a href="#" class="hover:text-zinc-400">联系我们</a></div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeMaster - 在线编程学习平台</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; }
+.hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 40px; text-align: center; }
+.hero h1 { font-size: 48px; margin-bottom: 20px; }
+.hero p { font-size: 20px; margin-bottom: 30px; opacity: 0.9; }
+.hero-btn { padding: 15px 40px; font-size: 18px; border: none; border-radius: 30px; background: #fff; color: #667eea; font-weight: bold; cursor: pointer; }
+.features { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+.features h2 { text-align: center; font-size: 32px; margin-bottom: 40px; }
+.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.feature-card { background: #f9f9f9; padding: 30px; border-radius: 15px; text-align: center; }
+.feature-icon { font-size: 48px; margin-bottom: 15px; }
+.feature-card h3 { font-size: 20px; margin-bottom: 10px; }
+.feature-card p { color: #666; font-size: 14px; line-height: 1.6; }
+.courses { background: #f5f5f5; padding: 60px 20px; }
+.courses-inner { max-width: 1200px; margin: 0 auto; }
+.courses h2 { text-align: center; font-size: 32px; margin-bottom: 40px; }
+.course-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.course-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.course-img { height: 140px; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+.course-info { padding: 15px; }
+.course-info h4 { font-size: 15px; margin-bottom: 8px; }
+.course-meta { display: flex; justify-content: space-between; font-size: 12px; color: #888; }
+.course-price { color: #667eea; font-weight: bold; font-size: 16px; margin-top: 8px; }
+.instructors { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+.instructors h2 { text-align: center; font-size: 32px; margin-bottom: 40px; }
+.instructor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.instructor-card { text-align: center; }
+.instructor-avatar { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: white; }
+.instructor-card h4 { font-size: 18px; margin-bottom: 5px; }
+.instructor-card p { color: #888; font-size: 14px; }
+.testimonials { background: #f5f5f5; padding: 60px 20px; }
+.testimonials-inner { max-width: 1000px; margin: 0 auto; }
+.testimonials h2 { text-align: center; font-size: 32px; margin-bottom: 40px; }
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+.testimonial-card { background: white; padding: 25px; border-radius: 12px; }
+.testimonial-text { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 15px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 10px; }
+.author-avatar { width: 40px; height: 40px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.author-info h5 { font-size: 14px; }
+.author-info p { font-size: 12px; color: #888; }
+.cta { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 40px; text-align: center; }
+.cta h2 { font-size: 36px; margin-bottom: 20px; }
+.cta p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
+.cta input { padding: 15px 20px; width: 300px; border: none; border-radius: 30px 0 0 30px; font-size: 16px; }
+.cta button { padding: 15px 30px; border: none; border-radius: 0 30px 30px 0; background: #18181b; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
+.footer { background: #18181b; color: #999; padding: 50px 40px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+.footer-col h4 { color: white; font-size: 16px; margin-bottom: 15px; }
+.footer-col a { display: block; color: #999; text-decoration: none; font-size: 14px; margin-bottom: 8px; }
+.footer-bottom { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid #333; text-align: center; font-size: 13px; }
+</style>
+</head>
+<body>
+<section class="hero">
+  <h1>从零到全栈工程师</h1>
+  <p>系统化学习路径，行业大咖亲授，助你快速掌握编程技能</p>
+  <button class="hero-btn">免费开始学习</button>
+</section>
+<section class="features">
+  <h2>为什么选择 CodeMaster</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📚</div>
+      <h3>系统化课程</h3>
+      <p>从基础到进阶，完整的学习路径，让你循序渐进掌握技能</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👨‍🏫</div>
+      <h3>行业大咖</h3>
+      <p>来自一线互联网公司的资深工程师，分享实战经验</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💻</div>
+      <h3>实战项目</h3>
+      <p>边学边练，完成真实项目，积累作品集，求职更有竞争力</p>
+    </div>
+  </div>
+</section>
+<section class="courses">
+  <div class="courses-inner">
+    <h2>精选课程推荐</h2>
+    <div class="course-grid">
+      <div class="course-card">
+        <div class="course-img">🐍</div>
+        <div class="course-info">
+          <h4>Python 从入门到精通</h4>
+          <div class="course-meta"><span>👨‍🏫 张老师</span><span>⭐ 4.9</span></div>
+          <div class="course-price">¥299</div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-img">⚛️</div>
+        <div class="course-info">
+          <h4>React 全家桶实战</h4>
+          <div class="course-meta"><span>👨‍🏫 李老师</span><span>⭐ 4.8</span></div>
+          <div class="course-price">¥399</div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-img">🎯</div>
+        <div class="course-info">
+          <h4>算法面试通关</h4>
+          <div class="course-meta"><span>👨‍🏫 王老师</span><span>⭐ 4.9</span></div>
+          <div class="course-price">¥499</div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-img">🚀</div>
+        <div class="course-info">
+          <h4>全栈工程师培养</h4>
+          <div class="course-meta"><span>👨‍🏫 陈老师</span><span>⭐ 5.0</span></div>
+          <div class="course-price">¥999</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="instructors">
+  <h2>金牌讲师团队</h2>
+  <div class="instructor-grid">
+    <div class="instructor-card">
+      <div class="instructor-avatar">👨‍💻</div>
+      <h4>张伟</h4>
+      <p>前阿里巴巴高级工程师 · 10年经验</p>
+    </div>
+    <div class="instructor-card">
+      <div class="instructor-avatar">👩‍💻</div>
+      <h4>李娜</h4>
+      <p>前腾讯技术专家 · 8年经验</p>
+    </div>
+    <div class="instructor-card">
+      <div class="instructor-avatar">👨‍🔬</div>
+      <h4>王强</h4>
+      <p>前字节跳动架构师 · 12年经验</p>
+    </div>
+  </div>
+</section>
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <h2>学员评价</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-text">"课程内容非常系统，老师讲解清晰易懂。学完后成功拿到了大厂offer，非常感谢！"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">😊</div>
+          <div class="author-info"><h5>小明</h5><p>前端工程师 @ 字节</p></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"实战项目很有价值，做完后作品集丰富了很多。面试时面试官都夸项目做得好。"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">😄</div>
+          <div class="author-info"><h5>小红</h5><p>全栈工程师 @ 阿里</p></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"零基础入门，跟着课程一步步学，3个月就能独立做项目了。课程性价比很高！"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🤗</div>
+          <div class="author-info"><h5>小华</h5><p>后端工程师 @ 腾讯</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="cta">
+  <h2>开启你的编程之旅</h2>
+  <p>订阅获取免费课程和学习资料</p>
+  <div>
+    <input type="email" placeholder="输入你的邮箱">
+    <button>免费订阅</button>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>课程</h4>
+      <a href="#">Python</a><a href="#">JavaScript</a><a href="#">Java</a><a href="#">Go</a>
+    </div>
+    <div class="footer-col">
+      <h4>学习路径</h4>
+      <a href="#">前端工程师</a><a href="#">后端工程师</a><a href="#">全栈工程师</a><a href="#">算法工程师</a>
+    </div>
+    <div class="footer-col">
+      <h4>关于我们</h4>
+      <a href="#">公司介绍</a><a href="#">加入我们</a><a href="#">联系方式</a><a href="#">合作伙伴</a>
+    </div>
+    <div class="footer-col">
+      <h4>帮助中心</h4>
+      <a href="#">常见问题</a><a href="#">退款政策</a><a href="#">用户协议</a><a href="#">隐私政策</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 CodeMaster. 保留所有权利。</div>
+</footer>
+</body>
+</html>

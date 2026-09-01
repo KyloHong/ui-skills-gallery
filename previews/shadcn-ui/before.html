@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA Pro Q1 — 旗舰主动降噪耳机</title>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* ===== 设计 Token ===== */
+:root {
+  --bg-deep: #111113;
+  --bg-surface: #1A1A1F;
+  --bg-elevated: #232329;
+  --line: rgba(201, 169, 110, 0.15);
+  --line-strong: rgba(201, 169, 110, 0.35);
+  --gold: #C9A96E;
+  --gold-bright: #E0C48F;
+  --gold-dim: rgba(201, 169, 110, 0.6);
+  --text-primary: #F0EDE6;
+  --text-secondary: #A8A49C;
+  --text-muted: #6B6862;
+  --serif: 'Noto Serif SC', 'Songti SC', serif;
+  --sans: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ===== 声波签名元素 ===== */
+.wave-bar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 24px;
+}
+.wave-bar span {
+  display: block;
+  width: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+  animation: wavePulse 2.4s ease-in-out infinite;
+}
+.wave-bar span:nth-child(1) { height: 30%; animation-delay: 0s; }
+.wave-bar span:nth-child(2) { height: 60%; animation-delay: 0.15s; }
+.wave-bar span:nth-child(3) { height: 100%; animation-delay: 0.3s; }
+.wave-bar span:nth-child(4) { height: 70%; animation-delay: 0.45s; }
+.wave-bar span:nth-child(5) { height: 45%; animation-delay: 0.6s; }
+.wave-bar span:nth-child(6) { height: 80%; animation-delay: 0.75s; }
+.wave-bar span:nth-child(7) { height: 35%; animation-delay: 0.9s; }
+
+@keyframes wavePulse {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+.wave-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  height: 40px;
+  margin: 0 auto;
+  opacity: 0.4;
+}
+.wave-divider span {
+  display: block;
+  width: 1px;
+  background: var(--gold);
+  margin: 0 2px;
+  border-radius: 1px;
+}
+
+/* ===== 导航栏 ===== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(17, 17, 19, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: var(--gold);
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold-bright); }
+.nav-cart {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.nav-cart:hover { color: var(--gold-bright); }
+.nav-cart svg { width: 18px; height: 18px; }
+
+/* ===== Hero 区 ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(201, 169, 110, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(42px, 5vw, 68px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.hero-subtitle {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  color: var(--gold-dim);
+  letter-spacing: 6px;
+  margin-bottom: 28px;
+}
+.hero-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  max-width: 440px;
+  margin-bottom: 40px;
+}
+.hero-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.hero-price {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+.hero-price-original {
+  font-size: 16px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+.hero-price-tag {
+  font-size: 11px;
+  color: var(--bg-deep);
+  background: var(--gold);
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: var(--bg-deep);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  padding: 16px 40px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: var(--sans);
+}
+.btn-primary:hover {
+  background: var(--gold-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 169, 110, 0.3);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  padding: 16px 24px;
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: var(--sans);
+}
+.btn-secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+.hero-image {
+  position: relative;
+  z-index: 1;
+}
+.hero-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.hero-image-frame {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 80px;
+  height: 80px;
+  border-top: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+  opacity: 0.5;
+}
+.hero-image-frame-bottom {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  width: 80px;
+  height: 80px;
+  border-bottom: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+  opacity: 0.5;
+}
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+.hero-scroll-hint .scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollDown 2s ease-in-out infinite;
+}
+@keyframes scrollDown {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ===== 通用区块 ===== */
+.section {
+  padding: 120px 0;
+  position: relative;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.section-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.9;
+}
+
+/* ===== 核心卖点 ===== */
+.features {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+.feature-card {
+  background: var(--bg-surface);
+  padding: 48px 32px;
+  transition: background 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+.feature-card:hover { background: var(--bg-elevated); }
+.feature-card:hover::before { transform: scaleX(1); }
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 28px;
+  color: var(--gold);
+}
+.feature-icon svg { width: 100%; height: 100%; }
+.feature-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.feature-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+.feature-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+.feature-highlight {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold-bright);
+  margin-top: 20px;
+  line-height: 1;
+}
+.feature-highlight small {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+/* ===== 降噪技术展示 ===== */
+.anc-showcase {
+  overflow: hidden;
+}
+.anc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.anc-image {
+  position: relative;
+}
+.anc-image img {
+  width: 100%;
+  border-radius: 4px;
+}
+.anc-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(17,17,19,0.4) 100%);
+  pointer-events: none;
+}
+.anc-badge {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: rgba(17, 17, 19, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line-strong);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+}
+.anc-badge-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+}
+.anc-content { padding-right: 20px; }
+.anc-content .section-label { text-align: left; }
+.anc-content .section-title { text-align: left; }
+.anc-content .section-desc { text-align: left; margin: 0 0 36px; }
+.anc-modes {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.anc-mode {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.anc-mode:last-child { border-bottom: none; }
+.anc-mode-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+}
+.anc-mode-icon svg { width: 20px; height: 20px; }
+.anc-mode-text h4 {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.anc-mode-text p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ===== 音质与工艺 ===== */
+.craftsmanship {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.craft-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.craft-content { padding-left: 20px; }
+.craft-content .section-label { text-align: left; }
+.craft-content .section-title { text-align: left; }
+.craft-content .section-desc { text-align: left; margin: 0 0 36px; }
+.craft-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.craft-spec {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.craft-spec-value {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold-bright);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.craft-spec-value small {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.craft-spec-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+.craft-image {
+  position: relative;
+}
+.craft-image img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* ===== 规格参数表 ===== */
+.specs {
+  background: var(--bg-deep);
+}
+.specs-table {
+  max-width: 800px;
+  margin: 0 auto;
+  border-top: 1px solid var(--line-strong);
+}
+.spec-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.3s;
+}
+.spec-row:hover { background: rgba(201, 169, 110, 0.03); }
+.spec-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+}
+.spec-value {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.spec-value .tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gold);
+  border: 1px solid var(--line-strong);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+/* ===== 颜色选择 ===== */
+.colors {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.colors-showcase {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.colors-image-wrap {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  position: relative;
+}
+.colors-image-wrap img {
+  width: 100%;
+  border-radius: 4px;
+  transition: opacity 0.5s;
+}
+.color-name-display {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  min-height: 32px;
+}
+.color-name-display .color-code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-left: 12px;
+  letter-spacing: 1px;
+}
+.color-desc-display {
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-height: 22px;
+}
+.color-options {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 32px;
+}
+.color-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 16px 24px;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+  background: transparent;
+}
+.color-option.active {
+  border-color: var(--gold);
+  background: rgba(201, 169, 110, 0.05);
+}
+.color-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+}
+.color-option.active .color-swatch {
+  border-color: var(--gold);
+  transform: scale(1.1);
+}
+.color-swatch::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+}
+.color-swatch.graphite::after { background: linear-gradient(135deg, #2A2A2E, #141416); }
+.color-swatch.silver::after { background: linear-gradient(135deg, #D8D5CE, #A8A49C); }
+.color-swatch.amber::after { background: linear-gradient(135deg, #D4B87A, #A88B4A); }
+.color-option-label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+.color-option.active .color-option-label { color: var(--gold-bright); }
+
+/* ===== 用户评价 ===== */
+.reviews {
+  background: var(--bg-deep);
+}
+.reviews-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 64px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.reviews-score {
+  text-align: center;
+}
+.reviews-score-num {
+  font-family: var(--serif);
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--gold-bright);
+  line-height: 1;
+}
+.reviews-score-max {
+  font-size: 16px;
+  color: var(--text-muted);
+}
+.reviews-stars {
+  display: flex;
+  gap: 4px;
+  margin: 12px 0 8px;
+}
+.reviews-stars svg { width: 18px; height: 18px; fill: var(--gold); }
+.reviews-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+.reviews-divider-v {
+  width: 1px;
+  height: 80px;
+  background: var(--line);
+}
+.reviews-bars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.review-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.review-bar-row .bar-label { width: 20px; text-align: right; }
+.review-bar-track {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.review-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.review-bar-row .bar-pct { width: 30px; font-family: var(--mono); }
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.review-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--line);
+  padding: 32px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.review-card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-4px);
+}
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.review-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1px solid var(--line);
+}
+.review-meta .review-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.review-meta .review-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+}
+.review-stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 16px;
+}
+.review-stars svg { width: 14px; height: 14px; fill: var(--gold); }
+.review-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+.review-tag {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--gold);
+  border: 1px solid var(--line-strong);
+  padding: 3px 10px;
+  letter-spacing: 1px;
+}
+
+/* ===== 购买区 ===== */
+.purchase {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--line);
+  padding: 100px 0;
+}
+.purchase-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-deep);
+  border: 1px solid var(--line-strong);
+  padding: 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.purchase-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.purchase-info h3 {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.purchase-info .purchase-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 28px;
+}
+.purchase-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.purchase-price {
+  font-family: var(--serif);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--gold-bright);
+}
+.purchase-original {
+  font-size: 15px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+.purchase-perks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.purchase-perks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.purchase-perks li svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.purchase-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.form-group label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.form-color-picker {
+  display: flex;
+  gap: 12px;
+}
+.form-color-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  background: transparent;
+}
+.form-color-btn.active {
+  border-color: var(--gold);
+  transform: scale(1.1);
+}
+.form-color-btn::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+}
+.form-color-btn.graphite::after { background: linear-gradient(135deg, #2A2A2E, #141416); }
+.form-color-btn.silver::after { background: linear-gradient(135deg, #D8D5CE, #A8A49C); }
+.form-color-btn.amber::after { background: linear-gradient(135deg, #D4B87A, #A88B4A); }
+.form-qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  width: fit-content;
+}
+.form-qty button {
+  width: 40px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.3s;
+  font-family: var(--sans);
+}
+.form-qty button:hover { color: var(--gold-bright); }
+.form-qty input {
+  width: 50px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  color: var(--text-primary);
+  text-align: center;
+  font-size: 15px;
+  font-family: var(--sans);
+  outline: none;
+}
+.purchase-btn {
+  width: 100%;
+  padding: 18px;
+  background: var(--gold);
+  color: var(--bg-deep);
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: var(--sans);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.purchase-btn:hover {
+  background: var(--gold-bright);
+  box-shadow: 0 8px 30px rgba(201, 169, 110, 0.3);
+}
+.purchase-btn svg { width: 18px; height: 18px; }
+.purchase-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  background: var(--bg-deep);
+  border-top: 1px solid var(--line);
+  padding: 60px 0 40px;
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.footer-brand-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  max-width: 240px;
+  line-height: 1.8;
+}
+.footer-links {
+  display: flex;
+  gap: 60px;
+}
+.footer-col h5 {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-col a {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--gold-bright); }
+.footer-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+/* ===== Toast 通知 ===== */
+.toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-elevated);
+  border: 1px solid var(--gold);
+  color: var(--text-primary);
+  padding: 16px 32px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+.toast svg { width: 18px; height: 18px; color: var(--gold); }
+
+/* ===== 响应式 ===== */
+@media (max-width: 968px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+  .hero-content { order: 2; }
+  .hero-image { order: 1; max-width: 500px; margin: 0 auto; }
+  .hero-desc { margin: 0 auto 40px; }
+  .hero-cta { justify-content: center; }
+  .hero-price-row { justify-content: center; }
+  .hero-eyebrow { justify-content: center; }
+  .hero-eyebrow::after { display: none; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .anc-grid, .craft-grid { grid-template-columns: 1fr; gap: 40px; }
+  .anc-content, .craft-content { padding: 0; }
+  .anc-content .section-label, .anc-content .section-title, .anc-content .section-desc { text-align: center; }
+  .craft-content .section-label, .craft-content .section-title, .craft-content .section-desc { text-align: center; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .purchase-card { grid-template-columns: 1fr; padding: 36px; gap: 36px; }
+  .footer-inner { flex-direction: column; gap: 32px; }
+  .footer-links { gap: 40px; flex-wrap: wrap; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .section { padding: 80px 0; }
+  .features-grid { grid-template-columns: 1fr; }
+  .craft-specs { grid-template-columns: 1fr; }
+  .spec-row { grid-template-columns: 1fr; gap: 4px; }
+  .color-options { gap: 16px; }
+  .reviews-summary { flex-direction: column; gap: 24px; }
+  .reviews-divider-v { width: 80px; height: 1px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 导航栏 ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">AURA</div>
+    <ul class="nav-links">
+      <li><a href="#features">核心技术</a></li>
+      <li><a href="#anc">降噪体验</a></li>
+      <li><a href="#specs">规格参数</a></li>
+      <li><a href="#colors">配色选择</a></li>
+      <li><a href="#reviews">用户评价</a></li>
+    </ul>
+    <div class="nav-cart" onclick="scrollToPurchase()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span>购物袋</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Hero 区 ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-eyebrow">AURA PRO Q1 · 2026 旗舰</div>
+        <h1 class="hero-title">静界之上</h1>
+        <div class="hero-subtitle">HEAR NOTHING</div>
+        <p class="hero-desc">
+          搭载第三代自适应主动降噪引擎，48dB 深度降噪重塑听觉边界。
+          40mm 镀铍振膜驱动单元，还原每一个音符的呼吸与纹理。
+          60 小时超长续航，让安静成为你的随身领地。
+        </p>
+        <div class="hero-price-row">
+          <span class="hero-price">¥2,499</span>
+          <span class="hero-price-original">¥2,999</span>
+          <span class="hero-price-tag">新品首发</span>
+        </div>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="scrollToPurchase()">
+            立即购买
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <button class="btn-secondary" onclick="scrollToSection('features')">
+            了解更多
+          </button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-image-frame"></div>
+        <div class="hero-image-frame-bottom"></div>
+        <img src="https://aka.doubaocdn.com/s/9yoZZzSaA2" alt="AURA Pro Q1 旗舰降噪耳机">
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ===== 核心卖点 ===== -->
+<section class="section features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">CORE TECHNOLOGY</div>
+      <h2 class="section-title">四大核心技术</h2>
+      <p class="section-desc">每一项参数背后，都是对极致聆听体验的不懈追求</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 18v-6a9 9 0 0118 0v6"/>
+            <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/>
+          </svg>
+        </div>
+        <div class="feature-num">01 / ANC</div>
+        <h3 class="feature-title">自适应降噪</h3>
+        <p class="feature-desc">双馈式混合降噪架构，8 麦克风阵列实时侦测环境，每秒 48000 次自适应调节</p>
+        <div class="feature-highlight">48<small>dB 降噪深度</small></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+        </div>
+        <div class="feature-num">02 / AUDIO</div>
+        <h3 class="feature-title">镀铍振膜</h3>
+        <p class="feature-desc">40mm 定制驱动单元，超薄镀铍振膜带来 5Hz–40kHz 超宽频响，通过 Hi-Res 金标认证</p>
+        <div class="feature-highlight">40<small>mm 驱动单元</small></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="7" width="18" height="10" rx="2"/>
+            <line x1="22" y1="11" x2="22" y2="13"/>
+            <line x1="6" y1="11" x2="6" y2="13"/>
+          </svg>
+        </div>
+        <div class="feature-num">03 / BATTERY</div>
+        <h3 class="feature-title">超长续航</h3>
+        <p class="feature-desc">降噪开启 60 小时不间断播放，快充 10 分钟畅享 5 小时，Type-C 全场景兼容</p>
+        <div class="feature-highlight">60<small>小时续航</small></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </div>
+        <div class="feature-num">04 / COMFORT</div>
+        <h3 class="feature-title">零压佩戴</h3>
+        <p class="feature-desc">记忆海绵蛋白皮耳罩，自适应头梁压力分布，仅 258g 轻盈机身，久戴无负担</p>
+        <div class="feature-highlight">258<small>g 机身重量</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 降噪技术展示 ===== -->
+<section class="section anc-showcase" id="anc">
+  <div class="container">
+    <div class="anc-grid">
+      <div class="anc-image">
+        <div class="anc-badge">
+          <div class="wave-bar">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <span class="anc-badge-text">ANC ENGINE v3.0</span>
+        </div>
+        <img src="https://aka.doubaocdn.com/s/VfUyX7Yq9d" alt="飞机舱内降噪体验">
+      </div>
+      <div class="anc-content">
+        <div class="section-label">NOISE CANCELLATION</div>
+        <h2 class="section-title">把世界调到静音</h2>
+        <p class="section-desc">
+          第三代自适应降噪引擎，融合前馈与反馈双麦克风阵列，
+          针对飞机引擎、地铁轰鸣、办公室人声等不同频段智能优化降噪曲线。
+          一键切换，喧嚣即刻退散。
+        </p>
+        <div class="anc-modes">
+          <div class="anc-mode">
+            <div class="anc-mode-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+              </svg>
+            </div>
+            <div class="anc-mode-text">
+              <h4>深度降噪模式</h4>
+              <p>48dB 最大降噪深度，专为飞机、地铁等强噪环境设计，隔绝 95% 低频噪音</p>
+            </div>
+          </div>
+          <div class="anc-mode">
+            <div class="anc-mode-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </div>
+            <div class="anc-mode-text">
+              <h4>通透模式</h4>
+              <p>无需摘下耳机即可清晰聆听外界对话，机场广播、便利店点餐从容应对</p>
+            </div>
+          </div>
+          <div class="anc-mode">
+            <div class="anc-mode-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div class="anc-mode-text">
+              <h4>智能自适应</h4>
+              <p>内置传感器实时感知佩戴状态与环境噪音，自动匹配最优降噪等级，无需手动调节</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 音质与工艺 ===== -->
+<section class="section craftsmanship">
+  <div class="container">
+    <div class="craft-grid">
+      <div class="craft-content">
+        <div class="section-label">SOUND & CRAFT</div>
+        <h2 class="section-title">精密工艺<br>还原声音本真</h2>
+        <p class="section-desc">
+          每一副 AURA Pro Q1 都经过 72 小时精密调校。
+          航空级铝合金机身经 16 道 CNC 工序打磨，
+          耳罩采用进口蛋白皮与慢回弹记忆海绵，
+          在触感与听感之间达成完美平衡。
+        </p>
+        <div class="craft-specs">
+          <div class="craft-spec">
+            <div class="craft-spec-value">5<small>Hz</small>–40<small>kHz</small></div>
+            <div class="craft-spec-label">频率响应范围</div>
+          </div>
+          <div class="craft-spec">
+            <div class="craft-spec-value">LDAC<small> / aptX</small></div>
+            <div class="craft-spec-label">高清蓝牙编码</div>
+          </div>
+          <div class="craft-spec">
+            <div class="craft-spec-value">Hi-Res<small> 金标</small></div>
+            <div class="craft-spec-label">高解析音频认证</div>
+          </div>
+          <div class="craft-spec">
+            <div class="craft-spec-value">16<small>道工序</small></div>
+            <div class="craft-spec-label">CNC 精密加工</div>
+          </div>
+        </div>
+      </div>
+      <div class="craft-image">
+        <img src="https://aka.doubaocdn.com/s/HsucH35HFV" alt="耳罩工艺细节">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 规格参数 ===== -->
+<section class="section specs" id="specs">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">SPECIFICATIONS</div>
+      <h2 class="section-title">规格参数</h2>
+      <p class="section-desc">每一项参数，都经过严格的实验室验证</p>
+    </div>
+    <div class="specs-table">
+      <div class="spec-row">
+        <div class="spec-label">产品型号</div>
+        <div class="spec-value">AURA Pro Q1</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">驱动单元</div>
+        <div class="spec-value">40mm 镀铍振膜动圈单元</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">频率响应</div>
+        <div class="spec-value">5Hz – 40kHz（Hi-Res 认证）</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">降噪深度</div>
+        <div class="spec-value">最高 48dB <span class="tag">第三代自适应</span></div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">麦克风</div>
+        <div class="spec-value">8 麦克风阵列（降噪 6 + 通话 2）</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">蓝牙版本</div>
+        <div class="spec-value">Bluetooth 5.3 多点连接</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">音频编码</div>
+        <div class="spec-value">LDAC / aptX Adaptive / AAC / SBC</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">续航时间</div>
+        <div class="spec-value">降噪开启 60h / 关闭 80h <span class="tag">快充 10min=5h</span></div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">充电接口</div>
+        <div class="spec-value">USB Type-C</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">机身重量</div>
+        <div class="spec-value">258g</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">佩戴方式</div>
+        <div class="spec-value">全包耳式（Over-Ear）</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">可选配色</div>
+        <div class="spec-value">石墨黑 / 暖银 / 琥珀金</div>
+      </div>
+      <div class="spec-row">
+        <div class="spec-label">包装清单</div>
+        <div class="spec-value">耳机主机、Type-C 充电线、3.5mm 音频线、航空转接头、便携收纳盒、说明书</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 颜色选择 ===== -->
+<section class="section colors" id="colors">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">COLOR OPTIONS</div>
+      <h2 class="section-title">三种配色 · 一种态度</h2>
+      <p class="section-desc">每一种颜色，都是对个性的精准表达</p>
+    </div>
+    <div class="colors-showcase">
+      <div class="colors-image-wrap">
+        <img id="colorMainImage" src="https://aka.doubaocdn.com/s/R5KqQnn5om" alt="AURA Pro Q1 三色展示">
+      </div>
+      <div class="color-name-display" id="colorName">
+        石墨黑 <span class="color-code">#1A1A1F</span>
+      </div>
+      <div class="color-desc-display" id="colorDesc">深邃沉稳，专业之选</div>
+      <div class="color-options">
+        <button class="color-option active" data-color="graphite" onclick="selectColor('graphite', this)">
+          <div class="color-swatch graphite"></div>
+          <span class="color-option-label">石墨黑</span>
+        </button>
+        <button class="color-option" data-color="silver" onclick="selectColor('silver', this)">
+          <div class="color-swatch silver"></div>
+          <span class="color-option-label">暖银</span>
+        </button>
+        <button class="color-option" data-color="amber" onclick="selectColor('amber', this)">
+          <div class="color-swatch amber"></div>
+          <span class="color-option-label">琥珀金</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 用户评价 ===== -->
+<section class="section reviews" id="reviews">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">USER REVIEWS</div>
+      <h2 class="section-title">用户真实评价</h2>
+      <p class="section-desc">来自 12,000+ 位用户的真实聆听体验</p>
+    </div>
+    <div class="reviews-summary">
+      <div class="reviews-score">
+        <div class="reviews-score-num">4.9<span class="reviews-score-max">/5.0</span></div>
+        <div class="reviews-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="reviews-count">基于 12,486 条评价</div>
+      </div>
+      <div class="reviews-divider-v"></div>
+      <div class="reviews-bars">
+        <div class="review-bar-row">
+          <span class="bar-label">5星</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width:82%"></div></div>
+          <span class="bar-pct">82%</span>
+        </div>
+        <div class="review-bar-row">
+          <span class="bar-label">4星</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width:12%"></div></div>
+          <span class="bar-pct">12%</span>
+        </div>
+        <div class="review-bar-row">
+          <span class="bar-label">3星</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width:4%"></div></div>
+          <span class="bar-pct">4%</span>
+        </div>
+        <div class="review-bar-row">
+          <span class="bar-label">2星</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width:1%"></div></div>
+          <span class="bar-pct">1%</span>
+        </div>
+        <div class="review-bar-row">
+          <span class="bar-label">1星</span>
+          <div class="review-bar-track"><div class="review-bar-fill" style="width:1%"></div></div>
+          <span class="bar-pct">1%</span>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">陈</div>
+          <div class="review-meta">
+            <div class="review-name">陈思远</div>
+            <div class="review-date">2026.07.15 · 石墨黑</div>
+          </div>
+        </div>
+        <div class="review-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">每周飞两次的商务狗，降噪效果真的惊艳。飞机上引擎声基本消失，音质比我之前用的某大牌旗舰更通透，低频不轰头。续航也很顶，一周充一次足够。</p>
+        <span class="review-tag">降噪出色</span>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">林</div>
+          <div class="review-meta">
+            <div class="review-name">林小雅</div>
+            <div class="review-date">2026.07.02 · 琥珀金</div>
+          </div>
+        </div>
+        <div class="review-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">琥珀金实物比图片还好看，质感非常高级。戴了三个小时耳朵完全不疼，头梁压力分布很均匀。通透模式很自然，过马路也安全。女生戴不会显头大。</p>
+        <span class="review-tag">佩戴舒适</span>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">张</div>
+          <div class="review-meta">
+            <div class="review-name">张铭轩</div>
+            <div class="review-date">2026.06.28 · 暖银</div>
+          </div>
+        </div>
+        <div class="review-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">发烧友一枚，LDAC 连接手机听无损，解析力和分离度都对得起这个价位。镀铍振膜的高频延伸非常漂亮，听古典乐细节丰富。APP 里的 EQ 调节也很专业。</p>
+        <span class="review-tag">音质出众</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 购买区 ===== -->
+<section class="purchase" id="purchase">
+  <div class="container">
+    <div class="purchase-card">
+      <div class="purchase-info">
+        <h3>AURA Pro Q1</h3>
+        <div class="purchase-sub">旗舰主动降噪耳机 · 2026 新品首发</div>
+        <div class="purchase-price-row">
+          <span class="purchase-price">¥2,499</span>
+          <span class="purchase-original">¥2,999</span>
+        </div>
+        <ul class="purchase-perks">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            顺丰包邮 · 48 小时内发货
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            7 天无理由退换 · 30 天保价
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            两年官方质保 · 终身固件升级
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            限时赠送定制便携收纳盒
+          </li>
+        </ul>
+      </div>
+      <div class="purchase-form">
+        <div class="form-group">
+          <label>选择配色</label>
+          <div class="form-color-picker">
+            <button class="form-color-btn graphite active" data-color="graphite" onclick="selectPurchaseColor('graphite', this)" title="石墨黑"></button>
+            <button class="form-color-btn silver" data-color="silver" onclick="selectPurchaseColor('silver', this)" title="暖银"></button>
+            <button class="form-color-btn amber" data-color="amber" onclick="selectPurchaseColor('amber', this)" title="琥珀金"></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>购买数量</label>
+          <div class="form-qty">
+            <button onclick="changeQty(-1)">−</button>
+            <input type="text" id="qtyInput" value="1" readonly>
+            <button onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <button class="purchase-btn" onclick="addToCart()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+          </svg>
+          加入购物袋
+        </button>
+        <div class="purchase-note">支持花呗 12 期免息 · 每月仅需 ¥208.25</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">AURA</div>
+        <p class="footer-brand-desc">以极致声学工艺，重塑人与声音的关系。每一副耳机，都是对安静的致敬。</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>产品</h5>
+          <ul>
+            <li><a href="#">AURA Pro Q1</a></li>
+            <li><a href="#">AURA Lite</a></li>
+            <li><a href="#">AURA Sport</a></li>
+            <li><a href="#">配件系列</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>支持</h5>
+          <ul>
+            <li><a href="#">使用手册</a></li>
+            <li><a href="#">固件升级</a></li>
+            <li><a href="#">售后服务</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>关于</h5>
+          <ul>
+            <li><a href="#">品牌故事</a></li>
+            <li><a href="#">声学实验室</a></li>
+            <li><a href="#">新闻资讯</a></li>
+            <li><a href="#">加入我们</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AURA AUDIO. All rights reserved.</span>
+      <span>隐私政策 · 服务条款 · 沪ICP备2026XXXXXX号</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M20 6L9 17l-5-5"/>
+  </svg>
+  <span id="toastMsg">已加入购物袋</span>
+</div>
+
+<script>
+// ===== 颜色数据 =====
+const colorData = {
+  graphite: {
+    name: '石墨黑',
+    code: '#1A1A1F',
+    desc: '深邃沉稳，专业之选',
+    image: 'https://aka.doubaocdn.com/s/R5KqQnn5om'
+  },
+  silver: {
+    name: '暖银',
+    code: '#C8C5BE',
+    desc: '简约优雅，百搭之选',
+    image: 'https://aka.doubaocdn.com/s/R5KqQnn5om'
+  },
+  amber: {
+    name: '琥珀金',
+    code: '#C9A96E',
+    desc: '奢华质感，个性之选',
+    image: 'https://aka.doubaocdn.com/s/R5KqQnn5om'
+  }
+};
+
+let selectedColor = 'graphite';
+let quantity = 1;
+
+// ===== 颜色选择（展示区） =====
+function selectColor(color, el) {
+  selectedColor = color;
+  document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  const data = colorData[color];
+  document.getElementById('colorName').innerHTML =
+    data.name + ' <span class="color-code">' + data.code + '</span>';
+  document.getElementById('colorDesc').textContent = data.desc;
+
+  // 同步购买区颜色
+  document.querySelectorAll('.form-color-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.color === color);
+  });
+}
+
+// ===== 颜色选择（购买区） =====
+function selectPurchaseColor(color, el) {
+  selectedColor = color;
+  document.querySelectorAll('.form-color-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+
+  // 同步展示区颜色
+  document.querySelectorAll('.color-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.color === color);
+  });
+  const data = colorData[color];
+  document.getElementById('colorName').innerHTML =
+    data.name + ' <span class="color-code">' + data.code + '</span>';
+  document.getElementById('colorDesc').textContent = data.desc;
+}
+
+// ===== 数量控制 =====
+function changeQty(delta) {
+  quantity = Math.max(1, Math.min(99, quantity + delta));
+  document.getElementById('qtyInput').value = quantity;
+}
+
+// ===== 加入购物袋 =====
+function addToCart() {
+  const data = colorData[selectedColor];
+  showToast('已加入购物袋 · ' + data.name + ' × ' + quantity);
+}
+
+// ===== Toast 通知 =====
+let toastTimer = null;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+// ===== 平滑滚动 =====
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    window.scrollTo({ top: el.offsetTop - 64, behavior: 'smooth' });
+  }
+}
+
+function scrollToPurchase() {
+  scrollToSection('purchase');
+}
+
+// ===== 滚动揭示动画 =====
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.feature-card, .review-card, .spec-row, .anc-mode, .craft-spec').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(30px)';
+  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

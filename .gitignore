@@ -1,0 +1,6 @@
+*.pyc
+__pycache__/
+*.py
+*.zip
+.DS_Store
+ui-skills-gallery-single.html

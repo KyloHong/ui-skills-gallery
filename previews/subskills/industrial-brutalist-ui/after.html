@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>industrial-brutalist-ui - 音乐厂牌官网</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Archivo+Black&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Space Mono',monospace;background:#f0f0f0;color:#000}
+  .nav{padding:20px 40px;background:#000;color:#fff;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #ff0}
+  .nav-logo{font-family:'Archivo Black',sans-serif;font-size:24px;letter-spacing:-0.02em}
+  .nav-links{display:flex;gap:24px}
+  .nav-links a{color:#fff;text-decoration:none;font-size:14px;text-transform:uppercase;font-weight:700}
+  .hero{padding:80px 40px;background:#000;color:#fff;position:relative;overflow:hidden}
+  .hero::before{content:'NOISE';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Archivo Black',sans-serif;font-size:300px;color:rgba(255,255,0,0.05);white-space:nowrap}
+  .hero-label{font-size:12px;color:#ff0;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:16px}
+  .hero h1{font-family:'Archivo Black',sans-serif;font-size:96px;line-height:0.9;letter-spacing:-0.03em;margin-bottom:24px;position:relative;z-index:1}
+  .hero h1 span{color:#ff0}
+  .hero p{font-size:16px;max-width:500px;line-height:1.8;position:relative;z-index:1}
+  .releases{padding:60px 40px;background:#f0f0f0}
+  .releases-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:40px;border-bottom:2px solid #000;padding-bottom:16px}
+  .releases-header h2{font-family:'Archivo Black',sans-serif;font-size:36px;text-transform:uppercase}
+  .releases-header span{font-size:12px}
+  .release-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid #000}
+  .release{padding:32px;border-right:2px solid #000;border-bottom:2px solid #000;background:#fff;cursor:pointer;transition:background 0.15s}
+  .release:nth-child(3n){border-right:none}
+  .release:hover{background:#ff0}
+  .release-num{font-size:12px;margin-bottom:16px}
+  .release h3{font-family:'Archivo Black',sans-serif;font-size:20px;margin-bottom:8px;text-transform:uppercase;line-height:1.2}
+  .release-artist{font-size:12px;margin-bottom:16px}
+  .release-tags{display:flex;gap:8px;flex-wrap:wrap}
+  .release-tags span{font-size:10px;padding:2px 8px;background:#000;color:#fff;text-transform:uppercase}
+  .artists{padding:60px 40px;background:#000;color:#fff}
+  .artists h2{font-family:'Archivo Black',sans-serif;font-size:36px;text-transform:uppercase;margin-bottom:40px;border-bottom:2px solid #ff0;padding-bottom:16px}
+  .artist-list{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .artist{padding:24px;border:1px solid #333;text-align:center;cursor:pointer;transition:all 0.15s}
+  .artist:hover{background:#ff0;color:#000}
+  .artist-name{font-family:'Archivo Black',sans-serif;font-size:16px;text-transform:uppercase}
+  .footer{padding:40px;background:#ff0;color:#000;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;text-transform:uppercase}
+</style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-logo">//DUST_RECORDS</div><div class="nav-links"><a href="#">Releases</a><a href="#">Artists</a><a href="#">Events</a><a href="#">Shop</a></div></nav>
+  <section class="hero"><div class="hero-label">// Est. 2019 · Berlin</div><h1>RAW.<br>NOISY.<br><span>UNAPOLOGETIC.</span></h1><p>DUST RECORDS 是一家专注于工业、噪音和实验电子音乐的独立厂牌。我们不追随潮流，我们制造噪音。</p></section>
+  <section class="releases"><div class="releases-header"><h2>最新发行</h2><span>2026 SPRING</span></div><div class="release-grid">
+    <div class="release"><div class="release-num">DUST-042</div><h3>MECHANICAL FAILURE</h3><div class="release-artist">VOID PROTOCOL</div><div class="release-tags"><span>Industrial</span><span>LP</span></div></div>
+    <div class="release"><div class="release-num">DUST-041</div><h3>STATIC DREAMS</h3><div class="release-artist">NOISE MAKER</div><div class="release-tags"><span>Noise</span><span>EP</span></div></div>
+    <div class="release"><div class="release-num">DUST-040</div><h3>DECAY CYCLE</h3><div class="release-artist">RUST COLLECTIVE</div><div class="release-tags"><span>Experimental</span><span>LP</span></div></div>
+    <div class="release"><div class="release-num">DUST-039</div><h3>BLACK BOX</h3><div class="release-artist">SIGNAL LOST</div><div class="release-tags"><span>Techno</span><span>Single</span></div></div>
+    <div class="release"><div class="release-num">DUST-038</div><h3>CONCRETE POETRY</h3><div class="release-artist">BRUTAL FORMS</div><div class="release-tags"><span>Industrial</span><span>EP</span></div></div>
+    <div class="release"><div class="release-num">DUST-037</div><h3>WHITE NOISE MANIFESTO</h3><div class="release-artist">PURE HATRED</div><div class="release-tags"><span>Noise</span><span>LP</span></div></div>
+  </div></section>
+  <section class="artists"><h2>旗下艺人</h2><div class="artist-list">
+    <div class="artist"><div class="artist-name">VOID PROTOCOL</div></div>
+    <div class="artist"><div class="artist-name">NOISE MAKER</div></div>
+    <div class="artist"><div class="artist-name">RUST COLLECTIVE</div></div>
+    <div class="artist"><div class="artist-name">SIGNAL LOST</div></div>
+    <div class="artist"><div class="artist-name">BRUTAL FORMS</div></div>
+    <div class="artist"><div class="artist-name">PURE HATRED</div></div>
+    <div class="artist"><div class="artist-name">DECAY UNIT</div></div>
+    <div class="artist"><div class="artist-name">STATIC DIVISION</div></div>
+  </div></section>
+  <footer class="footer"><span>© 2026 DUST RECORDS // BERLIN</span><span>NOISE IS POWER</span></footer>
+</body>
+</html>

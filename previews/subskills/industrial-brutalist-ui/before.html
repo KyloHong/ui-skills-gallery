@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUST RECORDS — 独立音乐厂牌</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { background: rgba(255,255,255,0.95); padding: 16px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav { display: flex; gap: 24px; }
+.card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.btn { padding: 12px 32px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-outline { padding: 12px 32px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.gradient-text { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.feature-card { background: #f8f9fa; padding: 20px; border-radius: 12px; }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">DUST RECORDS</div>
+    <nav class="nav"><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">艺人</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">发行</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">演出</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">商店</a></nav>
+  </div>
+  <div class="card" style="text-align:center;padding:80px 40px;background:linear-gradient(135deg,#1a1a2e,#16213e);">
+  <h1 style="font-size:48px;font-weight:900;margin-bottom:16px;color:white;letter-spacing:0.1em;">DUST RECORDS</h1>
+  <p style="font-size:16px;color:#888;margin-bottom:32px;">独立音乐 · 自由表达 · 无限可能</p>
+  <button class="btn">最新发行</button>
+</div>
+<div class="grid-4">
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:180px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:40px;">🎤</div><div style="padding:16px;"><h4 style="font-size:14px;font-weight:700;">Nova Wave</h4><p style="font-size:11px;color:#666;">电子 / 合成器</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:180px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-size:40px;">🎸</div><div style="padding:16px;"><h4 style="font-size:14px;font-weight:700;">The Void</h4><p style="font-size:11px;color:#666;">后朋克 / 摇滚</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:180px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:40px;">🎹</div><div style="padding:16px;"><h4 style="font-size:14px;font-weight:700;">Luna Sky</h4><p style="font-size:11px;color:#666;">独立流行</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:180px;background:linear-gradient(135deg,#ec4899,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:40px;">🎧</div><div style="padding:16px;"><h4 style="font-size:14px;font-weight:700;">Bass Theory</h4><p style="font-size:11px;color:#666;">嘻哈 / 电子</p></div></div>
+</div>
+<div class="card">
+  <h2 class="gradient-text" style="font-size:24px;font-weight:700;margin-bottom:20px;">最新发行</h2>
+  <div class="grid-2">
+    <div style="display:flex;gap:16px;align-items:center;padding:16px;background:#f8f9fa;border-radius:12px;"><div style="width:80px;height:80px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px;">💿</div><div><h4 style="font-size:15px;font-weight:700;">Midnight Dreams</h4><p style="font-size:12px;color:#666;">Nova Wave · 2024.03</p></div></div>
+    <div style="display:flex;gap:16px;align-items:center;padding:16px;background:#f8f9fa;border-radius:12px;"><div style="width:80px;height:80px;background:linear-gradient(135deg,#f59e0b,#ef4444);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px;">💿</div><div><h4 style="font-size:15px;font-weight:700;">Broken Signals</h4><p style="font-size:12px;color:#666;">The Void · 2024.02</p></div></div>
+  </div>
+</div>
+</div>
+</body>
+</html>

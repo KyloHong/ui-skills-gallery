@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus — 极简项目管理</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { background: rgba(255,255,255,0.95); padding: 16px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav { display: flex; gap: 24px; }
+.card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.btn { padding: 12px 32px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-outline { padding: 12px 32px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.gradient-text { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.feature-card { background: #f8f9fa; padding: 20px; border-radius: 12px; }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">Focus</div>
+    <nav class="nav"><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">功能</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">定价</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">客户</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">博客</a></nav>
+  </div>
+  <div class="card" style="text-align:center;padding:80px 40px;">
+  <h1 class="gradient-text" style="font-size:44px;font-weight:800;margin-bottom:16px;">专注，成就高效</h1>
+  <p style="font-size:17px;color:#666;margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto;">极简的项目管理工具，让团队专注于真正重要的事情</p>
+  <div style="display:flex;gap:12px;justify-content:center;"><button class="btn">免费开始</button><button class="btn-outline">观看演示</button></div>
+</div>
+<div class="grid-3">
+  <div class="feature-card"><div class="feature-icon">📋</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px;">任务管理</h4><p style="font-size:13px;color:#666;">清晰的任务分配和进度追踪</p></div>
+  <div class="feature-card"><div class="feature-icon">👥</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px;">团队协作</h4><p style="font-size:13px;color:#666;">实时协作，无缝沟通</p></div>
+  <div class="feature-card"><div class="feature-icon">📊</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px;">数据报表</h4><p style="font-size:13px;color:#666;">可视化的项目数据分析</p></div>
+</div>
+<div class="card" style="text-align:center;">
+  <h2 class="gradient-text" style="font-size:24px;font-weight:700;margin-bottom:24px;">简单透明的定价</h2>
+  <div class="grid-3" style="gap:20px;">
+    <div style="padding:24px;background:#f8f9fa;border-radius:12px;"><h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">免费版</h3><div style="font-size:32px;font-weight:800;color:#667eea;">¥0</div><p style="font-size:12px;color:#666;margin:12px 0;">最多 5 人团队</p><button class="btn-outline" style="width:100%;">开始使用</button></div>
+    <div style="padding:24px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:12px;color:white;"><h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">专业版</h3><div style="font-size:32px;font-weight:800;">¥99/月</div><p style="font-size:12px;opacity:0.9;margin:12px 0;">无限团队成员</p><button style="width:100%;padding:10px;background:white;color:#667eea;border:none;border-radius:8px;font-weight:700;cursor:pointer;">立即升级</button></div>
+    <div style="padding:24px;background:#f8f9fa;border-radius:12px;"><h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">企业版</h3><div style="font-size:32px;font-weight:800;color:#667eea;">定制</div><p style="font-size:12px;color:#666;margin:12px 0;">专属客户成功经理</p><button class="btn-outline" style="width:100%;">联系销售</button></div>
+  </div>
+</div>
+</div>
+</body>
+</html>

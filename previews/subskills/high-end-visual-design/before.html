@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURÉLIE — 高端珠宝品牌</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { background: rgba(255,255,255,0.95); padding: 16px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav { display: flex; gap: 24px; }
+.card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.btn { padding: 12px 32px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-outline { padding: 12px 32px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.gradient-text { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.feature-card { background: #f8f9fa; padding: 20px; border-radius: 12px; }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">AURÉLIE</div>
+    <nav class="nav"><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">新品</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">项链</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">戒指</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">耳环</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">品牌故事</a></nav>
+  </div>
+  <div class="card" style="text-align:center;padding:80px 40px;">
+  <h1 class="gradient-text" style="font-size:42px;font-weight:800;margin-bottom:16px;">AURÉLIE 2024 高级珠宝系列</h1>
+  <p style="font-size:16px;color:#666;margin-bottom:32px;">每一件都是独一无二的艺术杰作</p>
+  <button class="btn">探索系列</button>
+</div>
+<div class="grid-3">
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:260px;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;font-size:56px;">💎</div><div style="padding:20px;"><h3 style="font-size:15px;font-weight:700;margin-bottom:8px;">钻石项链</h3><p style="font-size:16px;font-weight:800;color:#667eea;">¥28,800</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:260px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-size:56px;">💍</div><div style="padding:20px;"><h3 style="font-size:15px;font-weight:700;margin-bottom:8px;">婚戒系列</h3><p style="font-size:16px;font-weight:800;color:#667eea;">¥15,600</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:260px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:56px;">✨</div><div style="padding:20px;"><h3 style="font-size:15px;font-weight:700;margin-bottom:8px;">翡翠耳环</h3><p style="font-size:16px;font-weight:800;color:#667eea;">¥12,400</p></div></div>
+</div>
+<div class="card" style="text-align:center;">
+  <h2 class="gradient-text" style="font-size:28px;font-weight:700;margin-bottom:16px;">品牌故事</h2>
+  <p style="font-size:15px;color:#666;line-height:1.8;max-width:600px;margin:0 auto;">AURÉLIE 源自巴黎，传承百年珠宝工艺，每一件作品都由资深匠人手工打造，选用最优质的宝石和贵金属。</p>
+</div>
+</div>
+</body>
+</html>

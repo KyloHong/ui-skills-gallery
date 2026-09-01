@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Lab — 创意广告机构</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { background: rgba(255,255,255,0.95); padding: 16px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav { display: flex; gap: 24px; }
+.card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.btn { padding: 12px 32px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-outline { padding: 12px 32px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.gradient-text { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.feature-card { background: #f8f9fa; padding: 20px; border-radius: 12px; }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">Creative Lab</div>
+    <nav class="nav"><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">案例</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">服务</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">团队</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">博客</a></nav>
+  </div>
+  <div class="card" style="text-align:center;padding:80px 40px;">
+  <h1 class="gradient-text" style="font-size:48px;font-weight:800;margin-bottom:16px;">创意无限，品牌有声</h1>
+  <p style="font-size:18px;color:#666;margin-bottom:32px;">我们用创意连接品牌与消费者</p>
+  <button class="btn">查看案例</button>
+</div>
+<div class="grid-2">
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:240px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-size:56px;">🎬</div><div style="padding:20px;"><span style="font-size:11px;color:#667eea;font-weight:600;">品牌 Campaign</span><h3 style="font-size:18px;font-weight:700;margin:8px 0;">某饮料品牌夏季推广</h3><p style="font-size:13px;color:#666;">全渠道整合营销，曝光量提升 300%</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:240px;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-size:56px;">📱</div><div style="padding:20px;"><span style="font-size:11px;color:#667eea;font-weight:600;">Social Media</span><h3 style="font-size:18px;font-weight:700;margin:8px 0;">美妆品牌社交媒体运营</h3><p style="font-size:13px;color:#666;">粉丝增长 200%，互动率提升 5 倍</p></div></div>
+</div>
+<div class="card">
+  <h2 class="gradient-text" style="font-size:24px;font-weight:700;margin-bottom:20px;text-align:center;">我们的服务</h2>
+  <div class="grid-4">
+    <div class="feature-card" style="text-align:center;"><div class="feature-icon">🎯</div><h4 style="font-size:13px;font-weight:700;">品牌策略</h4></div>
+    <div class="feature-card" style="text-align:center;"><div class="feature-icon">🎨</div><h4 style="font-size:13px;font-weight:700;">创意设计</h4></div>
+    <div class="feature-card" style="text-align:center;"><div class="feature-icon">📊</div><h4 style="font-size:13px;font-weight:700;">数字营销</h4></div>
+    <div class="feature-card" style="text-align:center;"><div class="feature-icon">🎥</div><h4 style="font-size:13px;font-weight:700;">内容制作</h4></div>
+  </div>
+</div>
+</div>
+</body>
+</html>

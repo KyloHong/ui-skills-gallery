@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>minimalist-ui - SaaS 产品页</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#18181b;-webkit-font-smoothing:antialiased}
+  .nav{padding:20px 32px;display:flex;justify-content:space-between;align-items:center;max-width:1120px;margin:0 auto}
+  .nav-logo{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .nav-logo-mark{width:24px;height:24px;background:#18181b;border-radius:6px}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{font-size:14px;color:#71717a;text-decoration:none}
+  .nav-cta{padding:8px 16px;background:#18181b;color:#fff;border-radius:6px;font-size:14px;font-weight:500;text-decoration:none}
+  .hero{max-width:1120px;margin:0 auto;padding:96px 32px 80px;text-align:center}
+  .hero-badge{display:inline-block;padding:4px 12px;background:#f4f4f5;border-radius:100px;font-size:13px;color:#71717a;margin-bottom:24px}
+  .hero h1{font-size:56px;font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:20px}
+  .hero p{font-size:18px;color:#71717a;max-width:540px;margin:0 auto 32px;line-height:1.6}
+  .hero-actions{display:flex;gap:12px;justify-content:center}
+  .btn-primary{padding:12px 24px;background:#18181b;color:#fff;border-radius:8px;font-size:15px;font-weight:500;border:none;cursor:pointer}
+  .btn-secondary{padding:12px 24px;background:#fff;color:#18181b;border:1px solid #e4e4e7;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none}
+  .features{max-width:1120px;margin:0 auto;padding:80px 32px}
+  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+  .feature{padding:24px;border:1px solid #f4f4f5;border-radius:12px}
+  .feature-icon{width:40px;height:40px;background:#f4f4f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+  .feature h3{font-size:16px;font-weight:600;margin-bottom:8px}
+  .feature p{font-size:14px;color:#71717a;line-height:1.6}
+  .footer{max-width:1120px;margin:0 auto;padding:48px 32px;border-top:1px solid #f4f4f5;display:flex;justify-content:space-between;font-size:13px;color:#a1a1aa}
+</style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-logo"><div class="nav-logo-mark"></div>Focus</div><div class="nav-links"><a href="#">功能</a><a href="#">定价</a><a href="#">文档</a><a href="#" class="nav-cta">登录</a></div></nav>
+  <section class="hero"><div class="hero-badge">✨ 全新 2.0 版本</div><h1>专注于你的工作</h1><p>Focus 是一款极简的任务管理工具，帮助你专注于真正重要的事情。没有复杂的功能，只有高效的体验。</p><div class="hero-actions"><button class="btn-primary">免费开始</button><a href="#" class="btn-secondary">查看演示</a></div></section>
+  <section class="features"><div class="features-grid">
+    <div class="feature"><div class="feature-icon">🎯</div><h3>专注模式</h3><p>屏蔽干扰，只显示当前最重要的任务，帮助你进入心流状态。</p></div>
+    <div class="feature"><div class="feature-icon">📊</div><h3>数据统计</h3><p>清晰的完成率统计和趋势分析，让你了解自己的工作习惯。</p></div>
+    <div class="feature"><div class="feature-icon">🔄</div><h3>自动同步</h3><p>所有设备实时同步，随时随地管理你的任务，永不丢失数据。</p></div>
+    <div class="feature"><div class="feature-icon">🏷️</div><h3>标签系统</h3><p>灵活的标签和分类，让任务组织变得简单高效。</p></div>
+    <div class="feature"><div class="feature-icon">⏰</div><h3>智能提醒</h3><p>基于你的工作习惯，在最合适的时间提醒你完成任务。</p></div>
+    <div class="feature"><div class="feature-icon">🔒</div><h3>隐私保护</h3><p>端到端加密，你的数据只有你能看到，我们承诺永不售卖用户数据。</p></div>
+  </div></section>
+  <footer class="footer"><span>© 2026 Focus</span><span>隐私 · 条款 · 联系</span></footer>
+</body>
+</html>

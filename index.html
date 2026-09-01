@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI Skills Gallery — UI 技能画廊</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Geist', 'system-ui', 'sans-serif'],
+        mono: ['Geist Mono', 'monospace'],
+      },
+      colors: {
+        ink: {
+          50: '#fafaf9', 100: '#f5f5f4', 200: '#e7e5e4', 300: '#d6d3d1',
+          400: '#a8a29e', 500: '#78716c', 600: '#57534e', 700: '#44403c',
+          800: '#292524', 900: '#1c1917', 950: '#0c0a09',
+        },
+        accent: {
+          50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74',
+          400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c',
+          800: '#9a3412', 900: '#7c2d12',
+        },
+      },
+      borderRadius: { 'xl2': '14px' },
+      animation: {
+        'fade-in': 'fadeIn 0.3s ease-out',
+        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        'scale-in': 'scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      keyframes: {
+        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        slideUp: { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        scaleIn: { '0%': { opacity: '0', transform: 'scale(0.96)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+      },
+    },
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; }
+  ::selection { background: #fed7aa; color: #7c2d12; }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+  .modal-backdrop { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .tab-active { color: #1c1917; border-bottom-color: #1c1917; }
+  .tab-inactive { color: #78716c; border-bottom-color: transparent; }
+  .star-btn { transition: transform 0.15s ease, color 0.15s ease; }
+  .star-btn:hover { transform: scale(1.15); }
+  .card-hover { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease, border-color 0.25s ease; }
+  .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 40px -12px rgba(28,25,23,0.15); border-color: #d6d3d1; }
+  .img-slot { transition: border-color 0.2s ease, background 0.2s ease; }
+  .img-slot:focus-within { border-color: #ea580c; background: #fff7ed; }
+  .toast { animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1); }
+  .gradient-text { background: linear-gradient(135deg, #1c1917 0%, #57534e 50%, #ea580c 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .noise-bg { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); }
+  .gh-star { fill: #f97316; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+  /* Real component styles */
+  .comp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; white-space: nowrap; border-radius: 0.375rem; font-size: 0.8rem; font-weight: 500; transition: all 0.15s ease; cursor: pointer; border: none; }
+  .comp-btn-default { background: #1c1917; color: #fff; padding: 0.4rem 0.9rem; }
+  .comp-btn-default:hover { background: #44403c; }
+  .comp-btn-destructive { background: #dc2626; color: #fff; padding: 0.4rem 0.9rem; }
+  .comp-btn-outline { background: #fff; color: #1c1917; border: 1px solid #d6d3d1; padding: 0.4rem 0.9rem; }
+  .comp-btn-outline:hover { background: #f5f5f4; }
+  .comp-btn-secondary { background: #f5f5f4; color: #1c1917; padding: 0.4rem 0.9rem; }
+  .comp-btn-ghost { background: transparent; color: #1c1917; padding: 0.4rem 0.9rem; }
+  .comp-btn-ghost:hover { background: #f5f5f4; }
+  .comp-btn-link { background: transparent; color: #1c1917; text-decoration: underline; text-underline-offset: 3px; padding: 0.4rem 0.5rem; }
+  .comp-input { width: 100%; padding: 0.4rem 0.65rem; font-size: 0.78rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; background: #fff; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+  .comp-input:focus { border-color: #1c1917; box-shadow: 0 0 0 2px rgba(28,25,23,0.1); }
+  .comp-label { display: block; font-size: 0.7rem; font-weight: 500; color: #44403c; margin-bottom: 0.25rem; }
+  .dial-track { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; background: #e7e5e4; outline: none; }
+  .dial-track::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #1c1917; cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+</style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+
+</head>
+<body class="bg-ink-50 text-ink-900 font-sans min-h-screen">
+
+<!-- GitHub Octicon Star SVG template -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="gh-star" viewBox="0 0 16 16">
+    <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+  </symbol>
+</svg>
+
+<!-- Navigation -->
+<nav class="sticky top-0 z-40 bg-ink-50/80 modal-backdrop border-b border-ink-200">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-ink-900 flex items-center justify-center">
+        <i data-lucide="layout-grid" class="w-4 h-4 text-white"></i>
+      </div>
+      <span class="font-semibold text-[15px] tracking-tight">UI Skills Gallery</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="text-xs text-ink-500 font-mono hidden sm:block" id="skillCount">5 skills</span>
+      <a href="https://github.com" target="_blank" class="flex items-center gap-1.5 text-sm text-ink-600 hover:text-ink-900 transition-colors">
+        <i data-lucide="github" class="w-4 h-4"></i>
+        <span class="hidden sm:inline">GitHub</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="relative overflow-hidden border-b border-ink-200">
+  <div class="absolute inset-0 noise-bg pointer-events-none"></div>
+  <div class="max-w-6xl mx-auto px-6 py-20 md:py-28 relative">
+    <div class="max-w-2xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ink-100 border border-ink-200 text-xs font-medium text-ink-600 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse"></span>
+        UI 技能预览与实践平台
+      </div>
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-5">
+        预览每个 UI Skill<br>
+        <span class="gradient-text">能生成什么样的网站</span>
+      </h1>
+      <p class="text-lg text-ink-500 leading-relaxed max-w-xl mb-8">
+        不再靠猜测。浏览技能详情、组件预览、APP/WEB 效果演示，打分记录你的实践经验——一切在一个页面里完成。
+      </p>
+      <div class="flex items-center gap-3">
+        <a href="#gallery" class="inline-flex items-center gap-2 px-5 py-2.5 bg-ink-900 text-white text-sm font-medium rounded-lg hover:bg-ink-800 transition-colors">
+          浏览技能 <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </a>
+        <a href="#about" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-ink-700 text-sm font-medium rounded-lg border border-ink-200 hover:border-ink-300 hover:bg-ink-50 transition-colors">
+          关于项目
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Filter & Sort Bar -->
+<section id="gallery" class="max-w-6xl mx-auto px-6 py-8">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <div>
+      <h2 class="text-xl font-semibold tracking-tight">技能库</h2>
+      <p class="text-sm text-ink-500 mt-0.5">点击卡片查看完整详情</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="relative">
+        <select id="sortSelect" class="appearance-none bg-white border border-ink-200 rounded-lg pl-3.5 pr-9 py-2 text-sm text-ink-700 font-medium cursor-pointer hover:border-ink-300 focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-colors">
+          <option value="default">默认排序</option>
+          <option value="stars-desc">⭐ 星级从高到低</option>
+          <option value="stars-asc">⭐ 星级从低到高</option>
+          <option value="name-az">名称 A-Z</option>
+        </select>
+        <i data-lucide="chevron-down" class="w-4 h-4 text-ink-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+      </div>
+    </div>
+  </div>
+  <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="border-t border-ink-200 mt-16">
+  <div class="max-w-6xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold tracking-tight mb-8">关于项目</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-xl2 border border-ink-200 p-6">
+        <div class="flex items-center gap-2.5 mb-4">
+          <div class="w-8 h-8 rounded-lg bg-accent-50 flex items-center justify-center"><i data-lucide="sparkles" class="w-4 h-4 text-accent-600"></i></div>
+          <h3 class="font-semibold text-[15px]">我可以用它来干嘛？</h3>
+        </div>
+        <ul class="space-y-2.5 text-sm text-ink-600 leading-relaxed">
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>快速预览每个 UI Skill 能生成的组件和页面效果</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>查看 APP / WEB 双端完整界面演示</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>学习 AI 对话场景，复制提示词直接使用</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>打分并记录你的实践经验，本地持久化保存</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-xl2 border border-ink-200 p-6">
+        <div class="flex items-center gap-2.5 mb-4">
+          <div class="w-8 h-8 rounded-lg bg-ink-100 flex items-center justify-center"><i data-lucide="folder-open" class="w-4 h-4 text-ink-600"></i></div>
+          <h3 class="font-semibold text-[15px]">项目里是什么东西？</h3>
+        </div>
+        <ul class="space-y-2.5 text-sm text-ink-600 leading-relaxed">
+          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>单文件 HTML，所有 CSS/JS 内联，无构建依赖</li>
+          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>纯原生 JavaScript 驱动，skills 数据数组渲染全部内容</li>
+          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>localStorage 持久化实践打分与截图记录</li>
+          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>包含 3 个技能的完整数据：组件、示例、页面演示、对话场景</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="border-t border-ink-200">
+  <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-xs text-ink-400">UI Skills Gallery · 单文件构建 · 数据本地存储</p>
+    <p class="text-xs text-ink-400 font-mono">v2.1 · taste-skill rebuilt</p>
+  </div>
+</footer>
+
+<!-- Detail Modal -->
+<div id="detailModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-ink-950/40 modal-backdrop" onclick="closeModal()"></div>
+  <div class="absolute inset-4 md:inset-8 lg:inset-12 bg-ink-50 rounded-2xl border border-ink-200 shadow-2xl flex flex-col overflow-hidden animate-scale-in">
+    <div class="flex items-start justify-between px-6 md:px-8 py-5 border-b border-ink-200 bg-white shrink-0">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 mb-1">
+          <span id="modalCategory" class="text-[11px] font-medium px-2 py-0.5 rounded-md bg-accent-50 text-accent-700 border border-accent-100"></span>
+          <span id="modalVersion" class="text-[11px] font-mono text-ink-400"></span>
+        </div>
+        <h2 id="modalTitle" class="text-xl md:text-2xl font-bold tracking-tight"></h2>
+      </div>
+      <div class="flex items-center gap-2 ml-4 shrink-0">
+        <a id="modalGithub" href="#" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-ink-700 bg-ink-100 border border-ink-200 rounded-lg hover:bg-ink-200 hover:border-ink-300 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-1 transition-all">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>GitHub</span>
+          <svg class="w-3 h-3 gh-star" viewBox="0 0 16 16"><use href="#gh-star"/></svg>
+          <span id="modalStars"></span>
+        </a>
+        <a id="modalWebsite" href="#" target="_blank" class="hidden items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-accent-600 rounded-lg hover:bg-accent-700 hover:shadow-sm active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-1 transition-all">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>官网</span>
+        </a>
+        <button onclick="closeModal()" class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+    <div class="px-6 md:px-8 py-4 border-b border-ink-200 bg-white shrink-0">
+      <p class="text-[11px] font-semibold uppercase tracking-wider text-ink-400 mb-1.5">官方介绍</p>
+      <p id="modalTrigger" class="text-sm text-ink-700 leading-relaxed mb-3"></p>
+      <div id="modalPlainDescWrap" class="hidden pt-3 border-t border-ink-100">
+        <p class="text-[10px] font-semibold uppercase tracking-wider text-accent-500 mb-1">大白话</p>
+        <p id="modalPlainDesc" class="text-[13px] text-ink-600 leading-relaxed"></p>
+      </div>
+      <div id="modalSuitableWrap" class="hidden pt-3 mt-3 border-t border-ink-100">
+        <p class="text-[10px] font-semibold uppercase tracking-wider text-ink-400 mb-2">适合做什么</p>
+        <div id="modalSuitableList" class="flex flex-wrap gap-1.5"></div>
+      </div>
+    </div>
+    <div class="px-6 md:px-8 border-b border-ink-200 bg-white shrink-0 overflow-x-auto scrollbar-thin">
+      <div id="tabsBar" class="flex gap-1 min-w-max"></div>
+    </div>
+    <div id="tabContent" class="flex-1 overflow-y-auto scrollbar-thin px-6 md:px-8 py-6"></div>
+  </div>
+</div>
+
+<!-- Image Lightbox -->
+<div id="lightbox" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-ink-950/80 modal-backdrop" onclick="closeLightbox()"></div>
+  <img id="lightboxImg" src="" alt="" class="relative max-w-full max-h-[90vh] rounded-lg shadow-2xl object-contain">
+  <button onclick="closeLightbox()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors">
+    <i data-lucide="x" class="w-5 h-5"></i>
+  </button>
+</div>
+
+<div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] flex flex-col gap-2 items-center"></div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const skills = [
+  {
+    id: 'shadcn-ui',
+    name: 'shadcn/ui',
+    category: '综合组件库',
+    github: 'https://github.com/shadcn-ui/ui',
+    website: 'https://ui.shadcn.com',
+    stars: 121871,
+    version: 'v4.19.0',
+    updated: '2026-08',
+    triggerSummary: '当你用 React + Tailwind 做项目需要 UI 组件时就调用它 —— 不是 npm 安装，而是把组件源码直接复制到你项目里，完全可控、可定制。',
+    officialIntro: 'shadcn/ui 是一套可访问、可定制的组件集合，你可以直接复制粘贴到自己的应用中。免费、开源，用于构建你自己的组件库。基于 TypeScript、Tailwind CSS 和 Radix UI 原语构建，支持 Next.js、Vite、Remix、Astro 等多种框架，提供 CLI 工具安装和管理组件，以及注册表系统发布和分发代码。',
+    suitableFor: [
+      { type: 'SaaS 产品后台', desc: '组件丰富，表单/表格/导航齐全' },
+      { type: '企业管理系统', desc: '可控性强，易于深度定制扩展' },
+      { type: '数据仪表盘', desc: '配合图表库，适合数据密集型界面' },
+      { type: '开发者工具', desc: '技术风格，文档/控制台/API 管理' },
+      { type: '电商商家后台', desc: '订单/商品/用户管理等复杂表单' },
+      { type: 'CRM/ERP 系统', desc: '中后台场景，组件可组合性强' },
+    ],
+    plainDesc: '你用 React + Tailwind 做项目，需要按钮、卡片、弹窗这些 UI 组件时就用它。跟其他组件库不一样，它不是 npm 安装，而是把组件源码直接复制到你项目里，想怎么改就怎么改，完全不受组件库限制。',
+    capabilities: ['组件源码复制', 'Tailwind 样式系统', 'Radix UI 原语', '主题定制', '可访问性', 'TypeScript 支持'],
+    components: [
+      { name: 'Button', desc: '多种变体和尺寸的按钮组件', type: 'button' },
+      { name: 'Card', desc: '灵活的内容卡片容器', type: 'card' },
+      { name: 'Dialog', desc: '模态对话框，支持嵌套和表单', type: 'dialog' },
+      { name: 'Dropdown Menu', desc: '下拉菜单，支持分组和快捷方式', type: 'dropdown' },
+      { name: 'Form', desc: '基于 React Hook Form 的表单组件', type: 'form' },
+    ],
+    examples: [
+      { name: 'Dashboard 仪表盘', desc: '数据看板布局，含侧边栏、统计卡片、图表区域', type: 'dashboard' },
+      { name: 'Landing Page 落地页', desc: '营销落地页，含 Hero、特性网格、定价、CTA', type: 'landing' },
+    ],
+    pageDemos: [
+      { name: 'Web Dashboard', device: 'web', type: 'dashboard' },
+      { name: 'Mobile App', device: 'mobile', type: 'mobile-app' },
+      { name: 'Landing Page', device: 'web', type: 'landing' },
+    ],
+    conversations: [
+      { q: '帮我做一个 SaaS 产品的定价页面', a: '使用 shadcn/ui 的 Card、Button、Badge 组件构建三档定价卡片，含月度/年度切换、特性对比列表和 CTA 按钮。', output: '定价页 · 3 档方案 · 年付优惠' },
+      { q: '需要一个用户设置页面', a: '使用 Tabs 组织设置分类，配合 Input、Switch、Select 表单组件，底部放置保存按钮。', output: '设置页 · 5 个分类 · 表单验证' },
+      { q: '做一个数据表格页面', a: '使用 Table 组件配合 Pagination、Badge 状态标签，支持列排序和行选择。', output: '表格页 · 排序 · 分页 · 批量操作' },
+      { q: '帮我构建一个登录注册页面', a: '使用 Card 容器包裹表单，Input + Label 组合，Button 提交，底部链接切换登录/注册。', output: '认证页 · 登录/注册切换 · 表单校验' },
+      { q: '需要一个通知中心组件', a: '使用 Dropdown Menu 触发通知列表，每条通知含 Avatar、标题、时间、未读标记。', output: '通知中心 · 未读标记 · 批量已读' },
+    ],
+    prompts: [
+      { title: '构建组件库页面', text: '使用 shadcn/ui 帮我构建一个组件库展示页面，包含 Button、Card、Dialog、Form 组件的用法示例和代码片段。' },
+      { title: 'SaaS 仪表盘', text: '用 shadcn/ui 做一个 SaaS 产品的管理后台仪表盘，需要侧边栏导航、统计卡片、数据表格和图表区域。' },
+      { title: '电商产品页', text: '使用 shadcn/ui 组件构建一个电商产品详情页，包含产品图片轮播、规格选择、加入购物车按钮和用户评价区域。' },
+      { title: '任务管理应用', text: '用 shadcn/ui 做一个任务管理应用界面，需要看板视图、任务卡片、拖拽排序、筛选和搜索功能。' },
+      { title: '文档网站', text: '使用 shadcn/ui 构建一个技术文档网站，包含侧边栏目录、内容区域、代码高亮、搜索框和上一页/下一页导航。' },
+    ],
+    userReviews: {
+      rating: 4.8, count: 1240,
+      summary: 'shadcn/ui 是目前最受欢迎的 React 组件库之一，以"复制源码而非安装"的理念著称，深度整合 Tailwind CSS 和 Radix UI。',
+      pros: ['完全可控的组件源码', '与 Tailwind CSS 无缝集成', '基于 Radix UI 的可访问性', '活跃的社区和持续更新', '支持主题定制和暗色模式', 'TypeScript 类型完善', '组件覆盖全面', '文档质量高'],
+      cons: ['需要手动管理组件版本', '首次配置有一定门槛', '部分复杂组件需自行扩展', '不适合非 Tailwind 项目', '组件样式需自行统一'],
+      articles: [
+        { title: 'shadcn/ui 官方文档 — 组件与主题定制', source: 'ui.shadcn.com', url: 'https://ui.shadcn.com/docs' },
+        { title: 'Major Update: Base UI & Radix UI Support with Shadcn Styles', source: 'Shadcn Studio', url: 'https://shadcnstudio.com/blog/major-update-base-ui-radix-ui-support/' },
+        { title: 'The AI-Native shadcn/ui Component Library for React', source: 'shadcn.io', url: 'https://www.shadcn.io/' },
+        { title: 'shadcn/ui Cheatsheet — 42+ 组件速查', source: 'GitHub', url: 'https://github.com/shadcnstore/shadcn-cheatsheet/' },
+      ,
+              { title: 'shadcn/ui 实战：从0搭建企业级组件库', source: '小红书', url: 'https://www.xiaohongshu.com/search_result?keyword=shadcn%2Fui%20%E5%AE%9E%E6%88%98', platform: 'xiaohongshu' },
+              { title: '深度解析 shadcn/ui 为什么成为 AI 生成默认选择', source: '微信公众号', url: 'https://weixin.sogou.com/weixin?type=2&query=shadcn%2Fui%20%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90', platform: 'wechat' }],
+    },
+  },
+  {
+    id: 'ui-ux-pro-max',
+    name: 'UI/UX Pro Max',
+    category: '综合设计系统',
+    github: 'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill',
+    website: 'https://ui-ux-pro-max-skill.nextlevelbuilder.io/',
+    stars: 101000,
+    version: 'v2.15.0',
+    updated: '2026-07',
+    triggerSummary: '当你需要 AI 帮你做 UI/UX 设计时就调用它 —— 不管是从零做页面、选配色字体、审查现有界面、修交互 bug，还是优化响应式和无障碍。',
+    officialIntro: 'UI/UX Pro Max 是一个为跨多平台和框架构建专业 UI/UX 提供设计智能的 AI 技能。它将结构化的设计知识——精选的 CSV 数据、参考文档和 Python 生成脚本——安装到 AI 编程助手中（Claude Code、Cursor、Windsurf、Copilot 等约 10 种工具），使助手能够开箱即用地生成生产级 UI。v2.0 旗舰特性是智能设计系统生成器，分析项目需求并在几秒钟内生成完整的定制化设计系统。包含 79 种可搜索风格、192 种产品配色、74 种字体搭配、119 条 UX 指南、105 个图标、17 个 GSAP 预设、25 种图表类型和 22 种技术栈。',
+    suitableFor: [
+      { type: '品牌官网/企业官网', desc: '多风格可选，品牌识别度强' },
+      { type: '产品落地页', desc: '79 种风格，营销转化导向设计' },
+      { type: '电商网站/品牌商城', desc: '192 种产品配色，商品展示优化' },
+      { type: '个人作品集', desc: '创意风格丰富，视觉冲击力强' },
+      { type: '营销活动页/专题页', desc: '快速生成，多主题适配' },
+      { type: '移动端 APP', desc: 'iOS/Android 跨平台设计规范' },
+    ],
+    plainDesc: '你要做一个网站或 APP，但不知道怎么设计才好看时就用它。它会从零开始帮你定配色、选字体、排布局，生成一套完整的设计系统和页面，适合完全没有设计思路、需要 AI 从头帮你做的场景。',
+    capabilities: ['设计系统生成', '配色方案', '字体层级', '响应式布局', '可访问性审计', '交互原型'],
+    components: [
+      { name: 'Design System Generator', desc: '一键生成完整设计令牌和组件规范', type: 'ds-generator' },
+      { name: 'Color Palette Builder', desc: '智能配色方案生成器，支持对比度检测', type: 'color-builder' },
+      { name: 'Typography Scale', desc: '字体层级系统，含字号、行高、字重', type: 'typography' },
+      { name: 'Responsive Grid', desc: '响应式网格布局系统', type: 'grid' },
+      { name: 'A11y Audit Panel', desc: '可访问性审计面板，WCAG 标准检测', type: 'a11y' },
+    ],
+    examples: [
+      { name: '金融科技 Dashboard', desc: '深色主题数据看板，含实时行情、交易面板、持仓图表', type: 'fintech-dashboard' },
+      { name: '电商品牌官网', desc: '高端电商品牌站，含产品展示、品牌故事、购物流程', type: 'ecommerce-brand' },
+    ],
+    pageDemos: [
+      { name: 'Web Dashboard', device: 'web', type: 'fintech-dashboard' },
+      { name: 'Mobile Banking', device: 'mobile', type: 'mobile-banking' },
+      { name: 'Brand Landing', device: 'web', type: 'ecommerce-brand' },
+    ],
+    conversations: [
+      { q: '帮我从零设计一个金融 App 的界面', a: '使用 UI/UX Pro Max 生成金融科技设计系统，深色主题 + 数据可视化组件，输出完整的页面流程和交互规范。', output: '金融 App · 12 个页面 · 深色主题' },
+      { q: '我的网站配色很丑，帮我重新选', a: '分析品牌调性后生成 3 套配色方案，每套含主色、辅助色、中性色、语义色，并标注 WCAG 对比度。', output: '3 套配色 · 对比度检测 · 使用规范' },
+      { q: '审查一下这个页面的可访问性', a: '运行 A11y Audit Panel，检测对比度、键盘导航、屏幕阅读器标签、焦点状态，输出问题清单和修复建议。', output: '审计报告 · 17 项问题 · 修复建议' },
+      { q: '帮我做一套响应式布局规范', a: '生成 6 档断点的响应式网格系统，含容器宽度、列数、间距、排版缩放规则，适配手机到超宽屏。', output: '响应式规范 · 6 档断点 · 网格系统' },
+      { q: '这个按钮的交互体验不好，帮我优化', a: '分析按钮的状态流转（默认/悬停/按下/加载/禁用），优化动效曲线和反馈时机，输出完整的交互规范。', output: '按钮交互 · 5 种状态 · 动效规范' },
+    ],
+    prompts: [
+      { title: '生成设计系统', text: '使用 UI/UX Pro Max 为我的 SaaS 产品生成一套完整的设计系统，包括配色、字体、间距、圆角、阴影、组件规范。' },
+      { title: '配色方案优化', text: '我的品牌主色是 #4F46E5，用 UI/UX Pro Max 帮我生成一套完整的配色方案，包含辅助色、中性色、语义色，并确保 WCAG AA 对比度。' },
+      { title: '可访问性审计', text: '用 UI/UX Pro Max 的 A11y Audit Panel 审计我的网站，检测所有可访问性问题，按严重程度排序并给出修复代码。' },
+      { title: '响应式布局', text: '使用 UI/UX Pro Max 帮我设计一套从手机到 4K 屏幕的响应式布局规范，包含断点、网格、排版缩放和组件适配规则。' },
+      { title: '交互原型', text: '用 UI/UX Pro Max 为我的移动应用设计一套完整的交互原型，包含页面流转、手势操作、动效规范和状态管理。' },
+    ],
+    userReviews: {
+      rating: 4.6, count: 680,
+      summary: 'UI/UX Pro Max 是一个综合性的 AI 设计系统技能，覆盖从设计令牌生成到可访问性审计的全流程，适合需要系统化设计能力的团队。',
+      pros: ['设计系统覆盖全面', '配色方案智能且合规', '可访问性审计实用', '响应式规范详细', '交互设计有深度', '输出可直接落地'],
+      cons: ['学习曲线较陡', '部分功能需配合其他工具', '生成结果需人工微调', '文档不够完善', '对非设计背景用户不够友好'],
+      articles: [
+        { title: 'UI/UX Pro Max 官方文档 — 67 种 UI 风格与设计系统生成', source: 'nextlevelbuilder.io', url: 'https://ui-ux-pro-max-skill.nextlevelbuilder.io/' },
+        { title: 'ui-ux-pro-max-skill — LangLabs 技能详情页', source: 'LangLabs', url: 'https://langlabs.io/nextlevelbuilder/ui-ux-pro-max-skill' },
+        { title: 'UI UX Pro Max — GitHub README (含 v2.0 设计系统生成器)', source: 'GitHub', url: 'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill' },
+      ,
+              { title: 'UI/UX Pro Max 实测：AI设计神器还是噱头？', source: '小红书', url: 'https://www.xiaohongshu.com/search_result?keyword=UI%2FUX%20Pro%20Max%20%E5%AE%9E%E6%B5%8B', platform: 'xiaohongshu' },
+              { title: '192种配色+79种风格，这个AI设计skill太强了', source: '微信公众号', url: 'https://weixin.sogou.com/weixin?type=2&query=UI%2FUX%20Pro%20Max%20%E9%85%8D%E8%89%B2%20%E9%A3%8E%E6%A0%BC', platform: 'wechat' }],
+    },
+  },
+  {
+    id: 'taste-skill',
+    name: 'Taste Skill',
+    category: '设计品味审计',
+    github: 'https://github.com/Leonxlnx/taste-skill',
+    website: 'https://www.tasteskill.dev',
+    stars: 82600,
+    version: 'v2.0.0',
+    updated: '2026-08',
+    subSkills: [
+      { name: 'taste-skill', installName: 'design-taste-frontend', category: '实现类', familyColor: 'blue', subtitle: '上下文驱动 · 全能适配', plainDesc: 'Taste 家族的主力。你要从零做落地页、作品集、产品官网时用它，它会读需求、定风格、输出完整代码。', steps: ['读需求（Brief Inference）', '定三旋钮 8/6/4（按需求覆盖）', '映射设计系统 or 诚实标注美学', '从 14 章规则里"按需取用"', '60+ 项 Pre-Flight 机械检查'] },
+      { name: 'taste-skill-v1', installName: 'design-taste-frontend-v1', category: '实现类', familyColor: 'blue', subtitle: '原版保留 · 精确回退', plainDesc: 'Taste 的旧版本。之前项目用 v1，升级 v2 后行为不对时用它回退，保证行为一致。', steps: ['依赖 v1 精确行为的项目使用', 'v2 默认版不兼容时回退', '保留 v1 全部规则和旋钮', '不引入 v2 新特性', '稳定输出，行为可预测'] },
+      { name: 'gpt-tasteskill', installName: 'gpt-taste', category: '实现类', familyColor: 'blue', subtitle: '强制随机化 · Awwwards 单流派', plainDesc: 'Taste 的"激进版"。想要 Awwwards 那种大胆、有创意、动效强的设计时用它，随机化选元素避免千篇一律。', steps: ['用 prompt 长度做随机种子', '"掷骰子"选 hero/字体/组件/GSAP', '套 AIDA 骨架（Attention→Action）', '强制 GSAP 高动效（禁静态）', '输出前 自证清单'] },
+      { name: 'soft-skill', installName: 'high-end-visual-design', category: '实现类', familyColor: 'green', subtitle: '柔和对比 · 大量留白 · 昂贵感', plainDesc: '想要"很贵"的设计感时用它。柔和配色、大量留白、高级字体、弹簧动效，适合高端品牌、奢侈品、创意工作室。', steps: ['柔和对比配色（低饱和高级色）', '大量留白营造呼吸感', '高级字体选择和层级', '弹簧动效（Spring Physics）', '细节打磨到像素级'] },
+      { name: 'minimalist-skill', installName: 'minimalist-ui', category: '实现类', familyColor: 'green', subtitle: 'Notion/Linear 风格 · 编辑级界面', plainDesc: '喜欢 Notion、Linear 那种极简、干净、克制的界面时用它。中性配色、清晰结构，适合工具类、SaaS 产品。', steps: ['克制配色（中性色为主）', '清晰结构和信息层级', '编辑级产品界面标准', '极简交互和微动效', '内容优先，装饰最少'] },
+      { name: 'brutalist-skill', installName: 'industrial-brutalist-ui', category: '实现类', familyColor: 'green', subtitle: '瑞士排版 · 强对比 · 硬核机械感', plainDesc: '想要硬核、个性、有冲击力的设计时用它。瑞士排版、强对比、实验性布局，适合音乐、潮流、科技品牌。', steps: ['瑞士排版网格系统', '强对比配色（黑白+强调色）', '实验性布局和不对称', '粗野字体和大字号', '硬核机械感视觉语言'] },
+      { name: 'stitch-skill', installName: 'stitch-design-taste', category: '实现类', familyColor: 'green', subtitle: 'Google Stitch 兼容 · DESIGN.md 导出', plainDesc: '用 Google Stitch（谷歌的 AI 编程工具）做项目时用它。生成 Stitch 能直接读取的 DESIGN.md 设计规范文件。', steps: ['适配 Google Stitch 工作流', '生成 DESIGN.md 设计规范文件', '包含配色、字体、组件规范', 'Stitch 可直接读取使用', '保持 taste-skill 设计标准'] },
+      { name: 'redesign-skill', installName: 'redesign-existing-projects', category: '实现类', familyColor: 'orange', subtitle: '先审计 → 再定点修复，不重写', plainDesc: '已有项目但设计很丑想改版时用它。不重写整个项目，先审计问题，再定点修复布局、间距、样式。', steps: ['审计现有 UI 问题清单', '定位布局、间距、层级问题', '修复样式和交互 bug', '保留原有功能和结构', '输出前后对比和修改说明'] },
+      { name: 'image-to-code-skill', installName: 'image-to-code', category: '实现类', familyColor: 'purple', subtitle: '图→分析→代码管线', plainDesc: '你有一张设计图/参考图，想变成真实前端代码时用它。先分析图的设计语言，再写出匹配的代码。', steps: ['先生成参考图（视觉锚点）', '分析设计语言和布局结构', '提取配色、字体、间距规范', '实现匹配的前端代码', '对照原图校验还原度'] },
+      { name: 'imagegen-frontend-web', installName: 'imagegen-frontend-web', category: '图像生成类', familyColor: 'purple', subtitle: '网页逐 section 出图 · 反廉价感', plainDesc: '不想写代码，只想先看网站长什么样时用它。生成网页设计参考图（Hero、落地页、多区块），拿图再给编码 AI 实现。', steps: ['Hero 区域设计图生成', '落地页多区块连续出图', '强排版和视觉层次', '反廉价感艺术指导', '输出高保真设计参考图'] },
+      { name: 'imagegen-frontend-mobile', installName: 'imagegen-frontend-mobile', category: '图像生成类', familyColor: 'purple', subtitle: '移动端屏幕流 · iOS/Android', plainDesc: '要做手机 APP，想先看界面长什么样时用它。生成 iOS/Android 设计参考图和多屏流程图。', steps: ['iOS/Android/跨平台适配', 'mockup 场景图生成', '可读字体和触控友好布局', '连贯屏幕组（多屏流程）', '输出移动端设计参考图'] },
+      { name: 'brandkit', installName: 'brandkit', category: '图像生成类', familyColor: 'purple', subtitle: '品牌设计板 · 跨品类身份', plainDesc: '做新品牌，需要 Logo 方向、配色、字体、品牌视觉时用它。生成一套完整的品牌设计板。', steps: ['Logo 方向探索', '配色系统定义', '字体选择和搭配', '跨品类身份应用', '输出完整品牌设计板'] },
+      { name: 'output-skill', installName: 'full-output-enforcement', category: '实现类', familyColor: 'amber', subtitle: '强制完整输出 · 禁占位符', plainDesc: 'AI 写代码总写一半就停、或用"// TODO"占位时用它。强制输出完整代码，不允许省略和占位。', steps: ['检测模型输出是否半成品', '强制完整代码（不省略）', '禁止占位注释（如 // TODO）', '补全被截断的部分', '输出前完整性自检'] },
+    ],
+    familyStructure: {
+      title: 'taste-skill 家族 · UI 技能全景',
+      subtitle: '13 个技能 = 4 类 UI 技能 + 1 个辅助技能（full-output-enforcement 非 UI）',
+      categories: [
+        { name: '通用主控型', tagline: '从零做落地页/作品集', workflow: '读需求 → 定旋钮 → 出代码', color: 'blue', skills: [
+          { name: 'design-taste-frontend', note: 'v2 主技能，最全' },
+          { name: 'design-taste-frontend-v1', note: '旧版，精简' },
+          { name: 'gpt-taste', note: '更严格变体，强 GSAP' },
+        ]},
+        { name: '既定风格型', tagline: '方向已定，只管执行', workflow: '按固定审美体系生成 UI', color: 'green', skills: [
+          { name: 'high-end-visual-design', note: '高端代理' },
+          { name: 'minimalist-ui', note: '极简编辑风' },
+          { name: 'industrial-brutalist-ui', note: '粗野工业风' },
+          { name: 'stitch-design-taste', note: '生成 DESIGN.md 给 Google Stitch' },
+        ]},
+        { name: '存量改版型', tagline: '已有项目升级', workflow: '先审计 → 再定点修复，不重写', color: 'orange', skills: [
+          { name: 'redesign-existing-projects', note: '' },
+        ]},
+        { name: '图片参考型', tagline: '只出图，不出代码', workflow: '生成设计参考图，交给编码 agent', color: 'purple', skills: [
+          { name: 'image-to-code', note: '图→分析→代码管线' },
+          { name: 'imagegen-frontend-web', note: '网页逐 section 出图' },
+          { name: 'imagegen-frontend-mobile', note: '移动端屏幕流' },
+          { name: 'brandkit', note: '品牌套件图' },
+        ]},
+        { name: '辅助型', tagline: '非 UI', workflow: '解决输出截断问题', color: 'amber', skills: [
+          { name: 'full-output-enforcement', note: '强制完整输出，禁占位符' },
+        ]},
+      ],
+    },
+    triggerSummary: '当你需要 AI 帮你做 UI/UX 设计时就调用它 —— 不管是从零做页面、选配色字体、审查现有界面、修交互 bug，还是优化响应式和无障碍。',
+    officialIntro: 'Taste Skill 是一个为 AI 编程助手设计的"设计判断力"技能。它教会 AI 什么是好的设计，通过三个旋钮（Variance 方差 / Motion 动效 / Density 密度）调节设计风格，内置反廉价感审计规则和交付前检查清单，帮助 AI 生成摆脱模板感的高质量界面设计。包含 13 个子技能，覆盖从零做页面、既定风格生成、存量改版、图像参考、完整输出强制等全场景，支持多种 AI 编程工具。',
+    suitableFor: [
+      { type: '高端品牌官网', desc: '反廉价感审计，设计品质有保障' },
+      { type: '创意工作室/设计机构', desc: '13 个子技能，风格多样可定制' },
+      { type: '个人作品集', desc: '三旋钮调节，避免千篇一律' },
+      { type: 'SaaS 产品营销页', desc: '高动效+强排版，提升转化' },
+      { type: '奢侈品/高端消费品牌', desc: '高端视觉子技能，昂贵感营造' },
+      { type: '科技创业公司官网', desc: '极简/粗野/高端多风格可选' },
+    ],
+    plainDesc: '你让 AI 帮你写前端代码，但生成的页面总是很丑、像模板、有"廉价感"时就用它。它会教 AI 什么是好设计，通过三旋钮（方差/动效/密度）调节风格，还会自动审计"廉价感"问题，适合对设计质量有要求、不想做出来的东西千篇一律的场景。',
+    capabilities: ['需求推断引擎', '三旋钮设计调节', '反廉价感审计', '字体层级校准', '动效强度控制', '配色一致性锁定'],
+    components: [
+      { name: 'Design Dial Controller', desc: '三旋钮调节器：Variance / Motion / Density', type: 'dial-controller' },
+      { name: 'Brief Inference Card', desc: '需求推断卡片，自动分析设计方向', type: 'brief-inference' },
+      { name: 'Anti-Slop Audit Panel', desc: '反廉价感审计面板，检测 AI 模板痕迹', type: 'anti-slop' },
+      { name: 'Typography Hierarchy', desc: '字体层级校准器，含字号/行高/字重系统', type: 'typo-hierarchy' },
+      { name: 'Motion Preset Selector', desc: '动效强度预设选择器', type: 'motion-preset' },
+    ],
+    examples: [
+      { name: 'SaaS 落地页重设计', desc: '深色高端风，从普通模板到 Awwwards 级别的蜕变', type: 'saas-redesign' },
+      { name: '设计师作品集审计', desc: '审计报告风格，逐项标注问题并给出修复方案', type: 'portfolio-audit' },
+    ],
+    pageDemos: [
+      { name: 'Web Landing', device: 'web', type: 'saas-redesign' },
+      { name: 'Mobile Portfolio', device: 'mobile', type: 'portfolio-mobile' },
+      { name: 'Audit Report', device: 'web', type: 'portfolio-audit' },
+    ],
+    conversations: [
+      { q: '帮我做一个高端 AI 产品的落地页', a: '触发需求推断引擎，设定 VARIANCE=8 / MOTION=7 / DENSITY=3，生成深色高端风落地页，含动态 Hero、Bento 特性网格、客户证言和 CTA。', output: 'AI 落地页 · 深色高端 · 动效丰富' },
+      { q: '审查一下我的作品集网站', a: '运行 Anti-Slop Audit Panel，检测 AI 模板痕迹（紫色渐变、三栏卡片、Inter 字体等），输出审计报告和逐项修复建议。', output: '审计报告 · 12 项问题 · 修复方案' },
+      { q: '帮我做一个高端厨具品牌的电商网站', a: '推断品牌调性为 Cold Luxury 方向，使用银灰 + 铬 + 烟雾配色，避免米色+黄铜的 AI 默认配色，生成高端电商体验。', output: '厨具电商 · Cold Luxury · 高端质感' },
+      { q: '这个模态框的交互有问题，帮我修', a: '分析模态框的打开/关闭动效、背景模糊、焦点管理、键盘操作，修复动效曲线和可访问性问题。', output: '模态框修复 · 动效优化 · 焦点管理' },
+      { q: '我要做一个 Awwwards 级别的创意 agency 网站', a: '设定 VARIANCE=10 / MOTION=9 / DENSITY=3，使用滚动驱动动画、kinetic typography、自定义光标，生成实验性创意网站。', output: '创意 agency · Awwwards 级 · 实验性动效' },
+    ],
+    prompts: [
+      { title: '高端落地页', text: '使用 Taste Skill 帮我设计一个高端 AI 产品的落地页，要求深色主题、动态 Hero、Bento 网格、精致动效，避免 AI 模板感。' },
+      { title: '设计审计', text: '用 Taste Skill 的 Anti-Slop Audit Panel 审查我的网站设计，检测所有 AI 模板痕迹，按严重程度输出审计报告和修复建议。' },
+      { title: '品牌电商', text: '使用 Taste Skill 为我的高端厨具品牌设计电商网站，要求 Cold Luxury 风格，避免米色+黄铜的常见配色，突出产品质感。' },
+      { title: '交互修复', text: '用 Taste Skill 审查并修复我网站上的模态框交互问题，包括动效曲线、背景模糊、焦点管理、键盘可访问性。' },
+      { title: '创意网站', text: '使用 Taste Skill 帮我做一个 Awwwards 级别的创意 agency 网站，要求滚动驱动动画、动态排版、实验性交互，VARIANCE 拉满。' },
+    ],
+    userReviews: {
+      rating: 4.9, count: 850,
+      summary: 'Taste Skill 是一个反廉价感前端设计技能，通过三旋钮系统和需求推断引擎，帮助 AI 生成摆脱模板感的高质量界面设计。',
+      pros: ['反廉价感审计非常精准', '三旋钮系统直观易用', '需求推断引擎节省时间', '字体层级校准专业', '动效控制细致入微', '配色一致性锁定有效', '设计品味明显提升', '输出质量稳定'],
+      cons: ['对简单页面可能过度设计', '三旋钮需要学习成本', '部分预设不够丰富', '对非英语需求推断稍弱', '生成速度较慢'],
+      articles: [
+        { title: 'Taste-Skill v2 深度解析：12 项硬核升级，让 AI 网页告别塑料感', source: 'CSDN', url: 'https://blog.csdn.net/gitblog_00067/article/details/159430285' },
+        { title: 'Taste Skill Frontend Framework: Teaching AI Agents Design Judgment', source: 'Hamster', url: 'https://tryhamster.com/methods/taste-skill-frontend-design-framework' },
+        { title: 'Taste-Skill: Stop Accepting Boring AI Frontend Output', source: 'PromptHub', url: 'https://prompts.brightcoding.dev/blog/taste-skill-stop-accepting-boring-ai-frontend-output' },
+        { title: 'design-taste-frontend — Agent Skills Marketplace', source: 'agskills.dev', url: 'https://agskills.dev/leonxlnx/taste-skill/design-taste-frontend' },
+      ,
+              { title: 'Taste Skill 体验：专治AI前端廉价感', source: '小红书', url: 'https://www.xiaohongshu.com/search_result?keyword=Taste%20Skill%20%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1', platform: 'xiaohongshu' },
+              { title: '82.6k星的Taste Skill，如何让AI设计有品味', source: '微信公众号', url: 'https://weixin.sogou.com/weixin?type=2&query=Taste%20Skill%20%E8%AE%BE%E8%AE%A1%E5%93%81%E5%91%B3', platform: 'wechat' }],
+    },
+  },
+  {
+    id: 'impeccable',
+    name: 'Impeccable',
+    category: '设计质量检测',
+    github: 'https://github.com/pbakaus/impeccable',
+    website: 'https://impeccable.style',
+    stars: 40000,
+    version: 'v4.1.2',
+    updated: '2026-08',
+    triggerSummary: '当你需要 AI 帮你做前端设计质量控制时就调用它 —— 23 个设计命令（craft/audit/critique/polish/bolder/quieter 等）+ 60 条确定性检测规则，支持 15+ AI 编程工具，一键安装后通过 /impeccable 命令使用，专注消除 AI 生成的模板感设计。',
+    officialIntro: 'Impeccable 是为 AI 编程助手提供的设计指导技能。1 个技能、23 个命令、实时浏览器迭代，以及 59 条针对 AI 生成前端设计的确定性检测规则。从 Anthropic 的 frontend-design 发展而来，通过扩展的技能和 7 个领域特定参考文件，与 AI 生成设计的反模式（Inter 字体、紫色渐变、卡片嵌套卡片、彩色背景上的灰色文字等）做斗争。CLI 和浏览器扩展可以在没有 LLM 和 API 密钥的情况下运行确定性规则。覆盖网站、落地页、仪表盘、产品 UI、应用外壳、组件、表单、设置、引导和空状态。',
+    suitableFor: [
+      { type: '已有项目设计优化', desc: '先审计再修复，不重写整个项目' },
+      { type: '企业官网升级改版', desc: '59 条确定性规则，质量可量化' },
+      { type: 'SaaS 产品 UI 打磨', desc: '23 个设计命令，精准定位问题' },
+      { type: '电商网站体验优化', desc: '反 AI 模板感，提升品牌独特性' },
+      { type: '移动端 APP 界面改进', desc: '实时浏览器迭代，所见即所得' },
+      { type: '设计系统规范化', desc: '确定性检测规则，统一输出标准' },
+    ],
+    plainDesc: '你已经有一个网站或项目，但设计质量参差不齐、有很多 AI 模板感的问题时就用它。它不会帮你从零做设计，而是先审计问题，再用 60 条确定性规则（不是靠 AI 感觉）逐个修复，适合已有项目需要提升设计质量、消除"AI 味"的场景。',
+    capabilities: ['23个设计命令', '60条确定性检测规则', '反AI模板检测', '实时浏览器迭代', '多工具支持(15+)', '设计钩子自动检测'],
+    components: [
+      { name: 'craft', desc: '完整的 shape-then-build 流程，含视觉迭代', type: 'ds-generator' },
+      { name: 'audit', desc: '技术质量检测：可访问性、性能、响应式', type: 'audit-panel' },
+      { name: 'critique', desc: 'UX 设计评审：层级、清晰度、情感共鸣', type: 'a11y' },
+      { name: 'polish', desc: '最终打磨：设计系统对齐、交付就绪检查', type: 'typography' },
+      { name: 'detect CLI', desc: '独立 CLI 工具，无需 LLM 即可检测 60 条规则', type: 'grid' },
+    ],
+    examples: [
+      { name: 'Neo Mirai 案例研究', desc: '真实项目使用 Impeccable 命令前后对比', type: 'saas-redesign' },
+      { name: 'AI Slop 检测', desc: '自动识别 Inter 字体、紫色渐变、卡片嵌套等 AI 模板特征', type: 'portfolio-audit' },
+    ],
+    pageDemos: [
+      { name: 'Web Audit', device: 'web', type: 'portfolio-audit' },
+      { name: 'Design System', device: 'web', type: 'saas-redesign' },
+      { name: 'Mobile Polish', device: 'mobile', type: 'mobile-portfolio' },
+    ],
+    conversations: [
+      { q: '帮我审计这个落地页的设计质量', a: '使用 /impeccable audit landing 运行技术质量检测，60 条确定性规则自动扫描可访问性、性能、响应式问题，输出问题清单和修复建议。', output: '审计报告 · 60条规则 · 修复建议' },
+      { q: '我的页面看起来很无聊，帮我增强设计感', a: '使用 /impeccable bolder 放大设计表现力，打破 AI 模板感：替换过度使用的字体、增加战略色彩、优化视觉层级和动效。', output: '设计增强 · 反模板 · 视觉层级' },
+      { q: '帮我做最终交付前的打磨', a: '使用 /impeccable polish 进行最终检查：设计系统对齐、间距节奏统一、交互状态完整、交付就绪确认。', output: '最终打磨 · 设计系统对齐 · 交付就绪' },
+      { q: '这个页面的 UX 有问题，帮我评审', a: '使用 /impeccable critique 进行 UX 设计评审：分析信息层级、清晰度、情感共鸣，输出结构化评审报告。', output: 'UX评审 · 信息层级 · 情感共鸣' },
+      { q: '帮我初始化项目的设计上下文', a: '使用 /impeccable init 进行一次性设置：选择品牌/产品方向，生成 PRODUCT.md 和 DESIGN.md，配置实时模式，后续命令自动读取设计上下文。', output: '设计初始化 · PRODUCT.md · DESIGN.md' },
+    ],
+    prompts: [
+      { title: '设计质量审计', text: '使用 /impeccable audit 审计我的整个网站，检测所有可访问性、性能、响应式问题，按严重程度排序并给出修复代码。' },
+      { title: '反AI模板增强', text: '我的页面有典型的 AI 模板感（Inter字体、紫色渐变、卡片嵌套），用 /impeccable bolder 帮我彻底改造，让设计看起来更独特、更有品味。' },
+      { title: '最终交付打磨', text: '用 /impeccable polish 对我的项目进行最终交付前的全面打磨，包括设计系统对齐、间距节奏统一、交互状态补全、性能优化。' },
+      { title: 'UX设计评审', text: '用 /impeccable critique 对我的产品页面进行深度 UX 评审，分析信息层级、用户流程、情感共鸣，输出结构化的评审报告和改进建议。' },
+      { title: '项目设计初始化', text: '用 /impeccable init 初始化我的项目设计上下文，选择产品方向，生成完整的 PRODUCT.md 和 DESIGN.md，配置设计钩子和实时模式。' },
+    ],
+    userReviews: {
+      rating: 4.7, count: 3200,
+      summary: 'Impeccable 是目前最全面的 AI 前端设计质量控制 skill，23 个设计命令 + 60 条确定性检测规则，支持 15+ AI 编程工具，从 Anthropic 的 frontend-design 发展而来，专注于消除 AI 生成的模板感设计。',
+      pros: ['60条确定性检测规则无需LLM', '23个设计命令覆盖全流程', '支持15+AI编程工具', '反AI模板检测精准', '实时浏览器迭代模式', '设计钩子自动检测', 'CLI工具可独立运行', '文档完善案例丰富'],
+      cons: ['初始配置有学习成本', '部分命令需要图像生成能力', '钩子配置在部分工具需手动授权', '规则覆盖以Web为主', '大型项目检测速度较慢'],
+      articles: [
+        { title: 'Impeccable:为AI注入设计思维，提升前端界面质量', source: '51CTO', url: 'https://blog.51cto.com/u_16213600/14570937' },
+        { title: 'Impeccable Review 2026', source: 'AI Tools Atlas', url: 'https://aitoolsatlas.ai/tools/impeccable/review' },
+        { title: 'a design language for AI agents with anti-slop rules', source: 'ghtrends.dev', url: 'https://ghtrends.dev/pbakaus/impeccable/' },
+        { title: 'Impeccable: The Design Language That Makes AI Better at Design', source: 'PyShine', url: 'https://pyshine.com/Impeccable-Design-Language-for-AI/' },
+      ,
+              { title: 'Impeccable 实测：AI生成UI的质检神器', source: '小红书', url: 'https://www.xiaohongshu.com/search_result?keyword=Impeccable%20AI%20UI%E8%AE%BE%E8%AE%A1', platform: 'xiaohongshu' },
+              { title: '41条确定性规则，Impeccable如何反AI模板感', source: '微信公众号', url: 'https://weixin.sogou.com/weixin?type=2&query=Impeccable%20%E5%8F%8DAI%E6%A8%A1%E6%9D%BF%E6%84%9F', platform: 'wechat' }],
+    },
+  },
+  {
+    id: 'remotion',
+    name: 'Remotion',
+    category: '前端工具',
+    github: 'https://github.com/remotion-dev/remotion',
+    website: 'https://www.remotion.dev',
+    stars: 57900,
+    version: 'v4.0.519',
+    updated: '2026-09',
+    triggerSummary: '用React代码创作视频，适合批量生成营销视频、数据可视化动画、产品演示',
+    capabilities: [
+      '编程式视频创作',
+      'Agent视频生成',
+      '交互式编辑',
+      '批量渲染',
+      '设计系统',
+      '多端渲染',
+    ],
+    articles: [
+      { title: 'Remotion 深度解析:用 React 写视频', source: '博客园', url: 'https://www.cnblogs.com/jzssuanfa/p/20492813' },
+      { title: 'Codex+Remotion体验记', source: 'CSDN', url: 'https://blog.csdn.net/weixin_74888502/article/details/162003231' },
+      { title: 'Remotion Review: Features, Pros & Cons', source: 'Websites2Know', url: 'https://websites2know.com/remotion-review/' },
+    ],
+  },
+  {
+    id: 'awesome-design-md-jp',
+    name: 'Awesome Design MD JP',
+    category: '综合设计系统',
+    github: 'https://github.com/kzhrknt/awesome-design-md-jp',
+    website: 'https://github.com/kzhrknt/awesome-design-md-jp',
+    stars: 1200,
+    version: 'v1.0.0',
+    updated: '2026-08',
+    triggerSummary: '当你需要 AI 生成准确的日本语 UI 时就调用它 —— 480+ 日本网站设计规范，含 CJK 排版、禁则处理、和文フォントチェーン',
+    officialIntro: 'A curated collection of DESIGN.md files for Japanese web services — enabling AI agents to generate accurate Japanese UI with proper typography, font stacks, and typographic rules.',
+    plainDesc: '这是一个日本网站设计规范的大合集。简单说，就是把 Apple、MUJI、Mercari 这些日本知名网站的设计风格、字体、颜色、排版规则都整理成了 AI 能读懂的 DESIGN.md 文件。你要做日本语网站时，把对应的 DESIGN.md 给 AI，它就能生成符合日本网站风格的 UI，不会出现字体不对、行间距太窄、标点符号跑到行首这种问题。',
+    capabilities: [
+      '480+ 日本网站设计规范',
+      'CJK 排版规则（禁則処理）',
+      '和文フォントフォールバックチェーン',
+      'OpenType プロポーショナル組版',
+      '混植ルール（和文+欧文）',
+      'デザイントークン可視化プレビュー',
+    ],
+    components: [
+      'DESIGN.md テンプレート',
+      'preview.html ショーケース',
+      'gallery.html ギャラリー',
+      'デザイントークン抽出スクリプト',
+      'CJK タイポグラフィ規約',
+    ],
+    examples: [
+      { title: 'Apple Japan デザインシステム', desc: 'Apple 日本公式サイトの DESIGN.md' },
+      { title: 'MUJI 無印良品 デザイン', desc: '無印良品公式サイトの DESIGN.md' },
+    ],
+    suitableFor: [
+      { type: '日本語 EC サイト', desc: 'メルカリ・楽天・Amazon JP 风格の电商网站' },
+      { type: '日本語コーポレートサイト', desc: '伊藤忠・リクルート・ソニー风格の企业官网' },
+      { type: '日本語メディア/ブログ', desc: 'はてな・note・Zenn风格の媒体网站' },
+      { type: '日本語 SaaS ダッシュボード', desc: 'freee・マネーフォワード风格の管理画面' },
+      { type: '日本語モバイルアプリ', desc: 'PayPay・LINE・メルカリ风格の移动端 UI' },
+      { type: '多言語対応サイト', desc: '日英双语或多语言网站' },
+    ],
+    workflow: [
+      { step: 1, title: '対象サイト選択', desc: '从 480+ 日本网站中选择与目标项目最接近的 DESIGN.md' },
+      { step: 2, title: 'DESIGN.md 読み込み', desc: '读取对应的 DESIGN.md 文件，提取品牌色、字体、排版规则' },
+      { step: 3, title: 'デザイントークン抽出', desc: '从 DESIGN.md 中提取设计令牌，转换为 CSS 变量或 Tailwind 配置' },
+      { step: 4, title: 'CJK タイポグラフィ適用', desc: '应用日本语排版规则：禁则处理、字间距、行间距、和文フォントチェーン' },
+      { step: 5, title: 'UI 生成', desc: '基于设计规范生成 UI 组件和页面，确保风格一致' },
+      { step: 6, title: '品質チェック', desc: '检查日本语排版质量：禁则处理、字体回退、行间距、混植规则' },
+    ],
+    articles: [
+      { title: 'awesome-design-md-jp：日本語UI DESIGN.md集', source: 'AI Heartland', url: 'https://ai-heartland.com/agent/awesome-design-md-jp/' },
+      { title: 'AI時代のデザインシステム「DESIGN.md」入門', source: 'エレファンキューブ', url: 'https://www.elephancube.co.jp/2026/04/design-md/' },
+      { title: 'Design.mdとは何か、使い方は？', source: 'Banani', url: 'https://www.banani.co/ja/blog/design-md-guide' },
+      { title: 'DESIGN.md という新しいフォーマットの衝撃', source: 'unType', url: 'https://www.untype.jp/blog/design-systems-design-md-format' },
+    ],
+  }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentSkill = null;
+let currentTab = 'reviews';
+let currentRating = 0;
+let currentImages = [null, null];
+const STORAGE_KEY = 'ui-skills-practice-records';
+
+const tabs = [
+  { id: 'reviews', label: '用户体验', icon: 'star' },
+  { id: 'subskills', label: '子 Skill', icon: 'layers' },
+  { id: 'components', label: '组件预览', icon: 'layout-grid' },
+  { id: 'demos', label: '效果演示', icon: 'monitor-play' },
+  { id: 'usage', label: '使用方法', icon: 'message-square' },
+  { id: 'practice', label: '我的实践', icon: 'bookmark' },
+];
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function parseStars(n) { if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k'; return n.toString(); }
+function ghStarIcon(size = 'w-3.5 h-3.5') { return `<svg class="${size} gh-star" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`; }
+
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  const bg = type === 'success' ? 'bg-ink-900' : type === 'error' ? 'bg-red-600' : 'bg-ink-700';
+  toast.className = `toast ${bg} text-white text-sm px-4 py-2.5 rounded-lg shadow-lg flex items-center gap-2`;
+  toast.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="w-4 h-4"></i><span>${msg}</span>`;
+  container.appendChild(toast);
+  lucide.createIcons();
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(8px)'; toast.style.transition = 'all 0.3s ease'; setTimeout(() => toast.remove(), 300); }, 2200);
+}
+
+function copyToClipboard(text, msg = '已复制到剪贴板') {
+  navigator.clipboard.writeText(text).then(() => showToast(msg)).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); showToast(msg);
+  });
+}
+
+function getRecords() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } }
+function saveRecords(r) { localStorage.setItem(STORAGE_KEY, JSON.stringify(r)); }
+function getSkillRecords(id) { const r = getRecords(); return r[id] || []; }
+function addSkillRecord(id, rec) { const r = getRecords(); if (!r[id]) r[id] = []; r[id].unshift(rec); saveRecords(r); }
+function deleteSkillRecord(id, idx) { const r = getRecords(); if (r[id]) { r[id].splice(idx, 1); saveRecords(r); } }
+function relativeTime(s) { const diff = Math.floor((new Date() - new Date(s)) / 1000); if (diff < 60) return '刚刚'; if (diff < 3600) return Math.floor(diff/60)+' 分钟前'; if (diff < 86400) return Math.floor(diff/3600)+' 小时前'; if (diff < 2592000) return Math.floor(diff/86400)+' 天前'; return new Date(s).toLocaleDateString('zh-CN'); }
+
+// ============================================================
+// REAL COMPONENT RENDERERS
+// ============================================================
+function renderRealComponent(type) {
+  switch (type) {
+    // ---- shadcn/ui components ----
+    case 'button':
+      return `<div class="space-y-3 w-full">
+        <div class="flex flex-wrap gap-2 items-center">
+          <button class="comp-btn comp-btn-default">Button</button>
+          <button class="comp-btn comp-btn-destructive">Destructive</button>
+          <button class="comp-btn comp-btn-outline">Outline</button>
+          <button class="comp-btn comp-btn-secondary">Secondary</button>
+          <button class="comp-btn comp-btn-ghost">Ghost</button>
+          <button class="comp-btn comp-btn-link">Link</button>
+        </div>
+        <div class="flex flex-wrap gap-2 items-center">
+          <button class="comp-btn comp-btn-default" style="padding:0.3rem 0.7rem;font-size:0.7rem;">Small</button>
+          <button class="comp-btn comp-btn-default">Default</button>
+          <button class="comp-btn comp-btn-default" style="padding:0.55rem 1.1rem;font-size:0.9rem;">Large</button>
+          <button class="comp-btn comp-btn-default" style="width:100%;border-radius:9999px;">Icon ➜</button>
+        </div>
+        <div class="flex gap-2 items-center">
+          <button class="comp-btn comp-btn-default" disabled style="opacity:0.5;cursor:not-allowed;">Disabled</button>
+          <button class="comp-btn comp-btn-default"><span style="width:12px;height:12px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite;display:inline-block;"></span> Loading</button>
+        </div>
+      </div>`;
+
+    case 'card':
+      return `<div class="w-full max-w-[280px] bg-white border border-ink-200 rounded-lg overflow-hidden shadow-sm">
+        <div class="p-4 pb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent-400 to-accent-600"></div>
+            <div><div class="text-xs font-semibold text-ink-900">Sofia Davis</div><div class="text-[10px] text-ink-400">@sofia.design</div></div>
+          </div>
+        </div>
+        <div class="px-4 pb-3">
+          <h3 class="text-sm font-semibold text-ink-900 mb-1">构建可扩展的设计系统</h3>
+          <p class="text-xs text-ink-500 leading-relaxed mb-3">从零开始搭建一套覆盖 40+ 组件的设计系统，包含完整的设计令牌和文档。</p>
+        </div>
+        <div class="px-4 pb-3 flex items-center gap-3 text-[10px] text-ink-400">
+          <span class="flex items-center gap-1"><i data-lucide="heart" class="w-3 h-3"></i>2.4k</span>
+          <span class="flex items-center gap-1"><i data-lucide="message-circle" class="w-3 h-3"></i>89</span>
+          <span class="flex items-center gap-1"><i data-lucide="bookmark" class="w-3 h-3"></i>126</span>
+        </div>
+        <div class="px-4 py-2.5 border-t border-ink-100 flex gap-2">
+          <button class="comp-btn comp-btn-default" style="flex:1;">阅读全文</button>
+          <button class="comp-btn comp-btn-outline">分享</button>
+        </div>
+      </div>`;
+
+    case 'dialog':
+      return `<div class="w-full max-w-[300px]">
+        <div class="relative">
+          <div class="absolute inset-0 bg-ink-900/30 rounded-lg -m-3 blur-sm"></div>
+          <div class="relative bg-white rounded-lg border border-ink-200 shadow-xl p-5">
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="text-sm font-semibold text-ink-900">确认删除？</h3>
+              <button class="w-6 h-6 rounded-md hover:bg-ink-100 flex items-center justify-center text-ink-400"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+            </div>
+            <p class="text-xs text-ink-500 leading-relaxed mb-4">此操作将永久删除项目「设计系统 v2」及其所有关联数据，无法撤销。</p>
+            <div class="flex gap-2 justify-end">
+              <button class="comp-btn comp-btn-outline">取消</button>
+              <button class="comp-btn comp-btn-destructive">确认删除</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    case 'dropdown':
+      return `<div class="w-full max-w-[220px]">
+        <button class="w-full flex items-center justify-between px-3 py-2 bg-white border border-ink-200 rounded-md text-xs text-ink-700 hover:bg-ink-50 transition-colors">
+          <span class="flex items-center gap-2"><div class="w-5 h-5 rounded bg-ink-900 flex items-center justify-center"><span class="text-[8px] text-white font-bold">A</span></div> 个人账号</span>
+          <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-ink-400"></i>
+        </button>
+        <div class="mt-1 bg-white border border-ink-200 rounded-md shadow-lg py-1">
+          <div class="px-3 py-1.5 text-[10px] font-semibold text-ink-400 uppercase tracking-wider">账户</div>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-ink-700 hover:bg-ink-50"><i data-lucide="user" class="w-3.5 h-3.5 text-ink-400"></i>个人资料</button>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-ink-700 hover:bg-ink-50"><i data-lucide="settings" class="w-3.5 h-3.5 text-ink-400"></i>设置</button>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-ink-700 hover:bg-ink-50"><i data-lucide="credit-card" class="w-3.5 h-3.5 text-ink-400"></i>账单 <span class="ml-auto text-[10px] bg-accent-100 text-accent-700 px-1.5 py-0.5 rounded">Pro</span></button>
+          <div class="border-t border-ink-100 my-1"></div>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>退出登录</button>
+        </div>
+      </div>`;
+
+    case 'form':
+      return `<div class="w-full max-w-[280px] space-y-3">
+        <div><label class="comp-label">姓名 *</label><input class="comp-input" placeholder="张三" value="李明"></div>
+        <div><label class="comp-label">邮箱 *</label><input class="comp-input" type="email" placeholder="you@example.com" value="liming@example.com"></div>
+        <div><label class="comp-label">角色</label>
+          <select class="comp-input"><option>产品经理</option><option>设计师</option><option>开发者</option></select>
+        </div>
+        <div><label class="comp-label">留言</label><textarea class="comp-input" rows="2" placeholder="想说点什么..."></textarea></div>
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="form-check" checked class="w-3.5 h-3.5 rounded border-ink-300 text-ink-900 focus:ring-ink-500">
+          <label for="form-check" class="text-[11px] text-ink-600">订阅产品更新通知</label>
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button class="comp-btn comp-btn-default" style="flex:1;">提交</button>
+          <button class="comp-btn comp-btn-ghost">重置</button>
+        </div>
+      </div>`;
+
+    // ---- UI/UX Pro Max components ----
+    case 'ds-generator':
+      return `<div class="w-full space-y-3">
+        <div class="grid grid-cols-6 gap-1.5">
+          ${['#1c1917','#44403c','#78716c','#a8a29e','#d6d3d1','#f5f5f4'].map((c,i)=>`<div class="aspect-square rounded-md flex items-end justify-center pb-1" style="background:${c};"><span class="text-[8px] font-mono ${i<3?'text-white/70':'text-ink-500'}">${i*100}</span></div>`).join('')}
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="bg-ink-50 rounded-md p-2"><div class="text-[9px] text-ink-400 mb-0.5">Display</div><div class="text-lg font-bold text-ink-900 leading-none">Aa</div></div>
+          <div class="bg-ink-50 rounded-md p-2"><div class="text-[9px] text-ink-400 mb-0.5">Body</div><div class="text-xs text-ink-700 leading-none">Aa</div></div>
+        </div>
+        <div class="flex gap-1.5">
+          ${['2px','4px','6px','8px','12px','16px'].map(r=>`<div class="flex-1 h-8 bg-ink-100 flex items-center justify-center" style="border-radius:${r};"><span class="text-[8px] text-ink-400">${r}</span></div>`).join('')}
+        </div>
+      </div>`;
+
+    case 'color-builder':
+      return `<div class="w-full space-y-2.5">
+        ${[
+          {name:'Primary', colors:['#1c1917','#44403c','#78716c']},
+          {name:'Accent', colors:['#c2410c','#ea580c','#f97316']},
+          {name:'Success', colors:['#15803d','#16a34a','#22c55e']},
+        ].map(p=>`<div class="flex items-center gap-2">
+          <span class="text-[10px] font-medium text-ink-500 w-12 shrink-0">${p.name}</span>
+          <div class="flex gap-1 flex-1">${p.colors.map(c=>`<div class="flex-1 h-7 rounded flex items-center justify-center" style="background:${c};"><span class="text-[8px] font-mono text-white/80">${c}</span></div>`).join('')}</div>
+          <span class="text-[9px] font-mono text-emerald-600 shrink-0">AA ✓</span>
+        </div>`).join('')}
+      </div>`;
+
+    case 'typography':
+      return `<div class="w-full space-y-1.5">
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">6xl</span><span class="text-2xl font-bold text-ink-900 leading-none">Heading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">4xl</span><span class="text-xl font-bold text-ink-900 leading-none">Heading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">2xl</span><span class="text-base font-semibold text-ink-900 leading-none">Heading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">lg</span><span class="text-sm font-medium text-ink-800">Subheading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">base</span><span class="text-xs text-ink-700">Body text content</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">sm</span><span class="text-[11px] text-ink-500">Small caption text</span></div>
+      </div>`;
+
+    case 'grid':
+      return `<div class="w-full space-y-2">
+        <div class="text-[10px] font-medium text-ink-500">12 列网格 · 间距 16px</div>
+        <div class="grid grid-cols-12 gap-1">
+          ${Array.from({length:12},(_,i)=>`<div class="h-12 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">${i+1}</span></div>`).join('')}
+        </div>
+        <div class="grid grid-cols-12 gap-1">
+          <div class="col-span-4 h-8 bg-accent-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-accent-700">col-4</span></div>
+          <div class="col-span-8 h-8 bg-accent-300/50 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-accent-700">col-8</span></div>
+        </div>
+        <div class="grid grid-cols-12 gap-1">
+          <div class="col-span-6 h-8 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">col-6</span></div>
+          <div class="col-span-3 h-8 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">col-3</span></div>
+          <div class="col-span-3 h-8 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">col-3</span></div>
+        </div>
+      </div>`;
+
+    case 'a11y':
+      return `<div class="w-full space-y-1.5">
+        ${[
+          {label:'文本对比度', status:'pass', detail:'4.7:1 AA ✓'},
+          {label:'焦点可见性', status:'pass', detail:'焦点环 2px ✓'},
+          {label:'键盘导航', status:'warn', detail:'弹窗缺少 Esc 关闭 ⚠'},
+          {label:'屏幕阅读器标签', status:'fail', detail:'3 个图标按钮缺 aria-label ✗'},
+          {label:'色彩独立性', status:'pass', detail:'不仅依赖颜色传达 ✓'},
+          {label:'动效偏好', status:'warn', detail:'未检测 prefers-reduced-motion ⚠'},
+        ].map(item=>`<div class="flex items-center gap-2 px-2.5 py-1.5 rounded-md ${item.status==='pass'?'bg-emerald-50':item.status==='warn'?'bg-amber-50':'bg-red-50'}">
+          <span class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${item.status==='pass'?'bg-emerald-500':item.status==='warn'?'bg-amber-500':'bg-red-500'}"><i data-lucide="${item.status==='pass'?'check':item.status==='warn'?'alert-triangle':'x'}" class="w-2.5 h-2.5 text-white"></i></span>
+          <span class="text-[11px] font-medium text-ink-700 flex-1">${item.label}</span>
+          <span class="text-[10px] font-mono ${item.status==='pass'?'text-emerald-600':item.status==='warn'?'text-amber-600':'text-red-600'}">${item.detail}</span>
+        </div>`).join('')}
+      </div>`;
+
+    // ---- Taste Skill components ----
+    case 'dial-controller':
+      return `<div class="w-full space-y-3">
+        ${[
+          {label:'DESIGN VARIANCE', value:8, desc:'对称 → 艺术感'},
+          {label:'MOTION INTENSITY', value:6, desc:'静态 → 电影级'},
+          {label:'VISUAL DENSITY', value:4, desc:'留白 → 数据密集'},
+        ].map(d=>`<div class="bg-ink-50 rounded-md p-2.5">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[10px] font-semibold text-ink-600 tracking-wide">${d.label}</span>
+            <span class="text-sm font-bold font-mono text-ink-900">${d.value}</span>
+          </div>
+          <input type="range" min="1" max="10" value="${d.value}" class="dial-track" readonly>
+          <div class="flex justify-between mt-1"><span class="text-[8px] text-ink-400">1</span><span class="text-[8px] text-ink-400">${d.desc}</span><span class="text-[8px] text-ink-400">10</span></div>
+        </div>`).join('')}
+      </div>`;
+
+    case 'brief-inference':
+      return `<div class="w-full bg-white border border-ink-200 rounded-lg p-3.5 space-y-2.5">
+        <div class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent-500"></i><span class="text-[10px] font-semibold text-ink-500 uppercase tracking-wider">Design Read</span></div>
+        <p class="text-[11px] text-ink-700 leading-relaxed">Reading this as: <strong>B2B SaaS landing</strong> for technical buyers, with a <strong>Linear-style minimalist</strong> language, leaning toward <strong>Tailwind + Geist + restrained motion</strong>.</p>
+        <div class="flex gap-1.5">
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-ink-100 text-ink-600 rounded">V:7</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-ink-100 text-ink-600 rounded">M:6</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-ink-100 text-ink-600 rounded">D:4</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-accent-50 text-accent-700 rounded ml-auto">confidence 94%</span>
+        </div>
+      </div>`;
+
+    case 'anti-slop':
+      return `<div class="w-full space-y-1.5">
+        ${[
+          {issue:'AI 紫色渐变 Hero', severity:'high', fix:'替换为中性底 + 单一强调色'},
+          {issue:'三栏等宽特性卡片', severity:'medium', fix:'改用 Bento 非对称网格'},
+          {issue:'Inter 字体默认', severity:'low', fix:'换用 Geist / Outfit / Cabinet'},
+          {issue:'全屏玻璃拟态', severity:'medium', fix:'仅在浮层使用，提供实色回退'},
+          {issue:'无限循环微动效', severity:'low', fix:'动效仅在交互时触发'},
+        ].map(item=>`<div class="flex items-start gap-2 px-2.5 py-2 rounded-md bg-white border border-ink-100">
+          <span class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5 ${item.severity==='high'?'bg-red-100 text-red-600':item.severity==='medium'?'bg-amber-100 text-amber-600':'bg-ink-100 text-ink-500'}"><span class="text-[9px] font-bold">${item.severity==='high'?'H':item.severity==='medium'?'M':'L'}</span></span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] font-medium text-ink-800">${item.issue}</div>
+            <div class="text-[10px] text-ink-500 mt-0.5">→ ${item.fix}</div>
+          </div>
+        </div>`).join('')}
+      </div>`;
+
+    case 'typo-hierarchy':
+      return `<div class="w-full bg-white border border-ink-200 rounded-lg p-3.5">
+        <div class="text-[9px] font-semibold text-ink-400 uppercase tracking-wider mb-2">Geist Display · 1.25 比例</div>
+        <div class="space-y-1">
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-xl font-bold text-ink-900 leading-none">Display</span><span class="text-[9px] font-mono text-ink-400">39px / 1.0</span></div>
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-base font-semibold text-ink-900 leading-none">H1</span><span class="text-[9px] font-mono text-ink-400">31px / 1.1</span></div>
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-sm font-medium text-ink-800">H2</span><span class="text-[9px] font-mono text-ink-400">25px / 1.2</span></div>
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-xs font-medium text-ink-700">H3</span><span class="text-[9px] font-mono text-ink-400">20px / 1.3</span></div>
+          <div class="flex items-baseline justify-between"><span class="text-[11px] text-ink-600">Body</span><span class="text-[9px] font-mono text-ink-400">16px / 1.5</span></div>
+        </div>
+      </div>`;
+
+    case 'motion-preset':
+      return `<div class="w-full grid grid-cols-2 gap-2">
+        ${[
+          {name:'Static', desc:'无动效', val:1, active:false},
+          {name:'Subtle', desc:'淡入淡出', val:3, active:true},
+          {name:'Dynamic', desc:'滑动+缩放', val:6, active:false},
+          {name:'Cinematic', desc:'物理+视差', val:9, active:false},
+        ].map(p=>`<div class="relative rounded-lg border p-2.5 cursor-pointer transition-all ${p.active?'border-ink-900 bg-ink-900 text-white':'border-ink-200 bg-white hover:border-ink-300'}">
+          ${p.active?'<div class="absolute top-1.5 right-1.5 w-3.5 h-3.5 rounded-full bg-accent-500 flex items-center justify-center"><i data-lucide="check" class="w-2 h-2 text-white"></i></div>':''}
+          <div class="text-[11px] font-semibold ${p.active?'text-white':'text-ink-800'}">${p.name}</div>
+          <div class="text-[9px] ${p.active?'text-white/60':'text-ink-400'} mt-0.5">${p.desc}</div>
+          <div class="flex gap-0.5 mt-1.5">${Array.from({length:10},(_,i)=>`<div class="h-1 flex-1 rounded-full ${i<p.val?(p.active?'bg-accent-400':'bg-ink-700'):(p.active?'bg-white/20':'bg-ink-100')}"></div>`).join('')}</div>
+        </div>`).join('')}
+      </div>`;
+
+    default:
+      return `<div class="text-center py-6"><div class="w-10 h-10 mx-auto mb-2 rounded-xl bg-ink-100 flex items-center justify-center"><i data-lucide="box" class="w-5 h-5 text-ink-400"></i></div><span class="text-[10px] font-mono text-ink-400">${type}</span></div>`;
+  }
+}
+
+// ============================================================
+// REAL PAGE DEMO RENDERERS
+// ============================================================
+function renderRealPageDemo(type, device) {
+  const isMobile = device === 'mobile';
+
+  // ---- Dashboard (shadcn) ----
+  if (type === 'dashboard') {
+    const content = `<div class="flex h-full bg-ink-50">
+      <div class="w-12 bg-ink-900 flex flex-col items-center py-2 gap-1.5 shrink-0">
+        <div class="w-6 h-6 rounded bg-white/10 flex items-center justify-center"><span class="text-[8px] text-white font-bold">S</span></div>
+        ${['home','bar-chart-2','users','settings'].map((ic,i)=>`<div class="w-7 h-7 rounded-md flex items-center justify-center ${i===0?'bg-white/15':'hover:bg-white/5'}"><i data-lucide="${ic}" class="w-3 h-3 ${i===0?'text-white':'text-white/40'}"></i></div>`).join('')}
+      </div>
+      <div class="flex-1 flex flex-col min-w-0">
+        <div class="h-7 bg-white border-b border-ink-100 flex items-center px-2.5 gap-2 shrink-0">
+          <div class="w-24 h-2 bg-ink-100 rounded"></div>
+          <div class="ml-auto flex gap-1"><div class="w-5 h-5 rounded-full bg-ink-100"></div></div>
+        </div>
+        <div class="flex-1 p-2 space-y-2 overflow-hidden">
+          <div class="grid grid-cols-3 gap-1.5">
+            ${[['总收入','¥128.4k','+12.5%'],['活跃用户','8,429','+3.2%'],['转化率','4.8%','-0.6%']].map(s=>`<div class="bg-white rounded-md p-2 border border-ink-100"><div class="text-[8px] text-ink-400">${s[0]}</div><div class="text-sm font-bold text-ink-900 mt-0.5">${s[1]}</div><div class="text-[8px] ${s[2].startsWith('+')?'text-emerald-600':'text-red-500'} mt-0.5">${s[2]}</div></div>`).join('')}
+          </div>
+          <div class="bg-white rounded-md p-2 border border-ink-100 flex-1">
+            <div class="flex items-center justify-between mb-1.5"><span class="text-[9px] font-medium text-ink-600">收入趋势</span><span class="text-[8px] text-ink-400">近 30 天</span></div>
+            <div class="flex items-end gap-0.5 h-16">${Array.from({length:20},(_,i)=>`<div class="flex-1 bg-accent-400/70 rounded-t" style="height:${30+Math.sin(i*0.6)*25+i*1.5}%"></div>`).join('')}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Landing Page ----
+  if (type === 'landing') {
+    const content = `<div class="h-full bg-white flex flex-col">
+      <div class="h-8 flex items-center px-3 border-b border-ink-100 shrink-0">
+        <span class="text-[10px] font-bold text-ink-900">Acme</span>
+        <div class="ml-auto flex gap-3"><span class="text-[8px] text-ink-500">产品</span><span class="text-[8px] text-ink-500">定价</span><span class="text-[8px] text-ink-500">文档</span><span class="text-[8px] px-2 py-0.5 bg-ink-900 text-white rounded">开始使用</span></div>
+      </div>
+      <div class="flex-1 flex flex-col items-center justify-center px-4 text-center bg-gradient-to-b from-ink-50 to-white">
+        <span class="text-[8px] px-2 py-0.5 bg-accent-50 text-accent-700 rounded-full mb-2">✨ 全新 2.0 版本发布</span>
+        <h1 class="text-lg font-bold text-ink-900 leading-tight mb-1.5">构建更快的<br>现代化应用</h1>
+        <p class="text-[9px] text-ink-500 max-w-[200px] mb-3 leading-relaxed">一套完整的工具链，让你从想法到上线只需几分钟。</p>
+        <div class="flex gap-1.5"><button class="text-[9px] px-3 py-1.5 bg-ink-900 text-white rounded">免费开始</button><button class="text-[9px] px-3 py-1.5 border border-ink-200 text-ink-700 rounded">查看演示</button></div>
+      </div>
+      <div class="h-12 bg-ink-50 border-t border-ink-100 flex items-center justify-center gap-4 shrink-0">
+        ${['Vercel','Stripe','Linear','Figma'].map(b=>`<span class="text-[8px] font-bold text-ink-300">${b}</span>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Fintech Dashboard ----
+  if (type === 'fintech-dashboard') {
+    const content = `<div class="flex h-full bg-[#0c0a09] text-white">
+      <div class="w-11 bg-[#1c1917] flex flex-col items-center py-2 gap-1.5 shrink-0 border-r border-white/5">
+        <div class="w-6 h-6 rounded bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center"><span class="text-[8px] font-bold">F</span></div>
+        ${['layout-dashboard','line-chart','wallet','bell','settings'].map((ic,i)=>`<div class="w-7 h-7 rounded-md flex items-center justify-center ${i===0?'bg-accent-500/20 text-accent-400':'text-white/30 hover:text-white/60'}"><i data-lucide="${ic}" class="w-3 h-3"></i></div>`).join('')}
+      </div>
+      <div class="flex-1 p-2.5 space-y-2 overflow-hidden">
+        <div class="flex items-center justify-between"><div><div class="text-[8px] text-white/40">总资产</div><div class="text-base font-bold">¥ 2,847,392</div></div><div class="text-[8px] text-emerald-400">+12.4% ↑</div></div>
+        <div class="grid grid-cols-2 gap-1.5">
+          <div class="bg-white/5 rounded-md p-2 border border-white/5"><div class="text-[7px] text-white/40">BTC</div><div class="text-[10px] font-bold mt-0.5">$67,234</div><div class="text-[7px] text-emerald-400">+3.2%</div></div>
+          <div class="bg-white/5 rounded-md p-2 border border-white/5"><div class="text-[7px] text-white/40">ETH</div><div class="text-[10px] font-bold mt-0.5">$3,456</div><div class="text-[7px] text-red-400">-1.8%</div></div>
+        </div>
+        <div class="bg-white/5 rounded-md p-2 border border-white/5 flex-1">
+          <div class="text-[8px] text-white/40 mb-1.5">持仓走势</div>
+          <svg viewBox="0 0 200 50" class="w-full h-12"><path d="M0,40 L20,35 L40,38 L60,25 L80,30 L100,18 L120,22 L140,12 L160,15 L180,8 L200,5" fill="none" stroke="#f97316" stroke-width="1.5"/><path d="M0,40 L20,35 L40,38 L60,25 L80,30 L100,18 L120,22 L140,12 L160,15 L180,8 L200,5 L200,50 L0,50 Z" fill="url(#g)" opacity="0.2"/><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#f97316" stop-opacity="0"/></linearGradient></defs></svg>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Ecommerce Brand ----
+  if (type === 'ecommerce-brand') {
+    const content = `<div class="h-full bg-[#faf8f5] flex flex-col">
+      <div class="h-8 flex items-center px-3 shrink-0">
+        <span class="text-[10px] font-bold tracking-[0.15em] text-ink-900">MAISON</span>
+        <div class="ml-auto flex gap-3 items-center"><span class="text-[8px] text-ink-600">系列</span><span class="text-[8px] text-ink-600">故事</span><i data-lucide="shopping-bag" class="w-3 h-3 text-ink-600"></i></div>
+      </div>
+      <div class="flex-1 flex">
+        <div class="w-1/2 bg-gradient-to-br from-[#e8e0d5] to-[#d4c8b8] flex items-center justify-center relative">
+          <div class="w-16 h-20 bg-[#b8a890] rounded-sm shadow-lg rotate-3"></div>
+          <div class="absolute bottom-2 left-2 text-[7px] text-ink-500 font-mono">FW25 COLLECTION</div>
+        </div>
+        <div class="w-1/2 p-3 flex flex-col justify-center">
+          <span class="text-[7px] tracking-[0.2em] text-accent-700 mb-1">新品上市</span>
+          <h2 class="text-sm font-bold text-ink-900 leading-tight mb-1.5">手工陶瓷<br>茶具套装</h2>
+          <p class="text-[8px] text-ink-500 leading-relaxed mb-2">日本匠人手工拉坯，每一件都独一无二。</p>
+          <div class="text-sm font-bold text-ink-900 mb-2">¥ 1,280</div>
+          <button class="text-[9px] py-1.5 bg-ink-900 text-white rounded">加入购物车</button>
+        </div>
+      </div>
+      <div class="h-8 bg-ink-900 flex items-center justify-center gap-6 shrink-0">
+        ${['手工制作','天然材质','全球配送'].map(t=>`<span class="text-[7px] text-white/50">${t}</span>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- SaaS Redesign (dark premium) ----
+  if (type === 'saas-redesign') {
+    const content = `<div class="h-full bg-[#0a0a0f] text-white flex flex-col relative overflow-hidden">
+      <div class="absolute top-0 left-1/4 w-40 h-40 bg-accent-500/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+      <div class="h-8 flex items-center px-3 relative z-10 shrink-0">
+        <div class="flex items-center gap-1"><div class="w-4 h-4 rounded bg-gradient-to-br from-accent-400 to-accent-600"></div><span class="text-[10px] font-bold">Nexus</span></div>
+        <div class="ml-auto flex gap-3 items-center"><span class="text-[8px] text-white/50">产品</span><span class="text-[8px] text-white/50">定价</span><span class="text-[8px] px-2 py-0.5 bg-white text-ink-900 rounded font-medium">开始使用</span></div>
+      </div>
+      <div class="flex-1 flex flex-col items-center justify-center px-4 text-center relative z-10">
+        <span class="text-[7px] px-2 py-0.5 border border-white/10 text-white/60 rounded-full mb-2 backdrop-blur">⚡ 由 AI 驱动的新一代平台</span>
+        <h1 class="text-lg font-bold leading-tight mb-1.5 bg-gradient-to-r from-white via-white to-white/50 bg-clip-text text-transparent">构建未来的<br>AI 原生应用</h1>
+        <p class="text-[8px] text-white/40 max-w-[180px] mb-3 leading-relaxed">一站式平台，集成模型部署、向量检索、智能体编排。</p>
+        <div class="flex gap-1.5"><button class="text-[8px] px-3 py-1.5 bg-gradient-to-r from-accent-500 to-accent-600 text-white rounded font-medium">免费开始</button><button class="text-[8px] px-3 py-1.5 border border-white/10 text-white/70 rounded">查看文档</button></div>
+      </div>
+      <div class="px-3 pb-2 relative z-10">
+        <div class="bg-white/5 border border-white/10 rounded-md p-2 backdrop-blur">
+          <div class="flex gap-1 mb-1">${['#f97316','#a855f7','#3b82f6'].map(c=>`<div class="w-1.5 h-1.5 rounded-full" style="background:${c}"></div>`).join('')}</div>
+          <div class="space-y-0.5"><div class="h-1 bg-white/10 rounded w-full"></div><div class="h-1 bg-white/10 rounded w-3/4"></div><div class="h-1 bg-accent-500/30 rounded w-1/2"></div></div>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Portfolio Audit ----
+  if (type === 'portfolio-audit') {
+    const content = `<div class="h-full bg-white flex flex-col">
+      <div class="h-7 bg-ink-900 flex items-center px-3 shrink-0">
+        <span class="text-[9px] font-bold text-white">设计审计报告</span>
+        <span class="ml-auto text-[8px] text-white/40 font-mono">2026-08-29</span>
+      </div>
+      <div class="flex-1 p-2.5 space-y-2 overflow-hidden">
+        <div class="flex items-center gap-2">
+          <div class="flex-1"><div class="text-[8px] text-ink-400">整体评分</div><div class="text-xl font-bold text-ink-900">6.2<span class="text-xs text-ink-400">/10</span></div></div>
+          <div class="w-12 h-12 rounded-full border-4 border-amber-400 flex items-center justify-center"><span class="text-[10px] font-bold text-amber-600">C+</span></div>
+        </div>
+        <div class="space-y-1">
+          ${[
+            {cat:'视觉设计',score:5,color:'bg-red-400'},
+            {cat:'排版层级',score:7,color:'bg-amber-400'},
+            {cat:'色彩系统',score:4,color:'bg-red-400'},
+            {cat:'交互体验',score:8,color:'bg-emerald-400'},
+            {cat:'可访问性',score:6,color:'bg-amber-400'},
+          ].map(item=>`<div class="flex items-center gap-2"><span class="text-[8px] text-ink-600 w-14 shrink-0">${item.cat}</span><div class="flex-1 h-1.5 bg-ink-100 rounded-full overflow-hidden"><div class="h-full ${item.color} rounded-full" style="width:${item.score*10}%"></div></div><span class="text-[8px] font-mono text-ink-500 w-6 text-right">${item.score}</span></div>`).join('')}
+        </div>
+        <div class="bg-red-50 rounded-md p-2 border border-red-100">
+          <div class="text-[8px] font-semibold text-red-700 mb-1">⚠ 关键问题</div>
+          <div class="space-y-0.5">
+            <div class="text-[8px] text-red-600">• Hero 使用 AI 紫色渐变，缺乏品牌识别</div>
+            <div class="text-[8px] text-red-600">• 三栏等宽卡片布局，信息层级扁平</div>
+            <div class="text-[8px] text-red-600">• 对比度不足，正文文字 3.2:1</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Mobile App ----
+  if (type === 'mobile-app') {
+    const content = `<div class="h-full bg-ink-50 flex flex-col">
+      <div class="px-3 pt-2 pb-1.5 flex items-center justify-between shrink-0">
+        <div><div class="text-[8px] text-ink-400">下午好 👋</div><div class="text-sm font-bold text-ink-900">李明</div></div>
+        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-accent-400 to-accent-600"></div>
+      </div>
+      <div class="px-3 pb-2 shrink-0"><div class="h-6 bg-white rounded-md border border-ink-100 flex items-center px-2 gap-1.5"><i data-lucide="search" class="w-3 h-3 text-ink-400"></i><span class="text-[8px] text-ink-400">搜索项目、任务、成员...</span></div></div>
+      <div class="flex-1 px-3 space-y-2 overflow-hidden">
+        <div class="flex gap-1.5">
+          ${[['进行中','#ea580c','5'],['待审核','#eab308','3'],['已完成','#22c55e','12']].map(t=>`<div class="flex-1 bg-white rounded-md p-1.5 border border-ink-100"><div class="w-2 h-2 rounded-full mb-1" style="background:${t[1]}"></div><div class="text-sm font-bold text-ink-900">${t[2]}</div><div class="text-[7px] text-ink-400">${t[0]}</div></div>`).join('')}
+        </div>
+        <div class="text-[9px] font-semibold text-ink-600">今日任务</div>
+        ${[['设计系统评审','14:00','高'],['API 文档更新','16:00','中'],['周会准备','17:30','低']].map(t=>`<div class="bg-white rounded-md p-2 border border-ink-100 flex items-center gap-2"><div class="w-4 h-4 rounded border-2 ${t[2]==='高'?'border-accent-500':t[2]==='中'?'border-amber-400':'border-ink-200'}"></div><div class="flex-1 min-w-0"><div class="text-[9px] font-medium text-ink-800 truncate">${t[0]}</div><div class="text-[7px] text-ink-400">${t[1]}</div></div><span class="text-[7px] px-1 py-0.5 rounded ${t[2]==='高'?'bg-accent-50 text-accent-600':t[2]==='中'?'bg-amber-50 text-amber-600':'bg-ink-100 text-ink-500'}">${t[2]}</span></div>`).join('')}
+      </div>
+      <div class="h-10 bg-white border-t border-ink-100 flex items-center justify-around shrink-0">
+        ${['home','calendar','plus-circle','bar-chart-2','user'].map((ic,i)=>`<div class="flex flex-col items-center gap-0.5"><i data-lucide="${ic}" class="w-4 h-4 ${i===0?'text-accent-500':'text-ink-300'}"></i><div class="w-1 h-1 rounded-full ${i===0?'bg-accent-500':'bg-transparent'}"></div></div>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, true);
+  }
+
+  // ---- Mobile Banking ----
+  if (type === 'mobile-banking') {
+    const content = `<div class="h-full bg-[#0c0a09] text-white flex flex-col">
+      <div class="px-3 pt-2.5 pb-2 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-1.5"><div class="w-6 h-6 rounded-full bg-white/10"></div><span class="text-[9px] text-white/70">招商银行</span></div>
+        <i data-lucide="bell" class="w-3.5 h-3.5 text-white/50"></i>
+      </div>
+      <div class="px-3 pb-3 shrink-0">
+        <div class="text-[8px] text-white/40 mb-0.5">总资产 (CNY)</div>
+        <div class="text-xl font-bold mb-2">¥ 128,456.78</div>
+        <div class="bg-gradient-to-r from-accent-500/20 to-accent-600/10 border border-accent-500/20 rounded-lg p-2">
+          <div class="flex justify-between items-center mb-1"><span class="text-[8px] text-white/60">本周收益</span><span class="text-[10px] text-emerald-400 font-bold">+¥328.50</span></div>
+          <div class="flex items-end gap-0.5 h-6">${Array.from({length:12},(_,i)=>`<div class="flex-1 bg-accent-500/50 rounded-t" style="height:${30+Math.sin(i*0.7)*30+i*2}%"></div>`).join('')}</div>
+        </div>
+      </div>
+      <div class="flex-1 bg-white rounded-t-2xl p-3 space-y-2 overflow-hidden">
+        <div class="grid grid-cols-4 gap-2">
+          ${[['send','转账'],['qr-code','扫码'],['credit-card','信用卡'],['more-horizontal','更多']].map(a=>`<div class="flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-full bg-ink-100 flex items-center justify-center"><i data-lucide="${a[0]}" class="w-3.5 h-3.5 text-ink-600"></i></div><span class="text-[7px] text-ink-600">${a[1]}</span></div>`).join('')}
+        </div>
+        <div class="text-[9px] font-semibold text-ink-600">最近交易</div>
+        ${[['星巴克咖啡','-¥38.00','今天 09:23'],['工资到账','+¥15,800','昨天 10:00'],['美团外卖','-¥45.50','昨天 12:30']].map(t=>`<div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-ink-100 flex items-center justify-center"><i data-lucide="${t[1].startsWith('+')?'arrow-down-left':'coffee'}" class="w-3 h-3 text-ink-500"></i></div><div class="flex-1 min-w-0"><div class="text-[9px] font-medium text-ink-800">${t[0]}</div><div class="text-[7px] text-ink-400">${t[2]}</div></div><span class="text-[9px] font-bold ${t[1].startsWith('+')?'text-emerald-600':'text-ink-800'}">${t[1]}</span></div>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, true);
+  }
+
+  // ---- Mobile Portfolio ----
+  if (type === 'portfolio-mobile') {
+    const content = `<div class="h-full bg-white flex flex-col">
+      <div class="px-3 pt-3 pb-2 text-center shrink-0">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-ink-700 to-ink-900 mx-auto mb-1.5 flex items-center justify-center"><span class="text-lg font-bold text-white">L</span></div>
+        <div class="text-sm font-bold text-ink-900">李明 · 产品设计师</div>
+        <div class="text-[8px] text-ink-400 mt-0.5">5 年经验 · 深圳</div>
+        <div class="flex justify-center gap-3 mt-2">
+          <div class="text-center"><div class="text-sm font-bold text-ink-900">42</div><div class="text-[7px] text-ink-400">项目</div></div>
+          <div class="w-px bg-ink-100"></div>
+          <div class="text-center"><div class="text-sm font-bold text-ink-900">1.2k</div><div class="text-[7px] text-ink-400">关注者</div></div>
+          <div class="w-px bg-ink-100"></div>
+          <div class="text-center"><div class="text-sm font-bold text-ink-900">89</div><div class="text-[7px] text-ink-400">获赞</div></div>
+        </div>
+      </div>
+      <div class="flex-1 px-3 pb-2 grid grid-cols-2 gap-1.5 overflow-hidden content-start">
+        ${[
+          {t:'金融 App 重设计',c:'from-accent-400 to-accent-600'},
+          {t:'SaaS 仪表盘',c:'from-ink-600 to-ink-800'},
+          {t:'电商品牌站',c:'from-amber-400 to-orange-500'},
+          {t:'设计系统 v2',c:'from-emerald-400 to-teal-600'},
+          {t:'移动端银行',c:'from-blue-500 to-indigo-600'},
+          {t:'作品集审计',c:'from-purple-500 to-pink-500'},
+        ].map(p=>`<div class="aspect-square rounded-lg bg-gradient-to-br ${p.c} relative overflow-hidden"><div class="absolute inset-0 flex items-end p-1.5"><span class="text-[7px] font-medium text-white/90 leading-tight">${p.t}</span></div></div>`).join('')}
+      </div>
+      <div class="h-9 bg-white border-t border-ink-100 flex items-center justify-around shrink-0">
+        ${['grid-2x2','heart','message-circle','user'].map((ic,i)=>`<i data-lucide="${ic}" class="w-4 h-4 ${i===0?'text-ink-900':'text-ink-300'}"></i>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, true);
+  }
+
+  return wrapDevice(`<div class="flex items-center justify-center h-full text-ink-400 text-xs">${type}</div>`, isMobile);
+}
+
+function wrapDevice(content, isMobile) {
+  if (isMobile) {
+    return `<div class="w-[150px] bg-ink-900 rounded-[1.4rem] p-1.5 shadow-xl mx-auto"><div class="bg-white rounded-[1.1rem] overflow-hidden h-[280px] relative"><div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-3 bg-ink-900 rounded-b-lg z-20"></div><div class="h-full overflow-hidden">${content}</div></div></div>`;
+  }
+  return `<div class="w-full bg-white rounded-lg border border-ink-200 shadow-sm overflow-hidden"><div class="h-5 bg-ink-100 flex items-center px-2 gap-1"><div class="w-2 h-2 rounded-full bg-red-300"></div><div class="w-2 h-2 rounded-full bg-amber-300"></div><div class="w-2 h-2 rounded-full bg-emerald-300"></div><div class="ml-2 w-24 h-2.5 bg-white/60 rounded"></div></div><div class="h-[240px] overflow-hidden">${content}</div></div>`;
+}
+
+// ============================================================
+// RENDER: SKILL CARDS
+// ============================================================
+function renderSkillsGrid(sortBy = 'default') {
+  const grid = document.getElementById('skillsGrid');
+  let sorted = [...skills];
+  if (sortBy === 'stars-desc') sorted.sort((a, b) => b.stars - a.stars);
+  else if (sortBy === 'stars-asc') sorted.sort((a, b) => a.stars - b.stars);
+  else if (sortBy === 'name-az') sorted.sort((a, b) => a.name.localeCompare(b.name));
+
+  grid.innerHTML = sorted.map(skill => `
+    <div class="card-hover bg-white rounded-xl2 border border-ink-200 p-5 cursor-pointer animate-fade-in" onclick="window.location.href='skill-detail.html?id=${skill.id}'">
+      <div class="flex items-start justify-between mb-3">
+        <div class="w-10 h-10 rounded-xl bg-ink-900 flex items-center justify-center shrink-0">
+          <i data-lucide="${skill.id === 'shadcn-ui' ? 'layers' : skill.id === 'ui-ux-pro-max' ? 'palette' : 'sparkles'}" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-[11px] font-mono text-ink-400">${skill.version}</span>
+      </div>
+      <h3 class="font-semibold text-[15px] tracking-tight mb-1.5">${skill.name}</h3>
+      <span class="inline-block text-[11px] font-medium px-2 py-0.5 rounded-md bg-accent-50 text-accent-700 border border-accent-100 mb-3">${skill.category}</span>
+      <p class="text-xs text-ink-500 leading-relaxed mb-4 line-clamp-2">${skill.triggerSummary}</p>
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        ${skill.capabilities.slice(0, 4).map(c => `<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-ink-100 text-ink-600">${c}</span>`).join('')}
+        ${skill.capabilities.length > 4 ? `<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-ink-100 text-ink-400">+${skill.capabilities.length - 4}</span>` : ''}
+      </div>
+      <div class="flex items-center justify-between pt-3 border-t border-ink-100">
+        <div class="flex items-center gap-1.5 text-xs text-ink-500">
+          ${ghStarIcon('w-3.5 h-3.5')}
+          <span class="font-mono font-medium">${parseStars(skill.stars)}</span>
+        </div>
+        <span class="text-xs text-ink-400 flex items-center gap-1">查看详情 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(skillId) {
+  currentSkill = skills.find(s => s.id === skillId);
+  if (!currentSkill) return;
+  currentTab = 'reviews'; currentRating = 0; currentImages = [null, null];
+
+  document.getElementById('modalCategory').textContent = currentSkill.category;
+  document.getElementById('modalVersion').textContent = currentSkill.version;
+  document.getElementById('modalTitle').textContent = currentSkill.name;
+  document.getElementById('modalGithub').href = currentSkill.github;
+  document.getElementById('modalStars').textContent = parseStars(currentSkill.stars);
+  document.getElementById('modalTrigger').textContent = currentSkill.officialIntro || currentSkill.triggerSummary;
+  const plainDescWrap = document.getElementById('modalPlainDescWrap');
+  const plainDescEl = document.getElementById('modalPlainDesc');
+  if (currentSkill.plainDesc) {
+    plainDescEl.textContent = currentSkill.plainDesc;
+    plainDescWrap.classList.remove('hidden');
+  } else {
+    plainDescWrap.classList.add('hidden');
+  }
+  const suitableWrap = document.getElementById('modalSuitableWrap');
+  const suitableList = document.getElementById('modalSuitableList');
+  if (currentSkill.suitableFor && currentSkill.suitableFor.length) {
+    suitableList.innerHTML = currentSkill.suitableFor.map(s => `
+      <span class="group relative inline-flex items-center px-2 py-1 rounded-md bg-ink-100/60 border border-ink-200 text-[11px] font-medium text-ink-700 cursor-default hover:bg-accent-50 hover:border-accent-200 hover:text-accent-700 transition-colors">
+        ${s.type}
+        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 rounded bg-ink-800 text-white text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">${s.desc}</span>
+      </span>`).join('');
+    suitableWrap.classList.remove('hidden');
+  } else {
+    suitableWrap.classList.add('hidden');
+  }
+
+  // 官网链接
+  const websiteEl = document.getElementById('modalWebsite');
+  if (currentSkill.website) {
+    websiteEl.href = currentSkill.website;
+    websiteEl.classList.remove('hidden');
+    websiteEl.classList.add('flex');
+  } else {
+    websiteEl.classList.add('hidden');
+    websiteEl.classList.remove('flex');
+  }
+
+  renderTabs(); renderTabContent();
+  document.getElementById('detailModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  lucide.createIcons();
+}
+function closeModal() { document.getElementById('detailModal').classList.add('hidden'); document.body.style.overflow = ''; currentSkill = null; }
+function renderTabs() {
+  const visibleTabs = tabs.filter(t => t.id !== 'subskills' || (currentSkill && currentSkill.subSkills && currentSkill.subSkills.length > 0));
+  document.getElementById('tabsBar').innerHTML = visibleTabs.map(tab => `
+    <button onclick="switchTab('${tab.id}')" class="flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${currentTab === tab.id ? 'tab-active' : 'tab-inactive hover:text-ink-700'}">
+      <i data-lucide="${tab.icon}" class="w-3.5 h-3.5"></i>${tab.label}
+    </button>`).join('');
+}
+function switchTab(tabId) { currentTab = tabId; renderTabs(); renderTabContent(); lucide.createIcons(); }
+
+// ============================================================
+// TAB CONTENT
+// ============================================================
+function renderTabContent() {
+  const c = document.getElementById('tabContent');
+  switch (currentTab) {
+    case 'reviews': c.innerHTML = renderReviews(); break;
+    case 'subskills': c.innerHTML = renderSubSkills(); break;
+    case 'components': c.innerHTML = renderComponents(); break;
+    case 'demos': c.innerHTML = renderDemos(); break;
+    case 'usage': c.innerHTML = renderUsage(); break;
+    case 'practice': c.innerHTML = renderPractice(); break;
+  }
+  lucide.createIcons();
+  if (currentTab === 'practice') initPracticeTab();
+}
+
+function renderSubSkills() {
+  const subs = currentSkill.subSkills || [];
+  const gradients = [
+    'from-orange-400 to-rose-500', 'from-sky-400 to-indigo-500', 'from-emerald-400 to-teal-500',
+    'from-amber-400 to-orange-500', 'from-violet-400 to-purple-500', 'from-pink-400 to-rose-500',
+    'from-cyan-400 to-blue-500', 'from-lime-400 to-emerald-500', 'from-fuchsia-400 to-pink-500',
+    'from-yellow-400 to-amber-500', 'from-blue-400 to-cyan-500', 'from-red-400 to-orange-500',
+    'from-teal-400 to-emerald-500',
+  ];
+  const icons = ['palette', 'sparkles', 'zap', 'image', 'wrench', 'gem', 'code', 'minimize-2', 'box', 'layers', 'monitor', 'smartphone', 'brush'];
+  const colorMap = {
+    blue:   { border: 'border-blue-200',   bg: 'bg-blue-50/40',   text: 'text-blue-700',   dot: 'bg-blue-500' },
+    green:  { border: 'border-green-200',  bg: 'bg-green-50/40',  text: 'text-green-700',  dot: 'bg-green-500' },
+    orange: { border: 'border-orange-200', bg: 'bg-orange-50/40', text: 'text-orange-700', dot: 'bg-orange-500' },
+    purple: { border: 'border-purple-200', bg: 'bg-purple-50/40', text: 'text-purple-700', dot: 'bg-purple-500' },
+    amber:  { border: 'border-amber-200',  bg: 'bg-amber-50/40',  text: 'text-amber-700',  dot: 'bg-amber-500' },
+  };
+  const fam = currentSkill.familyStructure;
+  return `<div class="animate-fade-in">
+    ${fam ? `
+    <div class="mb-8">
+      <div class="mb-4">
+        <h3 class="text-base font-semibold text-ink-800 mb-1">${fam.title}</h3>
+        <p class="text-xs text-ink-500">${fam.subtitle}</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        ${fam.categories.map(cat => {
+          const cm = colorMap[cat.color] || colorMap.blue;
+          return `
+          <div class="rounded-xl border-2 ${cm.border} ${cm.bg} p-4">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="w-2 h-2 rounded-full ${cm.dot}"></span>
+              <span class="text-sm font-bold ${cm.text}">${cat.name}</span>
+              <span class="text-[10px] text-ink-400">${cat.tagline}</span>
+            </div>
+            <div class="text-[11px] text-ink-500 mb-2.5 font-medium">${cat.workflow}</div>
+            <div class="space-y-1">
+              ${cat.skills.map(s => `
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-[11px] font-mono text-ink-700">${s.name}</span>
+                  ${s.note ? `<span class="text-[10px] text-ink-400">（${s.note}）</span>` : ''}
+                </div>`).join('')}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    ` : ''}
+    <div class="mb-5">
+      <h3 class="text-base font-semibold text-ink-800 mb-1">包含 ${subs.length} 个子 Skill</h3>
+      <p class="text-xs text-ink-500">每个子 Skill 专注一个设计方向，按需安装使用。点击卡片查看详情。</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      ${subs.map((s) => {
+        const fc = colorMap[s.familyColor] || colorMap.blue;
+        const sc = { text: fc.text, border: fc.border, bg: fc.bg, bar: fc.dot };
+        const circled = ['①','②','③','④','⑤'];
+        return `
+        <div class="group rounded-xl border-2 ${sc.border} ${sc.bg} p-4 hover:shadow-md transition-all cursor-pointer overflow-hidden relative">
+          <div class="absolute left-0 top-0 bottom-0 w-1 ${sc.bar}"></div>
+          <div class="flex items-start justify-between gap-2 mb-1">
+            <span class="text-sm font-bold font-mono ${sc.text}">${s.installName}</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded shrink-0 ${s.category === '实现类' ? 'bg-accent-50 text-accent-700 border border-accent-100' : 'bg-sky-50 text-sky-700 border border-sky-100'}">${s.category}</span>
+          </div>
+          <div class="text-[11px] text-ink-500 font-medium mb-1.5">${s.subtitle || ''}</div>
+          ${s.plainDesc ? `<div class="text-[11px] text-ink-600 leading-relaxed mb-2.5 pb-2.5 border-b border-ink-100/60">${s.plainDesc}</div>` : ''}
+          <div class="space-y-1 mb-2.5">
+            ${(s.steps || []).map((step, si) => `
+              <div class="flex items-start gap-1.5">
+                <span class="text-[11px] ${sc.text} font-bold shrink-0">${circled[si] || ''}</span>
+                <span class="text-[11px] text-ink-600 leading-relaxed">${step}</span>
+              </div>`).join('')}
+          </div>
+          <div class="mb-2.5 pt-2.5 border-t border-ink-100/60">
+            <div class="text-[10px] font-semibold text-ink-400 mb-1.5 uppercase tracking-wider">Before / After 效果对比</div>
+            <div class="grid grid-cols-2 gap-1.5">
+              <a href="previews/subskills/${s.installName}/${s.category === '图像生成类' ? 'before.png' : 'before.html'}" target="_blank" class="block rounded overflow-hidden border border-red-200 hover:border-red-400 transition-colors relative group">
+                <div class="absolute top-1 left-1 z-10 bg-red-500 text-white text-[8px] px-1 py-0.5 rounded font-bold">BEFORE</div>
+                ${s.category === '图像生成类' 
+                  ? `<img src="previews/subskills/${s.installName}/before.png" class="w-full h-[100px] object-cover" alt="before">`
+                  : `<iframe src="previews/subskills/${s.installName}/before.html" class="w-full h-[100px] border-0 pointer-events-none" loading="lazy"></iframe>`
+                }
+              </a>
+              <a href="previews/subskills/${s.installName}/${s.category === '图像生成类' ? 'after.png' : 'after.html'}" target="_blank" class="block rounded overflow-hidden border border-green-200 hover:border-green-400 transition-colors relative group">
+                <div class="absolute top-1 left-1 z-10 bg-green-500 text-white text-[8px] px-1 py-0.5 rounded font-bold">AFTER</div>
+                ${s.category === '图像生成类' 
+                  ? `<img src="previews/subskills/${s.installName}/after.png" class="w-full h-[100px] object-cover" alt="after">`
+                  : `<iframe src="previews/subskills/${s.installName}/after.html" class="w-full h-[100px] border-0 pointer-events-none" loading="lazy"></iframe>`
+                }
+              </a>
+            </div>
+          </div>
+          <div class="text-[9px] font-mono text-ink-400 pt-2 border-t border-ink-100">npx skills add ... --skill "${s.installName}"</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function renderReviews() {
+  const r = currentSkill.userReviews;
+  const full = Math.floor(r.rating), half = r.rating % 1 >= 0.5;
+  return `<div class="animate-fade-in max-w-4xl">
+    <div class="flex flex-col sm:flex-row gap-8 mb-8">
+      <div class="text-center sm:text-left shrink-0">
+        <div class="text-5xl font-bold tracking-tight mb-1">${r.rating}</div>
+        <div class="flex items-center gap-0.5 justify-center sm:justify-start mb-1">
+          ${Array.from({length:5},(_,i)=>`<svg class="w-4 h-4 ${i<full?'gh-star':(i===full&&half?'gh-star opacity-60':'text-ink-200')}" style="${i>=full&&!(i===full&&half)?'fill:#e7e5e4':''}" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`).join('')}
+        </div>
+        <div class="text-xs text-ink-400 font-mono">${r.count.toLocaleString()} 条评价</div>
+      </div>
+      <div class="flex-1"><p class="text-sm text-ink-600 leading-relaxed">${r.summary}</p></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+      <div class="bg-white rounded-xl2 border border-ink-200 p-5">
+        <h4 class="text-sm font-semibold flex items-center gap-2 mb-3 text-ink-800"><i data-lucide="thumbs-up" class="w-4 h-4 text-emerald-600"></i>优点</h4>
+        <ul class="space-y-2">${r.pros.map(p=>`<li class="flex gap-2 text-sm text-ink-600"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5"></i>${p}</li>`).join('')}</ul>
+      </div>
+      <div class="bg-white rounded-xl2 border border-ink-200 p-5">
+        <h4 class="text-sm font-semibold flex items-center gap-2 mb-3 text-ink-800"><i data-lucide="thumbs-down" class="w-4 h-4 text-red-500"></i>不足</h4>
+        <ul class="space-y-2">${r.cons.map(c=>`<li class="flex gap-2 text-sm text-ink-600"><i data-lucide="x" class="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5"></i>${c}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div><h4 class="text-sm font-semibold flex items-center gap-2 mb-3 text-ink-800"><i data-lucide="newspaper" class="w-4 h-4 text-ink-500"></i>相关评测文章</h4>
+      <div class="space-y-2">${r.articles.map(a=>`<a href="${a.url}" target="_blank" class="flex items-center justify-between gap-4 bg-white rounded-lg border border-ink-200 px-4 py-3 hover:border-ink-300 hover:bg-ink-50 transition-colors group"><span class="text-sm text-ink-700 group-hover:text-ink-900 truncate">${a.title}</span><span class="text-[11px] font-mono text-ink-400 shrink-0">${a.source}</span></a>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function renderComponents() {
+  return `<div class="animate-fade-in">
+    <p class="text-sm text-ink-500 mb-5">${currentSkill.components.length} 个核心组件 · 真实实现效果</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      ${currentSkill.components.map(comp => `
+        <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+          <div class="px-4 py-3 border-b border-ink-100 flex items-center justify-between">
+            <span class="text-sm font-medium text-ink-800">${comp.name}</span>
+            <span class="text-[10px] font-mono text-ink-400">${comp.type}</span>
+          </div>
+          <div class="p-5 min-h-[160px] flex items-center justify-center bg-ink-50/50">
+            ${renderRealComponent(comp.type)}
+          </div>
+          <div class="px-4 py-2.5 border-t border-ink-100"><p class="text-xs text-ink-500">${comp.desc}</p></div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderDemos() {
+  const hasBeforeAfter = ['shadcn-ui','ui-ux-pro-max','taste-skill','impeccable'].includes(currentSkill.id);
+  return `<div class="animate-fade-in">
+    ${hasBeforeAfter ? `
+    <div class="mb-8">
+      <h3 class="text-sm font-semibold text-ink-800 mb-1 flex items-center gap-2"><i data-lucide="git-compare" class="w-4 h-4 text-ink-500"></i>Before / After 效果对比</h3>
+      <p class="text-xs text-ink-500 mb-4">同一项目类型，使用该 skill 前后的设计效果对比。点击预览可在新标签页打开完整页面。</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden group">
+          <div class="px-4 py-2.5 border-b border-ink-100 flex items-center justify-between bg-red-50/50">
+            <span class="text-xs font-semibold text-red-600">Before — 普通模板感设计</span>
+            <a href="previews/${currentSkill.id}/before.html" target="_blank" class="text-[10px] text-ink-400 hover:text-ink-600 flex items-center gap-1">打开 <i data-lucide="external-link" class="w-3 h-3"></i></a>
+          </div>
+          <a href="previews/${currentSkill.id}/before.html" target="_blank" class="block">
+            <iframe src="previews/${currentSkill.id}/before.html" class="w-full h-[320px] border-0 pointer-events-none" loading="lazy"></iframe>
+          </a>
+        </div>
+        <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden group">
+          <div class="px-4 py-2.5 border-b border-ink-100 flex items-center justify-between bg-green-50/50">
+            <span class="text-xs font-semibold text-green-600">After — ${currentSkill.name} 设计</span>
+            <a href="previews/${currentSkill.id}/after.html" target="_blank" class="text-[10px] text-ink-400 hover:text-ink-600 flex items-center gap-1">打开 <i data-lucide="external-link" class="w-3 h-3"></i></a>
+          </div>
+          <a href="previews/${currentSkill.id}/after.html" target="_blank" class="block">
+            <iframe src="previews/${currentSkill.id}/after.html" class="w-full h-[320px] border-0 pointer-events-none" loading="lazy"></iframe>
+          </a>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+    <!-- Effect Examples -->
+    <div class="mb-8">
+      <h3 class="text-sm font-semibold text-ink-800 mb-1 flex items-center gap-2"><i data-lucide="image" class="w-4 h-4 text-ink-500"></i>效果示例</h3>
+      <p class="text-xs text-ink-500 mb-4">${currentSkill.examples.length} 个典型应用场景</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        ${currentSkill.examples.map(ex => `
+          <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+            <div class="p-3 bg-ink-50/50">${renderRealPageDemo(ex.type, 'web')}</div>
+            <div class="p-4"><h4 class="text-sm font-semibold text-ink-800 mb-1">${ex.name}</h4><p class="text-xs text-ink-500 leading-relaxed">${ex.desc}</p></div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <!-- APP/WEB Demos -->
+    <div>
+      <h3 class="text-sm font-semibold text-ink-800 mb-1 flex items-center gap-2"><i data-lucide="monitor-play" class="w-4 h-4 text-ink-500"></i>APP / WEB 演示</h3>
+      <p class="text-xs text-ink-500 mb-4">${currentSkill.pageDemos.length} 个端到端界面演示</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        ${currentSkill.pageDemos.map(demo => `
+          <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+            <div class="px-4 py-2.5 border-b border-ink-100 flex items-center justify-between">
+              <span class="text-xs font-medium text-ink-700">${demo.name}</span>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded ${demo.device==='mobile'?'bg-accent-50 text-accent-600':'bg-ink-100 text-ink-500'}">${demo.device.toUpperCase()}</span>
+            </div>
+            <div class="p-4 flex items-center justify-center bg-ink-50/50 min-h-[260px]">
+              ${renderRealPageDemo(demo.type, demo.device)}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderUsage() {
+  return `<div class="animate-fade-in max-w-4xl">
+    <div class="bg-white rounded-xl2 border border-ink-200 p-5 mb-6">
+      <h4 class="text-[11px] font-semibold uppercase tracking-wider text-ink-400 mb-2">什么时候调用</h4>
+      <p class="text-sm text-ink-700 leading-relaxed">${currentSkill.triggerSummary}</p>
+    </div>
+    <div class="mb-6">
+      <h4 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2"><i data-lucide="terminal" class="w-4 h-4 text-ink-500"></i>提示词方案</h4>
+      <div class="space-y-2.5">
+        ${currentSkill.prompts.map((p,i)=>`
+          <div class="bg-white rounded-xl2 border border-ink-200 p-4">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <div class="flex items-center gap-2"><span class="w-5 h-5 rounded-md bg-ink-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">${i+1}</span><span class="text-sm font-medium text-ink-800">${p.title}</span></div>
+              <button onclick="copyPrompt(${i})" class="shrink-0 flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium text-ink-500 bg-ink-100 rounded-md hover:bg-ink-200 transition-colors" id="promptBtn${i}"><i data-lucide="copy" class="w-3 h-3"></i>复制</button>
+            </div>
+            <p class="text-xs text-ink-500 leading-relaxed pl-7">${p.text}</p>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div>
+      <h4 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2"><i data-lucide="messages-square" class="w-4 h-4 text-ink-500"></i>AI 对话场景示例</h4>
+      <div class="space-y-3">
+        ${currentSkill.conversations.map((c,i)=>`
+          <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+            <div class="px-4 py-2.5 bg-ink-50 border-b border-ink-100 flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-ink-100 flex items-center justify-center shrink-0"><i data-lucide="user" class="w-3 h-3 text-ink-500"></i></span><span class="text-xs font-medium text-ink-700">场景 ${i+1}</span></div>
+            <div class="p-4 space-y-3">
+              <div class="flex gap-2.5"><div class="w-6 h-6 rounded-full bg-ink-100 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[9px] font-bold text-ink-500">U</span></div><div class="flex-1"><p class="text-[11px] font-semibold text-ink-400 mb-0.5">用户提问</p><p class="text-xs text-ink-700 leading-relaxed">${c.q}</p></div></div>
+              <div class="flex gap-2.5"><div class="w-6 h-6 rounded-full bg-accent-100 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[9px] font-bold text-accent-600">AI</span></div><div class="flex-1"><p class="text-[11px] font-semibold text-ink-400 mb-0.5">AI 回答</p><p class="text-xs text-ink-600 leading-relaxed">${c.a}</p></div></div>
+              <div class="ml-8.5"><div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-100 rounded-md"><i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-600"></i><span class="text-[11px] font-medium text-emerald-700">产出：${c.output}</span></div></div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function copyPrompt(i) {
+  copyToClipboard(currentSkill.prompts[i].text, '提示词已复制到剪贴板');
+  const btn = document.getElementById('promptBtn'+i), orig = btn.innerHTML;
+  btn.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i>已复制';
+  btn.classList.add('bg-emerald-100','text-emerald-700'); btn.classList.remove('bg-ink-100','text-ink-500');
+  lucide.createIcons();
+  setTimeout(()=>{btn.innerHTML=orig;btn.classList.remove('bg-emerald-100','text-emerald-700');btn.classList.add('bg-ink-100','text-ink-500');lucide.createIcons();},2000);
+}
+
+function renderPractice() {
+  const records = getSkillRecords(currentSkill.id);
+  const avg = records.length > 0 ? (records.reduce((s,r)=>s+r.rating,0)/records.length).toFixed(1) : '—';
+  return `<div class="animate-fade-in max-w-4xl">
+    ${records.length===0 ? `
+      <div class="text-center py-12">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-ink-100 flex items-center justify-center"><i data-lucide="star" class="w-6 h-6 text-ink-400"></i></div>
+        <h4 class="text-base font-semibold text-ink-800 mb-1.5">还没有实践记录</h4>
+        <p class="text-sm text-ink-500 mb-5">使用过这个技能后，来打个分并记录你的体验吧</p>
+        <button onclick="scrollToRating()" class="inline-flex items-center gap-2 px-4 py-2 bg-ink-900 text-white text-sm font-medium rounded-lg hover:bg-ink-800 transition-colors"><i data-lucide="edit-3" class="w-4 h-4"></i>开始打分</button>
+      </div>` : `
+      <div class="flex items-center gap-6 mb-6 bg-white rounded-xl2 border border-ink-200 p-4">
+        <div class="text-center"><div class="text-3xl font-bold">${records.length}</div><div class="text-[11px] text-ink-400">记录总数</div></div>
+        <div class="w-px h-10 bg-ink-200"></div>
+        <div class="text-center"><div class="text-3xl font-bold flex items-center gap-1">${avg}${ghStarIcon('w-4 h-4')}</div><div class="text-[11px] text-ink-400">平均评分</div></div>
+      </div>
+      <div class="space-y-3 mb-8">
+        ${records.map((r,i)=>`
+          <div class="bg-white rounded-xl2 border border-ink-200 p-4">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <div class="flex items-center gap-1.5">
+                ${Array.from({length:5},(_,si)=>`<svg class="w-3.5 h-3.5 ${si<r.rating?'gh-star':''}" style="${si>=r.rating?'fill:#e7e5e4':''}" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`).join('')}
+                <span class="text-[11px] text-ink-400 ml-1">${relativeTime(r.date)}</span>
+              </div>
+              <button onclick="deleteRecord(${i})" class="text-ink-300 hover:text-red-500 transition-colors p-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+            ${r.text?`<p class="text-sm text-ink-600 leading-relaxed mb-2">${r.text}</p>`:''}
+            ${r.images&&r.images.length>0?`<div class="flex gap-2">${r.images.filter(Boolean).map(img=>`<img src="${img}" alt="实践截图" class="w-20 h-20 object-cover rounded-lg border border-ink-200 cursor-pointer hover:opacity-80 transition-opacity" onclick="openLightbox('${img}')">`).join('')}</div>`:''}
+          </div>`).join('')}
+      </div>`}
+    <div id="ratingForm" class="bg-white rounded-xl2 border border-ink-200 p-5">
+      <h4 class="text-sm font-semibold text-ink-800 mb-4 flex items-center gap-2"><i data-lucide="pen-line" class="w-4 h-4 text-ink-500"></i>记录你的实践</h4>
+      <div class="mb-4"><label class="text-[11px] font-semibold text-ink-500 block mb-2">评分</label>
+        <div class="flex items-center gap-1" id="starRating">
+          ${Array.from({length:5},(_,i)=>`<button onclick="setRating(${i+1})" class="star-btn p-0.5" data-star="${i+1}"><svg class="w-7 h-7 text-ink-200" style="fill:#e7e5e4" viewBox="0 0 16 16"><use href="#gh-star"/></svg></button>`).join('')}
+          <span id="ratingLabel" class="text-xs text-ink-400 ml-2">点击星星评分</span>
+        </div>
+      </div>
+      <div class="mb-4"><label class="text-[11px] font-semibold text-ink-500 block mb-2">评价（可选）</label>
+        <textarea id="reviewText" rows="3" placeholder="记录使用这个技能的体验、效果、遇到的问题..." class="w-full px-3.5 py-2.5 text-sm bg-ink-50 border border-ink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-colors resize-none"></textarea>
+      </div>
+      <div class="mb-5"><label class="text-[11px] font-semibold text-ink-500 block mb-2">添加图片（可选，支持粘贴板截图 Ctrl+V / Cmd+V）</label>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="img-slot relative border-2 border-dashed border-ink-200 rounded-lg aspect-[4/3] flex items-center justify-center cursor-pointer hover:border-ink-300 transition-colors" tabindex="0" onclick="document.getElementById('fileInput0').click()" id="imgSlot0">
+            <input type="file" id="fileInput0" accept="image/*" class="hidden" onchange="handleFileUpload(0,this)">
+            <div class="text-center text-ink-400"><i data-lucide="image-plus" class="w-6 h-6 mx-auto mb-1"></i><span class="text-[11px]">点击或粘贴</span></div>
+          </div>
+          <div class="img-slot relative border-2 border-dashed border-ink-200 rounded-lg aspect-[4/3] flex items-center justify-center cursor-pointer hover:border-ink-300 transition-colors" tabindex="0" onclick="document.getElementById('fileInput1').click()" id="imgSlot1">
+            <input type="file" id="fileInput1" accept="image/*" class="hidden" onchange="handleFileUpload(1,this)">
+            <div class="text-center text-ink-400"><i data-lucide="image-plus" class="w-6 h-6 mx-auto mb-1"></i><span class="text-[11px]">点击或粘贴</span></div>
+          </div>
+        </div>
+      </div>
+      <button onclick="submitReview()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-ink-900 text-white text-sm font-medium rounded-lg hover:bg-ink-800 transition-colors"><i data-lucide="send" class="w-4 h-4"></i>提交评价</button>
+    </div>
+  </div>`;
+}
+
+function initPracticeTab() { document.getElementById('detailModal').addEventListener('paste', handlePaste); }
+function handlePaste(e) {
+  if (currentTab !== 'practice') return;
+  const items = e.clipboardData?.items; if (!items) return;
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      e.preventDefault();
+      const file = item.getAsFile(), reader = new FileReader();
+      reader.onload = (ev) => { const idx = currentImages.findIndex(img=>img===null); if(idx!==-1){currentImages[idx]=ev.target.result;updateImageSlot(idx);showToast('截图已粘贴');}else{showToast('图片槽位已满，请先删除一张','error');} };
+      reader.readAsDataURL(file); break;
+    }
+  }
+}
+function handleFileUpload(idx, input) { const f=input.files[0]; if(!f)return; const r=new FileReader(); r.onload=e=>{currentImages[idx]=e.target.result;updateImageSlot(idx);}; r.readAsDataURL(f); }
+function updateImageSlot(idx) {
+  const slot=document.getElementById('imgSlot'+idx);
+  if(currentImages[idx]){
+    slot.innerHTML=`<img src="${currentImages[idx]}" class="absolute inset-0 w-full h-full object-cover rounded-md"><button onclick="event.stopPropagation();removeImage(${idx})" class="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-ink-900/70 text-white flex items-center justify-center hover:bg-ink-900 transition-colors z-10"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>`;
+    slot.classList.remove('border-dashed'); slot.classList.add('border-solid','border-ink-300');
+  } else {
+    slot.innerHTML=`<input type="file" id="fileInput${idx}" accept="image/*" class="hidden" onchange="handleFileUpload(${idx},,
+  
+this)"><div class="text-center text-ink-400"><i data-lucide="image-plus" class="w-6 h-6 mx-auto mb-1"></i><span class="text-[11px]">点击或粘贴</span></div>`;
+    slot.classList.add('border-dashed'); slot.classList.remove('border-solid','border-ink-300');
+  }
+  lucide.createIcons();
+}
+function removeImage(idx){currentImages[idx]=null;updateImageSlot(idx);}
+function setRating(rating) {
+  currentRating=rating;
+  const stars=document.querySelectorAll('#starRating .star-btn svg');
+  const labels=['很差','较差','一般','满意','非常满意'];
+  stars.forEach((s,i)=>{ if(i<rating){s.classList.remove('text-ink-200');s.classList.add('gh-star');s.style.fill='';}else{s.classList.add('text-ink-200');s.classList.remove('gh-star');s.style.fill='#e7e5e4';} });
+  document.getElementById('ratingLabel').textContent=labels[rating-1];
+}
+function submitReview() {
+  if(currentRating===0){showToast('请先选择评分','error');return;}
+  const text=document.getElementById('reviewText').value.trim();
+  const images=currentImages.filter(Boolean);
+  addSkillRecord(currentSkill.id,{rating:currentRating,text,images,date:new Date().toISOString()});
+  showToast('评价已保存');
+  currentRating=0;currentImages=[null,null
+
+];
+  renderTabContent();
+}
+function deleteRecord(idx){deleteSkillRecord(currentSkill.id,idx);showToast('记录已删除');renderTabContent();}
+function scrollToRating(){setTimeout(()=>{const f=document.getElementById('ratingForm');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});},100);}
+function openLightbox(src){document.getElementById('lightboxImg').src=src;document.getElementById('lightbox').classList.remove('hidden');document.getElementById('lightbox').classList.add('flex');}
+function closeLightbox(){document.getElementById('lightbox').classList.add('hidden');document.getElementById('lightbox').classList.remove('flex');}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  renderSkillsGrid();
+  document.getElementById('skillCount').textContent=skills.length+' skills';
+  document.getElementById('sortSelect').addEventListener('change',e=>renderSkillsGrid(e.target.value));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!document.getElementById('lightbox').classList.contains('hidden'))closeLightbox(); else if(!document.getElementById('detailModal').classList.contains('hidden'))closeModal(); } });
+  lucide.createIcons();
+});
+</script>
+</body>
+</html>

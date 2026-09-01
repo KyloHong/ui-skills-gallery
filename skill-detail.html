@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill 详情 - UI Skills Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Geist', 'system-ui', 'sans-serif'],
+        mono: ['Geist Mono', 'monospace'],
+        serif: ['Instrument Serif', 'Georgia', 'serif'],
+      },
+      colors: {
+        ink: {
+          50: '#fafaf9', 100: '#f5f5f4', 200: '#e7e5e4', 300: '#d6d3d1',
+          400: '#a8a29e', 500: '#78716c', 600: '#57534e', 700: '#44403c',
+          800: '#292524', 900: '#1c1917', 950: '#0c0a09',
+        },
+        accent: {
+          50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74',
+          400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c',
+          800: '#9a3412', 900: '#7c2d12',
+        },
+      },
+      borderRadius: { 'xl2': '16px', 'xl3': '20px' },
+      animation: {
+        'fade-in': 'fadeIn 0.3s ease-out',
+        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        'scale-in': 'scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      keyframes: {
+        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        slideUp: { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        scaleIn: { '0%': { opacity: '0', transform: 'scale(0.96)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+      },
+    },
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { 
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #fafaf9;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(234, 88, 12, 0.06), transparent),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+  }
+  ::selection { background: #fed7aa; color: #7c2d12; }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+  .modal-backdrop { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .tab-active { color: #1c1917; border-bottom-color: #1c1917; }
+  .tab-inactive { color: #78716c; border-bottom-color: transparent; }
+  .star-btn { transition: transform 0.15s ease, color 0.15s ease; }
+  .star-btn:hover { transform: scale(1.15); }
+  .card-hover { 
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; 
+  }
+  .card-hover:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 20px 50px -15px rgba(28,25,23,0.12); 
+    border-color: #d6d3d1; 
+  }
+  .img-slot { transition: border-color 0.2s ease, background 0.2s ease; }
+  .img-slot:focus-within { border-color: #ea580c; background: #fff7ed; }
+  .toast { animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1); }
+  .gradient-text { 
+    background: linear-gradient(135deg, #1c1917 0%, #57534e 40%, #ea580c 100%); 
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; 
+  }
+  .noise-bg { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); }
+  .gh-star { fill: #f97316; }
+  .serif-italic { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+  /* Real component styles */
+  .comp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; white-space: nowrap; border-radius: 0.375rem; font-size: 0.8rem; font-weight: 500; transition: all 0.15s ease; cursor: pointer; border: none; }
+  .comp-btn-default { background: #1c1917; color: #fff; padding: 0.4rem 0.9rem; }
+  .comp-btn-default:hover { background: #44403c; }
+  .comp-btn-destructive { background: #dc2626; color: #fff; padding: 0.4rem 0.9rem; }
+  .comp-btn-outline { background: #fff; color: #1c1917; border: 1px solid #d6d3d1; padding: 0.4rem 0.9rem; }
+  .comp-btn-outline:hover { background: #f5f5f4; }
+  .comp-btn-secondary { background: #f5f5f4; color: #1c1917; padding: 0.4rem 0.9rem; }
+  .comp-btn-ghost { background: transparent; color: #1c1917; padding: 0.4rem 0.9rem; }
+  .comp-btn-ghost:hover { background: #f5f5f4; }
+  .comp-btn-link { background: transparent; color: #1c1917; text-decoration: underline; text-underline-offset: 3px; padding: 0.4rem 0.5rem; }
+  .comp-input { width: 100%; padding: 0.4rem 0.65rem; font-size: 0.78rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; background: #fff; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+  .comp-input:focus { border-color: #1c1917; box-shadow: 0 0 0 2px rgba(28,25,23,0.1); }
+  .comp-label { display: block; font-size: 0.7rem; font-weight: 500; color: #44403c; margin-bottom: 0.25rem; }
+  .dial-track { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; background: #e7e5e4; outline: none; }
+  .dial-track::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #1c1917; cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+</style>
+<style>
+  /* 详情页重新设计 */
+  .detail-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 250, 249, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(231, 229, 228, 0.6);
+  }
+  .detail-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #57534e;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(231, 229, 228, 0.8);
+    border-radius: 10px;
+    transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+  .back-btn:hover {
+    background: #fff;
+    color: #1c1917;
+    border-color: #d6d3d1;
+    transform: translateX(-2px);
+  }
+  .skill-hero {
+    padding: 56px 0 40px;
+    position: relative;
+  }
+  .skill-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse at center, rgba(234, 88, 12, 0.05), transparent 70%);
+    pointer-events: none;
+  }
+  .skill-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .skill-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 6px;
+    background: rgba(28,25,23,0.04);
+    color: #57534e;
+    border: 1px solid rgba(28,25,23,0.06);
+  }
+  .skill-version {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #a8a29e;
+  }
+  .skill-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 24px;
+  }
+  .skill-title {
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 800;
+    color: #1c1917;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  .skill-title .serif-accent {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #ea580c;
+  }
+  .skill-links {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-top: 8px;
+  }
+  .skill-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+    letter-spacing: 0.01em;
+  }
+  .skill-link-github {
+    background: #1c1917;
+    color: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .skill-link-github:hover {
+    background: #44403c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .skill-link-website {
+    background: #fff;
+    color: #1c1917;
+    border: 1px solid #e7e5e4;
+  }
+  .skill-link-website:hover {
+    background: #fafaf9;
+    border-color: #d6d3d1;
+    transform: translateY(-1px);
+  }
+  .skill-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #57534e;
+    max-width: 680px;
+    margin-bottom: 20px;
+  }
+  .plain-desc-box {
+    background: linear-gradient(135deg, rgba(255,247,237,0.8), rgba(255,237,213,0.4));
+    border: 1px solid rgba(254,215,170,0.5);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    max-width: 680px;
+  }
+  .plain-desc-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #ea580c;
+    margin-bottom: 6px;
+  }
+  .plain-desc-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #44403c;
+  }
+  .suitable-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .suitable-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #a8a29e;
+  }
+  .suitable-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #44403c;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(231,229,228,0.8);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  .suitable-chip:hover {
+    background: #fff;
+    border-color: #d6d3d1;
+    color: #1c1917;
+  }
+  .tabs-bar {
+    position: sticky;
+    top: 57px;
+    z-index: 40;
+    background: rgba(250, 250, 249, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(231, 229, 228, 0.6);
+  }
+  .tabs-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    position: relative;
+    padding: 16px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #78716c;
+    border: none;
+    background: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab-btn:hover {
+    color: #44403c;
+  }
+  .tab-btn.active {
+    color: #1c1917;
+    font-weight: 600;
+  }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 18px;
+    right: 18px;
+    height: 2px;
+    background: #1c1917;
+    border-radius: 2px 2px 0 0;
+  }
+  .tab-content {
+    padding: 40px 0 100px;
+    min-height: 60vh;
+  }
+  .premium-card {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(231,229,228,0.6);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .premium-card:hover {
+    background: rgba(255,255,255,0.9);
+    border-color: rgba(214,211,209,0.8);
+    box-shadow: 0 12px 40px -12px rgba(28,25,23,0.08);
+  }
+</style>
+
+</head>
+<body class="bg-stone-50 text-stone-900">
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="gh-star" viewBox="0 0 16 16">
+    <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+  </symbol>
+</svg>
+
+
+<!-- 顶部导航 -->
+<header class="detail-header">
+  <div class="detail-container flex items-center justify-between h-14">
+    <a href="index.html" class="back-btn">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      返回技能库
+    </a>
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-lg bg-stone-900 flex items-center justify-center">
+        <span class="text-white text-[10px] font-bold">UI</span>
+      </div>
+      <span class="text-sm font-semibold text-stone-800">UI Skills Gallery</span>
+    </div>
+  </div>
+</header>
+
+<!-- Skill 信息区 -->
+<section class="skill-hero" id="skillHero">
+  <div class="detail-container">
+    <!-- 动态渲染 -->
+  </div>
+</section>
+
+<!-- Tab 导航 -->
+<nav class="tabs-bar" id="tabsBar">
+  <div class="tabs-inner">
+    <!-- 由 renderTabs() 动态渲染 -->
+  </div>
+</nav>
+
+<!-- Tab 内容 -->
+<main class="detail-container">
+  <div class="tab-content" id="tabContent">
+    <!-- 动态渲染 -->
+  </div>
+</main>
+
+<script src="skills-data.js"></script>
+<script>
+// ============================================================
+// 详情页逻辑
+// ============================================================
+
+let currentSkill = null;
+let currentTab = 'experience';
+
+// 从 URL 获取 skill id
+function getSkillIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id');
+}
+
+// 初始化
+function init() {
+  const skillId = getSkillIdFromUrl();
+  if (!skillId) {
+    document.getElementById('skillHero').querySelector('.detail-container').innerHTML = 
+      '<p class="text-stone-500">未指定 skill</p><a href="index.html" class="text-orange-600 underline">返回首页</a>';
+    return;
+  }
+  
+  currentSkill = skills.find(s => s.id === skillId);
+  if (!currentSkill) {
+    document.getElementById('skillHero').querySelector('.detail-container').innerHTML = 
+      '<p class="text-stone-500">未找到 skill: ' + skillId + '</p><a href="index.html" class="text-orange-600 underline">返回首页</a>';
+    return;
+  }
+  
+  // 初始化演示评价记录
+  initDemoRecords();
+
+  
+  document.title = currentSkill.name + ' - UI Skills Gallery';
+  renderSkillHero();
+  switchTab('experience');
+  lucide.createIcons();
+}
+
+// 渲染 Skill 信息区
+function renderSkillHero() {
+  const s = currentSkill;
+  const tagsHtml = (s.tags || []).map(t => 
+    `<span class="text-[11px] px-2 py-0.5 rounded-full ${t.color || 'bg-stone-100 text-stone-600'}">${t.name || t}</span>`
+  ).join('');
+  
+  const suitableForHtml = (s.suitableFor || []).map(item => 
+    `<span class="text-[11px] px-2.5 py-1 rounded-md bg-white border border-stone-200 text-stone-600">${item.type || item}</span>`
+  ).join('');
+  
+  document.getElementById('skillHero').querySelector('.detail-container').innerHTML = `
+    <div class="flex items-center gap-2 mb-3">
+      ${tagsHtml}
+      <span class="text-[11px] text-stone-400 font-mono">v${s.version || '1.0.0'}</span>
+    </div>
+    <div class="skill-title-row">
+      <h1 class="skill-title">${s.name}</h1>
+      <div class="skill-links">
+        ${s.github ? `<a href="${s.github}" target="_blank" class="skill-link-btn skill-link-github">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          ${parseStars(s.stars) || 'Star'}
+        </a>` : ''}
+        ${s.website ? `<a href="${s.website}" target="_blank" class="skill-link-btn skill-link-website">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          官网
+        </a>` : ''}
+      </div>
+    </div>
+    ${s.officialIntro ? `<p class="text-sm text-stone-600 leading-relaxed mb-4 max-w-4xl">${s.officialIntro}</p>` : ''}
+    ${s.plainDesc ? `<div class="bg-orange-50 border border-orange-100 rounded-lg p-3 mb-4 max-w-4xl">
+      <span class="text-[11px] font-semibold text-orange-600">大白话</span>
+      <p class="text-sm text-stone-700 mt-1">${s.plainDesc}</p>
+    </div>` : ''}
+    ${suitableForHtml ? `<div class="flex flex-wrap gap-2">
+      <span class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider py-1">适合做什么</span>
+      ${suitableForHtml}
+    </div>` : ''}
+  `;
+}
+
+// 初始化
+function init() {
+  const skillId = getSkillIdFromUrl();
+  if (!skillId) {
+    document.getElementById('skillHero').querySelector('.detail-container').innerHTML = 
+      '<p class="text-stone-500">未指定 skill</p><a href="index.html" class="text-orange-600 underline">返回首页</a>';
+    return;
+  }
+  
+  currentSkill = skills.find(s => s.id === skillId);
+  if (!currentSkill) {
+    document.getElementById('skillHero').querySelector('.detail-container').innerHTML = 
+      '<p class="text-stone-500">未找到 skill: ' + skillId + '</p><a href="index.html" class="text-orange-600 underline">返回首页</a>';
+    return;
+  }
+  
+  document.title = currentSkill.name + ' - UI Skills Gallery';
+  renderSkillHero();
+  currentTab = 'reviews';
+  renderTabs();
+  renderTabContent();
+  lucide.createIcons();
+}
+
+// 渲染 Skill 信息区
+function renderSkillHero() {
+  const s = currentSkill;
+  const tagsHtml = (s.tags || []).map(t => 
+    `<span class="skill-tag">${t.name || t}</span>`
+  ).join('');
+  
+  const suitableForHtml = (s.suitableFor || []).map(item => 
+    `<span class="suitable-chip">${item.type || item}</span>`
+  ).join('');
+  
+  document.getElementById('skillHero').querySelector('.detail-container').innerHTML = `
+    <div class="skill-meta-row">
+      ${tagsHtml}
+      <span class="skill-version">${s.version || '1.0.0'}</span>
+    </div>
+    <div class="skill-title-row">
+      <h1 class="skill-title">${s.name}</h1>
+      <div class="skill-links">
+        ${s.github ? `<a href="${s.github}" target="_blank" class="skill-link-btn skill-link-github">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          ${parseStars(s.stars) || 'Star'}
+        </a>` : ''}
+        ${s.website ? `<a href="${s.website}" target="_blank" class="skill-link-btn skill-link-website">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          官网
+        </a>` : ''}
+      </div>
+    </div>
+    ${s.officialIntro ? `<p class="skill-desc">${s.officialIntro}</p>` : ''}
+    ${s.plainDesc ? `<div class="plain-desc-box">
+      <div class="plain-desc-label">大白话</div>
+      <p class="plain-desc-text">${s.plainDesc}</p>
+    </div>` : ''}
+    ${suitableForHtml ? `<div class="suitable-row">
+      <span class="suitable-label">适合做什么</span>
+      ${suitableForHtml}
+    </div>` : ''}
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  init();
+});
+
+// ============================================================
+// 以下是从 index.html 提取的渲染函数
+// ============================================================
+
+
+// ============================================================
+// Before/After 预览提示词配置
+// ============================================================
+const previewPrompts = {
+  'shadcn-ui': {
+    type: 'AURALIS One 高端降噪耳机产品站',
+    prompt: '创建一个 AURALIS One 自适应主动降噪头戴式耳机的产品官网，包含：导航栏、Hero 产品展示区、核心技术特性（自适应降噪-48dB、40mm镀铍振膜、40小时续航、295g轻盈佩戴）、颜色选择（曜石黑/云雾银/香槟金/深海蓝）、产品图集、规格参数、用户评价、FAQ 购买须知、底部购买 CTA。使用 shadcn/ui 组件库（Tabs、Card、Accordion、ToggleGroup、Avatar、Badge、Button、Separator），Tailwind CSS 样式，Lucide 图标，响应式设计。'
+  },
+  'ui-ux-pro-max': {
+    type: '在线编程教育平台',
+    prompt: '创建一个在线编程课程平台的首页，包含精选课程推荐、讲师介绍、学习路径规划、学员评价和免费试学入口'
+  },
+  'taste-skill': {
+    type: '独立设计工作室官网',
+    prompt: '创建一个独立设计工作室的官网，包含作品集展示、服务介绍、团队成员、设计理念和联系表单'
+  },
+  'impeccable': {
+    type: '金融科技公司官网',
+    prompt: '创建一个金融科技公司的官网，包含产品介绍、数据统计、客户案例、安全说明和注册入口'
+  },
+  'design-taste-frontend': {
+    type: '奢侈品牌官网',
+    prompt: '创建一个高端时装品牌的官网，包含品牌故事、最新系列、门店信息、会员注册和新闻资讯'
+  },
+  'design-taste-frontend-v1': {
+    type: '自由设计师作品集',
+    prompt: '创建一个自由 UI 设计师的个人作品集网站，包含精选项目展示、关于我、服务内容和联系方式'
+  },
+  'gpt-taste': {
+    type: '创意广告机构官网',
+    prompt: '创建一个创意广告机构的官网，包含案例展示、服务内容、团队介绍、客户列表和博客文章'
+  },
+  'high-end-visual-design': {
+    type: '高端珠宝电商',
+    prompt: '创建一个高端珠宝品牌的电商网站，包含产品分类、产品详情、品牌故事、定制服务和购物车'
+  },
+  'minimalist-ui': {
+    type: '极简项目管理工具',
+    prompt: '创建一个极简风格的项目管理工具官网，包含功能介绍、定价方案、客户评价、使用流程和注册入口'
+  },
+  'industrial-brutalist-ui': {
+    type: '独立音乐厂牌官网',
+    prompt: '创建一个独立音乐厂牌的官网，包含艺人列表、最新发行、演出信息、周边商店和联系我们'
+  },
+  'stitch-design-taste': {
+    type: '设计系统文档站',
+    prompt: '创建一个设计系统的文档网站，包含组件库展示、设计规范、代码示例、更新日志和快速开始指南'
+  },
+  'redesign-existing-projects': {
+    type: '高端餐厅官网',
+    prompt: '创建一个米其林餐厅的官网，包含菜单展示、餐厅环境、厨师介绍、预订功能和联系方式'
+  },
+  'image-to-code': {
+    type: '健康追踪 APP 落地页',
+    prompt: '创建一个健康追踪 APP 的落地页，包含功能介绍、APP 截图展示、用户评价、数据统计和下载按钮'
+  },
+  'full-output-enforcement': {
+    type: '开发者工具官网',
+    prompt: '创建一个开发者效率工具的官网，包含功能演示、文档链接、定价方案、GitHub 链接和使用案例'
+  },
+  'imagegen-frontend-web': {
+    type: '高端旅游定制网站',
+    prompt: '创建一个高端旅游定制网站的设计图，包含目的地推荐、行程规划、用户评价、旅行顾问和预订入口'
+  },
+  'imagegen-frontend-mobile': {
+    type: '兴趣社交 APP',
+    prompt: '创建一个兴趣社交 APP 的界面设计图，包含首页信息流、发布界面、消息通知、发现页面和个人主页'
+  },
+  'brandkit': {
+    type: '精品咖啡品牌 VI',
+    prompt: '创建一个精品咖啡品牌的视觉识别系统，包含 Logo 设计、配色方案、字体规范、包装设计和应用场景展示'
+  },
+
+  'remotion': {
+    type: '视频创作平台官网',
+    prompt: '创建一个在线视频创作平台的官网，包含产品介绍、功能特性、使用场景、价格方案和用户评价，风格现代科技感'
+  },
+  'awesome-design-md-jp': {
+    type: '日本語 EC サイト（メルカリ風）',
+    prompt: '创建一个日本语二手商品交易平台的商品详情页，包含商品图片轮播、商品标题、价格、卖家信息、商品描述、购买按钮、评论列表。使用日本语排版规则：禁则处理、字间距0.05em、行间距1.7、和文フォントチェーン（Noto Sans JP优先），参考 Mercari 日本网站的设计风格'
+  },
+};
+
+const tabs = [
+  { id: 'reviews', label: '文章测评', icon: 'newspaper' },
+  { id: 'subskills', label: '子 Skill', icon: 'layers' },
+  { id: 'demos', label: '效果演示', icon: 'monitor-play' },
+  { id: 'workflow', label: '工作流程', icon: 'list-ordered' },
+  { id: 'usage', label: '使用方法', icon: 'message-square' },
+  { id: 'practice', label: '用户体验', icon: 'star' },
+];
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function parseStars(n) { if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k'; return n.toString(); }
+function ghStarIcon(size = 'w-3.5 h-3.5') { return `<svg class="${size} gh-star" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`; }
+
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  const bg = type === 'success' ? 'bg-ink-900' : type === 'error' ? 'bg-red-600' : 'bg-ink-700';
+  toast.className = `toast ${bg} text-white text-sm px-4 py-2.5 rounded-lg shadow-lg flex items-center gap-2`;
+  toast.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="w-4 h-4"></i><span>${msg}</span>`;
+  container.appendChild(toast);
+  lucide.createIcons();
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(8px)'; toast.style.transition = 'all 0.3s ease'; setTimeout(() => toast.remove(), 300); }, 2200);
+}
+
+function copyToClipboard(text, msg = '已复制到剪贴板') {
+  navigator.clipboard.writeText(text).then(() => showToast(msg)).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); showToast(msg);
+  });
+}
+
+const STORAGE_KEY = 'ui_skills_gallery_practice_records';
+
+function getRecords() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } }
+function saveRecords(r) { localStorage.setItem(STORAGE_KEY, JSON.stringify(r)); }
+function getSkillRecords(id) { const r = getRecords(); return r[id] || []; }
+
+function initDemoRecords() {
+  const records = getRecords();
+  const skillId = 'awesome-design-md-jp';
+  
+  if (!records[skillId] || records[skillId].length < 3) {
+    records[skillId] = [
+      {
+        rating: 5,
+        text: '用了这个 DESIGN.md 集合后，AI 生成的日本语页面排版终于正常了！之前字体总是不对，行间距也太窄，现在用 Mercari 的 DESIGN.md，生成的页面跟真的日本网站一模一样。禁则处理和字间距这些细节都到位了，强烈推荐做日本市场的产品经理使用。',
+        images: [
+          'https://picsum.photos/seed/jp-design-1/400/300',
+          'https://picsum.photos/seed/jp-design-2/400/300'
+        ],
+        date: new Date(Date.now() - 86400000 * 3).toISOString()
+      },
+      {
+        rating: 4,
+        text: '480+ 网站的设计规范太全了，从 Apple Japan 到无印良品都有。每个 DESIGN.md 都有 preview.html 可以直接看效果，很方便。唯一的不足是需要自己手动选对应的 DESIGN.md，没有智能推荐功能。整体来说对 AI 生成日本语 UI 的帮助非常大。',
+        images: [
+          'https://picsum.photos/seed/jp-design-3/400/300'
+        ],
+        date: new Date(Date.now() - 86400000 * 7).toISOString()
+      },
+      {
+        rating: 5,
+        text: '作为一个经常做日本客户项目的前端工程师，这个集合简直是神器。之前每次都要手动调整字体和行间距，现在直接把对应的 DESIGN.md 丢给 AI，生成的代码直接能用。和文フォントチェーン和混植规则这些细节都处理得很好，客户都以为我专门研究过日本语排版。',
+        images: [],
+        date: new Date(Date.now() - 86400000 * 14).toISOString()
+      }
+    ];
+    saveRecords(records);
+    console.log('Demo records initialized for', skillId, 'count:', records[skillId].length);
+  }
+}
+
+function addSkillRecord(id, rec) { const r = getRecords(); if (!r[id]) r[id] = []; r[id].unshift(rec); saveRecords(r); }
+function deleteSkillRecord(id, idx) { const r = getRecords(); if (r[id]) { r[id].splice(idx, 1); saveRecords(r); } }
+function relativeTime(s) { const diff = Math.floor((new Date() - new Date(s)) / 1000); if (diff < 60) return '刚刚'; if (diff < 3600) return Math.floor(diff/60)+' 分钟前'; if (diff < 86400) return Math.floor(diff/3600)+' 小时前'; if (diff < 2592000) return Math.floor(diff/86400)+' 天前'; return new Date(s).toLocaleDateString('zh-CN'); }
+
+// ============================================================
+// REAL COMPONENT RENDERERS
+// ============================================================
+function renderRealComponent(type) {
+  switch (type) {
+    // ---- shadcn/ui components ----
+    case 'button':
+      return `<div class="space-y-3 w-full">
+        <div class="flex flex-wrap gap-2 items-center">
+          <button class="comp-btn comp-btn-default">Button</button>
+          <button class="comp-btn comp-btn-destructive">Destructive</button>
+          <button class="comp-btn comp-btn-outline">Outline</button>
+          <button class="comp-btn comp-btn-secondary">Secondary</button>
+          <button class="comp-btn comp-btn-ghost">Ghost</button>
+          <button class="comp-btn comp-btn-link">Link</button>
+        </div>
+        <div class="flex flex-wrap gap-2 items-center">
+          <button class="comp-btn comp-btn-default" style="padding:0.3rem 0.7rem;font-size:0.7rem;">Small</button>
+          <button class="comp-btn comp-btn-default">Default</button>
+          <button class="comp-btn comp-btn-default" style="padding:0.55rem 1.1rem;font-size:0.9rem;">Large</button>
+          <button class="comp-btn comp-btn-default" style="width:100%;border-radius:9999px;">Icon ➜</button>
+        </div>
+        <div class="flex gap-2 items-center">
+          <button class="comp-btn comp-btn-default" disabled style="opacity:0.5;cursor:not-allowed;">Disabled</button>
+          <button class="comp-btn comp-btn-default"><span style="width:12px;height:12px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite;display:inline-block;"></span> Loading</button>
+        </div>
+      </div>`;
+
+    case 'card':
+      return `<div class="w-full max-w-[280px] bg-white border border-ink-200 rounded-lg overflow-hidden shadow-sm">
+        <div class="p-4 pb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent-400 to-accent-600"></div>
+            <div><div class="text-xs font-semibold text-ink-900">Sofia Davis</div><div class="text-[10px] text-ink-400">@sofia.design</div></div>
+          </div>
+        </div>
+        <div class="px-4 pb-3">
+          <h3 class="text-sm font-semibold text-ink-900 mb-1">构建可扩展的设计系统</h3>
+          <p class="text-xs text-ink-500 leading-relaxed mb-3">从零开始搭建一套覆盖 40+ 组件的设计系统，包含完整的设计令牌和文档。</p>
+        </div>
+        <div class="px-4 pb-3 flex items-center gap-3 text-[10px] text-ink-400">
+          <span class="flex items-center gap-1"><i data-lucide="heart" class="w-3 h-3"></i>2.4k</span>
+          <span class="flex items-center gap-1"><i data-lucide="message-circle" class="w-3 h-3"></i>89</span>
+          <span class="flex items-center gap-1"><i data-lucide="bookmark" class="w-3 h-3"></i>126</span>
+        </div>
+        <div class="px-4 py-2.5 border-t border-ink-100 flex gap-2">
+          <button class="comp-btn comp-btn-default" style="flex:1;">阅读全文</button>
+          <button class="comp-btn comp-btn-outline">分享</button>
+        </div>
+      </div>`;
+
+    case 'dialog':
+      return `<div class="w-full max-w-[300px]">
+        <div class="relative">
+          <div class="absolute inset-0 bg-ink-900/30 rounded-lg -m-3 blur-sm"></div>
+          <div class="relative bg-white rounded-lg border border-ink-200 shadow-xl p-5">
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="text-sm font-semibold text-ink-900">确认删除？</h3>
+              <button class="w-6 h-6 rounded-md hover:bg-ink-100 flex items-center justify-center text-ink-400"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+            </div>
+            <p class="text-xs text-ink-500 leading-relaxed mb-4">此操作将永久删除项目「设计系统 v2」及其所有关联数据，无法撤销。</p>
+            <div class="flex gap-2 justify-end">
+              <button class="comp-btn comp-btn-outline">取消</button>
+              <button class="comp-btn comp-btn-destructive">确认删除</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    case 'dropdown':
+      return `<div class="w-full max-w-[220px]">
+        <button class="w-full flex items-center justify-between px-3 py-2 bg-white border border-ink-200 rounded-md text-xs text-ink-700 hover:bg-ink-50 transition-colors">
+          <span class="flex items-center gap-2"><div class="w-5 h-5 rounded bg-ink-900 flex items-center justify-center"><span class="text-[8px] text-white font-bold">A</span></div> 个人账号</span>
+          <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-ink-400"></i>
+        </button>
+        <div class="mt-1 bg-white border border-ink-200 rounded-md shadow-lg py-1">
+          <div class="px-3 py-1.5 text-[10px] font-semibold text-ink-400 uppercase tracking-wider">账户</div>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-ink-700 hover:bg-ink-50"><i data-lucide="user" class="w-3.5 h-3.5 text-ink-400"></i>个人资料</button>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-ink-700 hover:bg-ink-50"><i data-lucide="settings" class="w-3.5 h-3.5 text-ink-400"></i>设置</button>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-ink-700 hover:bg-ink-50"><i data-lucide="credit-card" class="w-3.5 h-3.5 text-ink-400"></i>账单 <span class="ml-auto text-[10px] bg-accent-100 text-accent-700 px-1.5 py-0.5 rounded">Pro</span></button>
+          <div class="border-t border-ink-100 my-1"></div>
+          <button class="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>退出登录</button>
+        </div>
+      </div>`;
+
+    case 'form':
+      return `<div class="w-full max-w-[280px] space-y-3">
+        <div><label class="comp-label">姓名 *</label><input class="comp-input" placeholder="张三" value="李明"></div>
+        <div><label class="comp-label">邮箱 *</label><input class="comp-input" type="email" placeholder="you@example.com" value="liming@example.com"></div>
+        <div><label class="comp-label">角色</label>
+          <select class="comp-input"><option>产品经理</option><option>设计师</option><option>开发者</option></select>
+        </div>
+        <div><label class="comp-label">留言</label><textarea class="comp-input" rows="2" placeholder="想说点什么..."></textarea></div>
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="form-check" checked class="w-3.5 h-3.5 rounded border-ink-300 text-ink-900 focus:ring-ink-500">
+          <label for="form-check" class="text-[11px] text-ink-600">订阅产品更新通知</label>
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button class="comp-btn comp-btn-default" style="flex:1;">提交</button>
+          <button class="comp-btn comp-btn-ghost">重置</button>
+        </div>
+      </div>`;
+
+    // ---- UI/UX Pro Max components ----
+    case 'ds-generator':
+      return `<div class="w-full space-y-3">
+        <div class="grid grid-cols-6 gap-1.5">
+          ${['#1c1917','#44403c','#78716c','#a8a29e','#d6d3d1','#f5f5f4'].map((c,i)=>`<div class="aspect-square rounded-md flex items-end justify-center pb-1" style="background:${c};"><span class="text-[8px] font-mono ${i<3?'text-white/70':'text-ink-500'}">${i*100}</span></div>`).join('')}
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="bg-ink-50 rounded-md p-2"><div class="text-[9px] text-ink-400 mb-0.5">Display</div><div class="text-lg font-bold text-ink-900 leading-none">Aa</div></div>
+          <div class="bg-ink-50 rounded-md p-2"><div class="text-[9px] text-ink-400 mb-0.5">Body</div><div class="text-xs text-ink-700 leading-none">Aa</div></div>
+        </div>
+        <div class="flex gap-1.5">
+          ${['2px','4px','6px','8px','12px','16px'].map(r=>`<div class="flex-1 h-8 bg-ink-100 flex items-center justify-center" style="border-radius:${r};"><span class="text-[8px] text-ink-400">${r}</span></div>`).join('')}
+        </div>
+      </div>`;
+
+    case 'color-builder':
+      return `<div class="w-full space-y-2.5">
+        ${[
+          {name:'Primary', colors:['#1c1917','#44403c','#78716c']},
+          {name:'Accent', colors:['#c2410c','#ea580c','#f97316']},
+          {name:'Success', colors:['#15803d','#16a34a','#22c55e']},
+        ].map(p=>`<div class="flex items-center gap-2">
+          <span class="text-[10px] font-medium text-ink-500 w-12 shrink-0">${p.name}</span>
+          <div class="flex gap-1 flex-1">${p.colors.map(c=>`<div class="flex-1 h-7 rounded flex items-center justify-center" style="background:${c};"><span class="text-[8px] font-mono text-white/80">${c}</span></div>`).join('')}</div>
+          <span class="text-[9px] font-mono text-emerald-600 shrink-0">AA ✓</span>
+        </div>`).join('')}
+      </div>`;
+
+    case 'typography':
+      return `<div class="w-full space-y-1.5">
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">6xl</span><span class="text-2xl font-bold text-ink-900 leading-none">Heading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">4xl</span><span class="text-xl font-bold text-ink-900 leading-none">Heading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">2xl</span><span class="text-base font-semibold text-ink-900 leading-none">Heading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">lg</span><span class="text-sm font-medium text-ink-800">Subheading</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">base</span><span class="text-xs text-ink-700">Body text content</span></div>
+        <div class="flex items-baseline gap-2"><span class="text-[9px] font-mono text-ink-400 w-8">sm</span><span class="text-[11px] text-ink-500">Small caption text</span></div>
+      </div>`;
+
+    case 'grid':
+      return `<div class="w-full space-y-2">
+        <div class="text-[10px] font-medium text-ink-500">12 列网格 · 间距 16px</div>
+        <div class="grid grid-cols-12 gap-1">
+          ${Array.from({length:12},(_,i)=>`<div class="h-12 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">${i+1}</span></div>`).join('')}
+        </div>
+        <div class="grid grid-cols-12 gap-1">
+          <div class="col-span-4 h-8 bg-accent-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-accent-700">col-4</span></div>
+          <div class="col-span-8 h-8 bg-accent-300/50 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-accent-700">col-8</span></div>
+        </div>
+        <div class="grid grid-cols-12 gap-1">
+          <div class="col-span-6 h-8 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">col-6</span></div>
+          <div class="col-span-3 h-8 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">col-3</span></div>
+          <div class="col-span-3 h-8 bg-ink-200/60 rounded flex items-center justify-center"><span class="text-[8px] font-mono text-ink-500">col-3</span></div>
+        </div>
+      </div>`;
+
+    case 'a11y':
+      return `<div class="w-full space-y-1.5">
+        ${[
+          {label:'文本对比度', status:'pass', detail:'4.7:1 AA ✓'},
+          {label:'焦点可见性', status:'pass', detail:'焦点环 2px ✓'},
+          {label:'键盘导航', status:'warn', detail:'弹窗缺少 Esc 关闭 ⚠'},
+          {label:'屏幕阅读器标签', status:'fail', detail:'3 个图标按钮缺 aria-label ✗'},
+          {label:'色彩独立性', status:'pass', detail:'不仅依赖颜色传达 ✓'},
+          {label:'动效偏好', status:'warn', detail:'未检测 prefers-reduced-motion ⚠'},
+        ].map(item=>`<div class="flex items-center gap-2 px-2.5 py-1.5 rounded-md ${item.status==='pass'?'bg-emerald-50':item.status==='warn'?'bg-amber-50':'bg-red-50'}">
+          <span class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${item.status==='pass'?'bg-emerald-500':item.status==='warn'?'bg-amber-500':'bg-red-500'}"><i data-lucide="${item.status==='pass'?'check':item.status==='warn'?'alert-triangle':'x'}" class="w-2.5 h-2.5 text-white"></i></span>
+          <span class="text-[11px] font-medium text-ink-700 flex-1">${item.label}</span>
+          <span class="text-[10px] font-mono ${item.status==='pass'?'text-emerald-600':item.status==='warn'?'text-amber-600':'text-red-600'}">${item.detail}</span>
+        </div>`).join('')}
+      </div>`;
+
+    // ---- Taste Skill components ----
+    case 'dial-controller':
+      return `<div class="w-full space-y-3">
+        ${[
+          {label:'DESIGN VARIANCE', value:8, desc:'对称 → 艺术感'},
+          {label:'MOTION INTENSITY', value:6, desc:'静态 → 电影级'},
+          {label:'VISUAL DENSITY', value:4, desc:'留白 → 数据密集'},
+        ].map(d=>`<div class="bg-ink-50 rounded-md p-2.5">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[10px] font-semibold text-ink-600 tracking-wide">${d.label}</span>
+            <span class="text-sm font-bold font-mono text-ink-900">${d.value}</span>
+          </div>
+          <input type="range" min="1" max="10" value="${d.value}" class="dial-track" readonly>
+          <div class="flex justify-between mt-1"><span class="text-[8px] text-ink-400">1</span><span class="text-[8px] text-ink-400">${d.desc}</span><span class="text-[8px] text-ink-400">10</span></div>
+        </div>`).join('')}
+      </div>`;
+
+    case 'brief-inference':
+      return `<div class="w-full bg-white border border-ink-200 rounded-lg p-3.5 space-y-2.5">
+        <div class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent-500"></i><span class="text-[10px] font-semibold text-ink-500 uppercase tracking-wider">Design Read</span></div>
+        <p class="text-[11px] text-ink-700 leading-relaxed">Reading this as: <strong>B2B SaaS landing</strong> for technical buyers, with a <strong>Linear-style minimalist</strong> language, leaning toward <strong>Tailwind + Geist + restrained motion</strong>.</p>
+        <div class="flex gap-1.5">
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-ink-100 text-ink-600 rounded">V:7</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-ink-100 text-ink-600 rounded">M:6</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-ink-100 text-ink-600 rounded">D:4</span>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 bg-accent-50 text-accent-700 rounded ml-auto">confidence 94%</span>
+        </div>
+      </div>`;
+
+    case 'anti-slop':
+      return `<div class="w-full space-y-1.5">
+        ${[
+          {issue:'AI 紫色渐变 Hero', severity:'high', fix:'替换为中性底 + 单一强调色'},
+          {issue:'三栏等宽特性卡片', severity:'medium', fix:'改用 Bento 非对称网格'},
+          {issue:'Inter 字体默认', severity:'low', fix:'换用 Geist / Outfit / Cabinet'},
+          {issue:'全屏玻璃拟态', severity:'medium', fix:'仅在浮层使用，提供实色回退'},
+          {issue:'无限循环微动效', severity:'low', fix:'动效仅在交互时触发'},
+        ].map(item=>`<div class="flex items-start gap-2 px-2.5 py-2 rounded-md bg-white border border-ink-100">
+          <span class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5 ${item.severity==='high'?'bg-red-100 text-red-600':item.severity==='medium'?'bg-amber-100 text-amber-600':'bg-ink-100 text-ink-500'}"><span class="text-[9px] font-bold">${item.severity==='high'?'H':item.severity==='medium'?'M':'L'}</span></span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] font-medium text-ink-800">${item.issue}</div>
+            <div class="text-[10px] text-ink-500 mt-0.5">→ ${item.fix}</div>
+          </div>
+        </div>`).join('')}
+      </div>`;
+
+    case 'typo-hierarchy':
+      return `<div class="w-full bg-white border border-ink-200 rounded-lg p-3.5">
+        <div class="text-[9px] font-semibold text-ink-400 uppercase tracking-wider mb-2">Geist Display · 1.25 比例</div>
+        <div class="space-y-1">
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-xl font-bold text-ink-900 leading-none">Display</span><span class="text-[9px] font-mono text-ink-400">39px / 1.0</span></div>
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-base font-semibold text-ink-900 leading-none">H1</span><span class="text-[9px] font-mono text-ink-400">31px / 1.1</span></div>
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-sm font-medium text-ink-800">H2</span><span class="text-[9px] font-mono text-ink-400">25px / 1.2</span></div>
+          <div class="flex items-baseline justify-between border-b border-ink-100 pb-1"><span class="text-xs font-medium text-ink-700">H3</span><span class="text-[9px] font-mono text-ink-400">20px / 1.3</span></div>
+          <div class="flex items-baseline justify-between"><span class="text-[11px] text-ink-600">Body</span><span class="text-[9px] font-mono text-ink-400">16px / 1.5</span></div>
+        </div>
+      </div>`;
+
+    case 'motion-preset':
+      return `<div class="w-full grid grid-cols-2 gap-2">
+        ${[
+          {name:'Static', desc:'无动效', val:1, active:false},
+          {name:'Subtle', desc:'淡入淡出', val:3, active:true},
+          {name:'Dynamic', desc:'滑动+缩放', val:6, active:false},
+          {name:'Cinematic', desc:'物理+视差', val:9, active:false},
+        ].map(p=>`<div class="relative rounded-lg border p-2.5 cursor-pointer transition-all ${p.active?'border-ink-900 bg-ink-900 text-white':'border-ink-200 bg-white hover:border-ink-300'}">
+          ${p.active?'<div class="absolute top-1.5 right-1.5 w-3.5 h-3.5 rounded-full bg-accent-500 flex items-center justify-center"><i data-lucide="check" class="w-2 h-2 text-white"></i></div>':''}
+          <div class="text-[11px] font-semibold ${p.active?'text-white':'text-ink-800'}">${p.name}</div>
+          <div class="text-[9px] ${p.active?'text-white/60':'text-ink-400'} mt-0.5">${p.desc}</div>
+          <div class="flex gap-0.5 mt-1.5">${Array.from({length:10},(_,i)=>`<div class="h-1 flex-1 rounded-full ${i<p.val?(p.active?'bg-accent-400':'bg-ink-700'):(p.active?'bg-white/20':'bg-ink-100')}"></div>`).join('')}</div>
+        </div>`).join('')}
+      </div>`;
+
+    default:
+      return `<div class="text-center py-6"><div class="w-10 h-10 mx-auto mb-2 rounded-xl bg-ink-100 flex items-center justify-center"><i data-lucide="box" class="w-5 h-5 text-ink-400"></i></div><span class="text-[10px] font-mono text-ink-400">${type}</span></div>`;
+  }
+}
+
+// ============================================================
+// REAL PAGE DEMO RENDERERS
+// ============================================================
+function renderRealPageDemo(type, device) {
+  const isMobile = device === 'mobile';
+
+  // ---- Dashboard (shadcn) ----
+  if (type === 'dashboard') {
+    const content = `<div class="flex h-full bg-ink-50">
+      <div class="w-12 bg-ink-900 flex flex-col items-center py-2 gap-1.5 shrink-0">
+        <div class="w-6 h-6 rounded bg-white/10 flex items-center justify-center"><span class="text-[8px] text-white font-bold">S</span></div>
+        ${['home','bar-chart-2','users','settings'].map((ic,i)=>`<div class="w-7 h-7 rounded-md flex items-center justify-center ${i===0?'bg-white/15':'hover:bg-white/5'}"><i data-lucide="${ic}" class="w-3 h-3 ${i===0?'text-white':'text-white/40'}"></i></div>`).join('')}
+      </div>
+      <div class="flex-1 flex flex-col min-w-0">
+        <div class="h-7 bg-white border-b border-ink-100 flex items-center px-2.5 gap-2 shrink-0">
+          <div class="w-24 h-2 bg-ink-100 rounded"></div>
+          <div class="ml-auto flex gap-1"><div class="w-5 h-5 rounded-full bg-ink-100"></div></div>
+        </div>
+        <div class="flex-1 p-2 space-y-2 overflow-hidden">
+          <div class="grid grid-cols-3 gap-1.5">
+            ${[['总收入','¥128.4k','+12.5%'],['活跃用户','8,429','+3.2%'],['转化率','4.8%','-0.6%']].map(s=>`<div class="bg-white rounded-md p-2 border border-ink-100"><div class="text-[8px] text-ink-400">${s[0]}</div><div class="text-sm font-bold text-ink-900 mt-0.5">${s[1]}</div><div class="text-[8px] ${s[2].startsWith('+')?'text-emerald-600':'text-red-500'} mt-0.5">${s[2]}</div></div>`).join('')}
+          </div>
+          <div class="bg-white rounded-md p-2 border border-ink-100 flex-1">
+            <div class="flex items-center justify-between mb-1.5"><span class="text-[9px] font-medium text-ink-600">收入趋势</span><span class="text-[8px] text-ink-400">近 30 天</span></div>
+            <div class="flex items-end gap-0.5 h-16">${Array.from({length:20},(_,i)=>`<div class="flex-1 bg-accent-400/70 rounded-t" style="height:${30+Math.sin(i*0.6)*25+i*1.5}%"></div>`).join('')}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Landing Page ----
+  if (type === 'landing') {
+    const content = `<div class="h-full bg-white flex flex-col">
+      <div class="h-8 flex items-center px-3 border-b border-ink-100 shrink-0">
+        <span class="text-[10px] font-bold text-ink-900">Acme</span>
+        <div class="ml-auto flex gap-3"><span class="text-[8px] text-ink-500">产品</span><span class="text-[8px] text-ink-500">定价</span><span class="text-[8px] text-ink-500">文档</span><span class="text-[8px] px-2 py-0.5 bg-ink-900 text-white rounded">开始使用</span></div>
+      </div>
+      <div class="flex-1 flex flex-col items-center justify-center px-4 text-center bg-gradient-to-b from-ink-50 to-white">
+        <span class="text-[8px] px-2 py-0.5 bg-accent-50 text-accent-700 rounded-full mb-2">✨ 全新 2.0 版本发布</span>
+        <h1 class="text-lg font-bold text-ink-900 leading-tight mb-1.5">构建更快的<br>现代化应用</h1>
+        <p class="text-[9px] text-ink-500 max-w-[200px] mb-3 leading-relaxed">一套完整的工具链，让你从想法到上线只需几分钟。</p>
+        <div class="flex gap-1.5"><button class="text-[9px] px-3 py-1.5 bg-ink-900 text-white rounded">免费开始</button><button class="text-[9px] px-3 py-1.5 border border-ink-200 text-ink-700 rounded">查看演示</button></div>
+      </div>
+      <div class="h-12 bg-ink-50 border-t border-ink-100 flex items-center justify-center gap-4 shrink-0">
+        ${['Vercel','Stripe','Linear','Figma'].map(b=>`<span class="text-[8px] font-bold text-ink-300">${b}</span>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Fintech Dashboard ----
+  if (type === 'fintech-dashboard') {
+    const content = `<div class="flex h-full bg-[#0c0a09] text-white">
+      <div class="w-11 bg-[#1c1917] flex flex-col items-center py-2 gap-1.5 shrink-0 border-r border-white/5">
+        <div class="w-6 h-6 rounded bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center"><span class="text-[8px] font-bold">F</span></div>
+        ${['layout-dashboard','line-chart','wallet','bell','settings'].map((ic,i)=>`<div class="w-7 h-7 rounded-md flex items-center justify-center ${i===0?'bg-accent-500/20 text-accent-400':'text-white/30 hover:text-white/60'}"><i data-lucide="${ic}" class="w-3 h-3"></i></div>`).join('')}
+      </div>
+      <div class="flex-1 p-2.5 space-y-2 overflow-hidden">
+        <div class="flex items-center justify-between"><div><div class="text-[8px] text-white/40">总资产</div><div class="text-base font-bold">¥ 2,847,392</div></div><div class="text-[8px] text-emerald-400">+12.4% ↑</div></div>
+        <div class="grid grid-cols-2 gap-1.5">
+          <div class="bg-white/5 rounded-md p-2 border border-white/5"><div class="text-[7px] text-white/40">BTC</div><div class="text-[10px] font-bold mt-0.5">$67,234</div><div class="text-[7px] text-emerald-400">+3.2%</div></div>
+          <div class="bg-white/5 rounded-md p-2 border border-white/5"><div class="text-[7px] text-white/40">ETH</div><div class="text-[10px] font-bold mt-0.5">$3,456</div><div class="text-[7px] text-red-400">-1.8%</div></div>
+        </div>
+        <div class="bg-white/5 rounded-md p-2 border border-white/5 flex-1">
+          <div class="text-[8px] text-white/40 mb-1.5">持仓走势</div>
+          <svg viewBox="0 0 200 50" class="w-full h-12"><path d="M0,40 L20,35 L40,38 L60,25 L80,30 L100,18 L120,22 L140,12 L160,15 L180,8 L200,5" fill="none" stroke="#f97316" stroke-width="1.5"/><path d="M0,40 L20,35 L40,38 L60,25 L80,30 L100,18 L120,22 L140,12 L160,15 L180,8 L200,5 L200,50 L0,50 Z" fill="url(#g)" opacity="0.2"/><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#f97316" stop-opacity="0"/></linearGradient></defs></svg>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Ecommerce Brand ----
+  if (type === 'ecommerce-brand') {
+    const content = `<div class="h-full bg-[#faf8f5] flex flex-col">
+      <div class="h-8 flex items-center px-3 shrink-0">
+        <span class="text-[10px] font-bold tracking-[0.15em] text-ink-900">MAISON</span>
+        <div class="ml-auto flex gap-3 items-center"><span class="text-[8px] text-ink-600">系列</span><span class="text-[8px] text-ink-600">故事</span><i data-lucide="shopping-bag" class="w-3 h-3 text-ink-600"></i></div>
+      </div>
+      <div class="flex-1 flex">
+        <div class="w-1/2 bg-gradient-to-br from-[#e8e0d5] to-[#d4c8b8] flex items-center justify-center relative">
+          <div class="w-16 h-20 bg-[#b8a890] rounded-sm shadow-lg rotate-3"></div>
+          <div class="absolute bottom-2 left-2 text-[7px] text-ink-500 font-mono">FW25 COLLECTION</div>
+        </div>
+        <div class="w-1/2 p-3 flex flex-col justify-center">
+          <span class="text-[7px] tracking-[0.2em] text-accent-700 mb-1">新品上市</span>
+          <h2 class="text-sm font-bold text-ink-900 leading-tight mb-1.5">手工陶瓷<br>茶具套装</h2>
+          <p class="text-[8px] text-ink-500 leading-relaxed mb-2">日本匠人手工拉坯，每一件都独一无二。</p>
+          <div class="text-sm font-bold text-ink-900 mb-2">¥ 1,280</div>
+          <button class="text-[9px] py-1.5 bg-ink-900 text-white rounded">加入购物车</button>
+        </div>
+      </div>
+      <div class="h-8 bg-ink-900 flex items-center justify-center gap-6 shrink-0">
+        ${['手工制作','天然材质','全球配送'].map(t=>`<span class="text-[7px] text-white/50">${t}</span>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- SaaS Redesign (dark premium) ----
+  if (type === 'saas-redesign') {
+    const content = `<div class="h-full bg-[#0a0a0f] text-white flex flex-col relative overflow-hidden">
+      <div class="absolute top-0 left-1/4 w-40 h-40 bg-accent-500/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+      <div class="h-8 flex items-center px-3 relative z-10 shrink-0">
+        <div class="flex items-center gap-1"><div class="w-4 h-4 rounded bg-gradient-to-br from-accent-400 to-accent-600"></div><span class="text-[10px] font-bold">Nexus</span></div>
+        <div class="ml-auto flex gap-3 items-center"><span class="text-[8px] text-white/50">产品</span><span class="text-[8px] text-white/50">定价</span><span class="text-[8px] px-2 py-0.5 bg-white text-ink-900 rounded font-medium">开始使用</span></div>
+      </div>
+      <div class="flex-1 flex flex-col items-center justify-center px-4 text-center relative z-10">
+        <span class="text-[7px] px-2 py-0.5 border border-white/10 text-white/60 rounded-full mb-2 backdrop-blur">⚡ 由 AI 驱动的新一代平台</span>
+        <h1 class="text-lg font-bold leading-tight mb-1.5 bg-gradient-to-r from-white via-white to-white/50 bg-clip-text text-transparent">构建未来的<br>AI 原生应用</h1>
+        <p class="text-[8px] text-white/40 max-w-[180px] mb-3 leading-relaxed">一站式平台，集成模型部署、向量检索、智能体编排。</p>
+        <div class="flex gap-1.5"><button class="text-[8px] px-3 py-1.5 bg-gradient-to-r from-accent-500 to-accent-600 text-white rounded font-medium">免费开始</button><button class="text-[8px] px-3 py-1.5 border border-white/10 text-white/70 rounded">查看文档</button></div>
+      </div>
+      <div class="px-3 pb-2 relative z-10">
+        <div class="bg-white/5 border border-white/10 rounded-md p-2 backdrop-blur">
+          <div class="flex gap-1 mb-1">${['#f97316','#a855f7','#3b82f6'].map(c=>`<div class="w-1.5 h-1.5 rounded-full" style="background:${c}"></div>`).join('')}</div>
+          <div class="space-y-0.5"><div class="h-1 bg-white/10 rounded w-full"></div><div class="h-1 bg-white/10 rounded w-3/4"></div><div class="h-1 bg-accent-500/30 rounded w-1/2"></div></div>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Portfolio Audit ----
+  if (type === 'portfolio-audit') {
+    const content = `<div class="h-full bg-white flex flex-col">
+      <div class="h-7 bg-ink-900 flex items-center px-3 shrink-0">
+        <span class="text-[9px] font-bold text-white">设计审计报告</span>
+        <span class="ml-auto text-[8px] text-white/40 font-mono">2026-08-29</span>
+      </div>
+      <div class="flex-1 p-2.5 space-y-2 overflow-hidden">
+        <div class="flex items-center gap-2">
+          <div class="flex-1"><div class="text-[8px] text-ink-400">整体评分</div><div class="text-xl font-bold text-ink-900">6.2<span class="text-xs text-ink-400">/10</span></div></div>
+          <div class="w-12 h-12 rounded-full border-4 border-amber-400 flex items-center justify-center"><span class="text-[10px] font-bold text-amber-600">C+</span></div>
+        </div>
+        <div class="space-y-1">
+          ${[
+            {cat:'视觉设计',score:5,color:'bg-red-400'},
+            {cat:'排版层级',score:7,color:'bg-amber-400'},
+            {cat:'色彩系统',score:4,color:'bg-red-400'},
+            {cat:'交互体验',score:8,color:'bg-emerald-400'},
+            {cat:'可访问性',score:6,color:'bg-amber-400'},
+          ].map(item=>`<div class="flex items-center gap-2"><span class="text-[8px] text-ink-600 w-14 shrink-0">${item.cat}</span><div class="flex-1 h-1.5 bg-ink-100 rounded-full overflow-hidden"><div class="h-full ${item.color} rounded-full" style="width:${item.score*10}%"></div></div><span class="text-[8px] font-mono text-ink-500 w-6 text-right">${item.score}</span></div>`).join('')}
+        </div>
+        <div class="bg-red-50 rounded-md p-2 border border-red-100">
+          <div class="text-[8px] font-semibold text-red-700 mb-1">⚠ 关键问题</div>
+          <div class="space-y-0.5">
+            <div class="text-[8px] text-red-600">• Hero 使用 AI 紫色渐变，缺乏品牌识别</div>
+            <div class="text-[8px] text-red-600">• 三栏等宽卡片布局，信息层级扁平</div>
+            <div class="text-[8px] text-red-600">• 对比度不足，正文文字 3.2:1</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    return wrapDevice(content, isMobile);
+  }
+
+  // ---- Mobile App ----
+  if (type === 'mobile-app') {
+    const content = `<div class="h-full bg-ink-50 flex flex-col">
+      <div class="px-3 pt-2 pb-1.5 flex items-center justify-between shrink-0">
+        <div><div class="text-[8px] text-ink-400">下午好 👋</div><div class="text-sm font-bold text-ink-900">李明</div></div>
+        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-accent-400 to-accent-600"></div>
+      </div>
+      <div class="px-3 pb-2 shrink-0"><div class="h-6 bg-white rounded-md border border-ink-100 flex items-center px-2 gap-1.5"><i data-lucide="search" class="w-3 h-3 text-ink-400"></i><span class="text-[8px] text-ink-400">搜索项目、任务、成员...</span></div></div>
+      <div class="flex-1 px-3 space-y-2 overflow-hidden">
+        <div class="flex gap-1.5">
+          ${[['进行中','#ea580c','5'],['待审核','#eab308','3'],['已完成','#22c55e','12']].map(t=>`<div class="flex-1 bg-white rounded-md p-1.5 border border-ink-100"><div class="w-2 h-2 rounded-full mb-1" style="background:${t[1]}"></div><div class="text-sm font-bold text-ink-900">${t[2]}</div><div class="text-[7px] text-ink-400">${t[0]}</div></div>`).join('')}
+        </div>
+        <div class="text-[9px] font-semibold text-ink-600">今日任务</div>
+        ${[['设计系统评审','14:00','高'],['API 文档更新','16:00','中'],['周会准备','17:30','低']].map(t=>`<div class="bg-white rounded-md p-2 border border-ink-100 flex items-center gap-2"><div class="w-4 h-4 rounded border-2 ${t[2]==='高'?'border-accent-500':t[2]==='中'?'border-amber-400':'border-ink-200'}"></div><div class="flex-1 min-w-0"><div class="text-[9px] font-medium text-ink-800 truncate">${t[0]}</div><div class="text-[7px] text-ink-400">${t[1]}</div></div><span class="text-[7px] px-1 py-0.5 rounded ${t[2]==='高'?'bg-accent-50 text-accent-600':t[2]==='中'?'bg-amber-50 text-amber-600':'bg-ink-100 text-ink-500'}">${t[2]}</span></div>`).join('')}
+      </div>
+      <div class="h-10 bg-white border-t border-ink-100 flex items-center justify-around shrink-0">
+        ${['home','calendar','plus-circle','bar-chart-2','user'].map((ic,i)=>`<div class="flex flex-col items-center gap-0.5"><i data-lucide="${ic}" class="w-4 h-4 ${i===0?'text-accent-500':'text-ink-300'}"></i><div class="w-1 h-1 rounded-full ${i===0?'bg-accent-500':'bg-transparent'}"></div></div>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, true);
+  }
+
+  // ---- Mobile Banking ----
+  if (type === 'mobile-banking') {
+    const content = `<div class="h-full bg-[#0c0a09] text-white flex flex-col">
+      <div class="px-3 pt-2.5 pb-2 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-1.5"><div class="w-6 h-6 rounded-full bg-white/10"></div><span class="text-[9px] text-white/70">招商银行</span></div>
+        <i data-lucide="bell" class="w-3.5 h-3.5 text-white/50"></i>
+      </div>
+      <div class="px-3 pb-3 shrink-0">
+        <div class="text-[8px] text-white/40 mb-0.5">总资产 (CNY)</div>
+        <div class="text-xl font-bold mb-2">¥ 128,456.78</div>
+        <div class="bg-gradient-to-r from-accent-500/20 to-accent-600/10 border border-accent-500/20 rounded-lg p-2">
+          <div class="flex justify-between items-center mb-1"><span class="text-[8px] text-white/60">本周收益</span><span class="text-[10px] text-emerald-400 font-bold">+¥328.50</span></div>
+          <div class="flex items-end gap-0.5 h-6">${Array.from({length:12},(_,i)=>`<div class="flex-1 bg-accent-500/50 rounded-t" style="height:${30+Math.sin(i*0.7)*30+i*2}%"></div>`).join('')}</div>
+        </div>
+      </div>
+      <div class="flex-1 bg-white rounded-t-2xl p-3 space-y-2 overflow-hidden">
+        <div class="grid grid-cols-4 gap-2">
+          ${[['send','转账'],['qr-code','扫码'],['credit-card','信用卡'],['more-horizontal','更多']].map(a=>`<div class="flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-full bg-ink-100 flex items-center justify-center"><i data-lucide="${a[0]}" class="w-3.5 h-3.5 text-ink-600"></i></div><span class="text-[7px] text-ink-600">${a[1]}</span></div>`).join('')}
+        </div>
+        <div class="text-[9px] font-semibold text-ink-600">最近交易</div>
+        ${[['星巴克咖啡','-¥38.00','今天 09:23'],['工资到账','+¥15,800','昨天 10:00'],['美团外卖','-¥45.50','昨天 12:30']].map(t=>`<div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-ink-100 flex items-center justify-center"><i data-lucide="${t[1].startsWith('+')?'arrow-down-left':'coffee'}" class="w-3 h-3 text-ink-500"></i></div><div class="flex-1 min-w-0"><div class="text-[9px] font-medium text-ink-800">${t[0]}</div><div class="text-[7px] text-ink-400">${t[2]}</div></div><span class="text-[9px] font-bold ${t[1].startsWith('+')?'text-emerald-600':'text-ink-800'}">${t[1]}</span></div>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, true);
+  }
+
+  // ---- Mobile Portfolio ----
+  if (type === 'portfolio-mobile') {
+    const content = `<div class="h-full bg-white flex flex-col">
+      <div class="px-3 pt-3 pb-2 text-center shrink-0">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-ink-700 to-ink-900 mx-auto mb-1.5 flex items-center justify-center"><span class="text-lg font-bold text-white">L</span></div>
+        <div class="text-sm font-bold text-ink-900">李明 · 产品设计师</div>
+        <div class="text-[8px] text-ink-400 mt-0.5">5 年经验 · 深圳</div>
+        <div class="flex justify-center gap-3 mt-2">
+          <div class="text-center"><div class="text-sm font-bold text-ink-900">42</div><div class="text-[7px] text-ink-400">项目</div></div>
+          <div class="w-px bg-ink-100"></div>
+          <div class="text-center"><div class="text-sm font-bold text-ink-900">1.2k</div><div class="text-[7px] text-ink-400">关注者</div></div>
+          <div class="w-px bg-ink-100"></div>
+          <div class="text-center"><div class="text-sm font-bold text-ink-900">89</div><div class="text-[7px] text-ink-400">获赞</div></div>
+        </div>
+      </div>
+      <div class="flex-1 px-3 pb-2 grid grid-cols-2 gap-1.5 overflow-hidden content-start">
+        ${[
+          {t:'金融 App 重设计',c:'from-accent-400 to-accent-600'},
+          {t:'SaaS 仪表盘',c:'from-ink-600 to-ink-800'},
+          {t:'电商品牌站',c:'from-amber-400 to-orange-500'},
+          {t:'设计系统 v2',c:'from-emerald-400 to-teal-600'},
+          {t:'移动端银行',c:'from-blue-500 to-indigo-600'},
+          {t:'作品集审计',c:'from-purple-500 to-pink-500'},
+        ].map(p=>`<div class="aspect-square rounded-lg bg-gradient-to-br ${p.c} relative overflow-hidden"><div class="absolute inset-0 flex items-end p-1.5"><span class="text-[7px] font-medium text-white/90 leading-tight">${p.t}</span></div></div>`).join('')}
+      </div>
+      <div class="h-9 bg-white border-t border-ink-100 flex items-center justify-around shrink-0">
+        ${['grid-2x2','heart','message-circle','user'].map((ic,i)=>`<i data-lucide="${ic}" class="w-4 h-4 ${i===0?'text-ink-900':'text-ink-300'}"></i>`).join('')}
+      </div>
+    </div>`;
+    return wrapDevice(content, true);
+  }
+
+  return wrapDevice(`<div class="flex items-center justify-center h-full text-ink-400 text-xs">${type}</div>`, isMobile);
+}
+
+function wrapDevice(content, isMobile) {
+  if (isMobile) {
+    return `<div class="w-[150px] bg-ink-900 rounded-[1.4rem] p-1.5 shadow-xl mx-auto"><div class="bg-white rounded-[1.1rem] overflow-hidden h-[280px] relative"><div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-3 bg-ink-900 rounded-b-lg z-20"></div><div class="h-full overflow-hidden">${content}</div></div></div>`;
+  }
+  return `<div class="w-full bg-white rounded-lg border border-ink-200 shadow-sm overflow-hidden"><div class="h-5 bg-ink-100 flex items-center px-2 gap-1"><div class="w-2 h-2 rounded-full bg-red-300"></div><div class="w-2 h-2 rounded-full bg-amber-300"></div><div class="w-2 h-2 rounded-full bg-emerald-300"></div><div class="ml-2 w-24 h-2.5 bg-white/60 rounded"></div></div><div class="h-[240px] overflow-hidden">${content}</div></div>`;
+}
+
+// ============================================================
+// RENDER: SKILL CARDS
+// ============================================================
+function renderSkillsGrid(sortBy = 'default') {
+  const grid = document.getElementById('skillsGrid');
+  let sorted = [...skills];
+  if (sortBy === 'stars-desc') sorted.sort((a, b) => b.stars - a.stars);
+  else if (sortBy === 'stars-asc') sorted.sort((a, b) => a.stars - b.stars);
+  else if (sortBy === 'name-az') sorted.sort((a, b) => a.name.localeCompare(b.name));
+
+  grid.innerHTML = sorted.map(skill => `
+    <div class="card-hover bg-white rounded-xl2 border border-ink-200 p-5 cursor-pointer animate-fade-in" onclick="openModal('${skill.id}')">
+      <div class="flex items-start justify-between mb-3">
+        <div class="w-10 h-10 rounded-xl bg-ink-900 flex items-center justify-center shrink-0">
+          <i data-lucide="${skill.id === 'shadcn-ui' ? 'layers' : skill.id === 'ui-ux-pro-max' ? 'palette' : 'sparkles'}" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="text-[11px] font-mono text-ink-400">${skill.version}</span>
+      </div>
+      <h3 class="font-semibold text-[15px] tracking-tight mb-1.5">${skill.name}</h3>
+      <span class="inline-block text-[11px] font-medium px-2 py-0.5 rounded-md bg-accent-50 text-accent-700 border border-accent-100 mb-3">${skill.category}</span>
+      <p class="text-xs text-ink-500 leading-relaxed mb-4 line-clamp-2">${skill.triggerSummary}</p>
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        ${skill.capabilities.slice(0, 4).map(c => `<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-ink-100 text-ink-600">${c}</span>`).join('')}
+        ${skill.capabilities.length > 4 ? `<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-ink-100 text-ink-400">+${skill.capabilities.length - 4}</span>` : ''}
+      </div>
+      <div class="flex items-center justify-between pt-3 border-t border-ink-100">
+        <div class="flex items-center gap-1.5 text-xs text-ink-500">
+          ${ghStarIcon('w-3.5 h-3.5')}
+          <span class="font-mono font-medium">${parseStars(skill.stars)}</span>
+        </div>
+        <span class="text-xs text-ink-400 flex items-center gap-1">查看详情 <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(skillId) {
+  currentSkill = skills.find(s => s.id === skillId);
+  if (!currentSkill) return;
+  currentTab = 'reviews'; currentRating = 0; currentImages = [];
+
+  document.getElementById('modalCategory').textContent = currentSkill.category;
+  document.getElementById('modalVersion').textContent = currentSkill.version;
+  document.getElementById('modalTitle').textContent = currentSkill.name;
+  document.getElementById('modalGithub').href = currentSkill.github;
+  document.getElementById('modalStars').textContent = parseStars(currentSkill.stars);
+  document.getElementById('modalTrigger').textContent = currentSkill.officialIntro || currentSkill.triggerSummary;
+  const plainDescWrap = document.getElementById('modalPlainDescWrap');
+  const plainDescEl = document.getElementById('modalPlainDesc');
+  if (currentSkill.plainDesc) {
+    plainDescEl.textContent = currentSkill.plainDesc;
+    plainDescWrap.classList.remove('hidden');
+  } else {
+    plainDescWrap.classList.add('hidden');
+  }
+  const suitableWrap = document.getElementById('modalSuitableWrap');
+  const suitableList = document.getElementById('modalSuitableList');
+  if (currentSkill.suitableFor && currentSkill.suitableFor.length) {
+    suitableList.innerHTML = currentSkill.suitableFor.map(s => `
+      <span class="group relative inline-flex items-center px-2 py-1 rounded-md bg-ink-100/60 border border-ink-200 text-[11px] font-medium text-ink-700 cursor-default hover:bg-accent-50 hover:border-accent-200 hover:text-accent-700 transition-colors">
+        ${s.type}
+        <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 rounded bg-ink-800 text-white text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">${s.desc}</span>
+      </span>`).join('');
+    suitableWrap.classList.remove('hidden');
+  } else {
+    suitableWrap.classList.add('hidden');
+  }
+
+  // 官网链接
+  const websiteEl = document.getElementById('modalWebsite');
+  if (currentSkill.website) {
+    websiteEl.href = currentSkill.website;
+    websiteEl.classList.remove('hidden');
+    websiteEl.classList.add('flex');
+  } else {
+    websiteEl.classList.add('hidden');
+    websiteEl.classList.remove('flex');
+  }
+
+  renderTabs(); renderTabContent();
+  document.getElementById('detailModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  lucide.createIcons();
+}
+
+function renderTabs() {
+  const visibleTabs = tabs.filter(t => t.id !== 'subskills' || (currentSkill && currentSkill.subSkills && currentSkill.subSkills.length > 0));
+  const inner = document.querySelector('#tabsBar .tabs-inner');
+  if (inner) {
+    inner.innerHTML = visibleTabs.map(tab => `
+      <button onclick="switchTab('${tab.id}')" class="tab-btn ${currentTab === tab.id ? 'active' : ''}">
+        <i data-lucide="${tab.icon}" class="w-3.5 h-3.5"></i>${tab.label}
+      </button>`).join('');
+  }
+}
+function switchTab(tabId) { currentTab = tabId; renderTabs(); renderTabContent(); lucide.createIcons(); }
+
+// ============================================================
+// TAB CONTENT
+// ============================================================
+function renderTabContent() {
+  const c = document.getElementById('tabContent');
+  switch (currentTab) {
+    case 'reviews': c.innerHTML = renderReviews(); break;
+    case 'subskills': c.innerHTML = renderSubSkills(); break;
+    case 'demos': c.innerHTML = renderDemos(); break;
+    case 'workflow': c.innerHTML = renderWorkflow(); break;
+    case 'usage': c.innerHTML = renderUsage(); break;
+    case 'practice': c.innerHTML = renderPractice(); break;
+  }
+  lucide.createIcons();
+  if (currentTab === 'practice') initPracticeTab();
+}
+
+function renderSubSkills() {
+  const subs = currentSkill.subSkills || [];
+  const fam = currentSkill.familyStructure;
+  
+  // 默认选中第一个子skill
+  if (!window._selectedSubSkill && subs.length > 0) {
+    window._selectedSubSkill = subs[0].installName;
+  }
+  
+  const currentSub = subs.find(s => s.installName === window._selectedSubSkill) || subs[0];
+  
+  const colorMap = {
+    blue:   { border: 'border-blue-300',   bg: 'bg-blue-50',   text: 'text-blue-700',   dot: 'bg-blue-500',   light: 'bg-blue-100' },
+    green:  { border: 'border-green-300',  bg: 'bg-green-50',  text: 'text-green-700',  dot: 'bg-green-500',  light: 'bg-green-100' },
+    orange: { border: 'border-orange-300', bg: 'bg-orange-50', text: 'text-orange-700', dot: 'bg-orange-500', light: 'bg-orange-100' },
+    purple: { border: 'border-purple-300', bg: 'bg-purple-50', text: 'text-purple-700', dot: 'bg-purple-500', light: 'bg-purple-100' },
+    amber:  { border: 'border-amber-300',  bg: 'bg-amber-50',  text: 'text-amber-700',  dot: 'bg-amber-500',  light: 'bg-amber-100' },
+  };
+  
+  const isImageType = currentSub.category === '图像生成类';
+  const previewExt = isImageType ? 'png' : 'html';
+  
+  // 构建技能全景图谱
+  const treeHtml = fam ? `
+    <div class="mb-10">
+      <div class="flex items-center gap-2 mb-2">
+        <i data-lucide="network" class="w-4 h-4 text-ink-500"></i>
+        <h3 class="text-base font-semibold text-ink-800">${fam.title}</h3>
+      </div>
+      <p class="text-xs text-ink-500 mb-5 ml-6">${fam.subtitle} · 点击下方子 Skill 查看详情</p>
+      
+      <!-- 主skill节点 -->
+      <div class="flex justify-center mb-2">
+        <div class="px-5 py-2.5 rounded-xl bg-ink-900 text-white text-sm font-bold shadow-lg">
+          ${currentSkill.name}
+        </div>
+      </div>
+      <div class="flex justify-center mb-4">
+        <div class="w-px h-6 bg-ink-300"></div>
+      </div>
+      
+      <!-- 分类和子skill -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        ${fam.categories.map(cat => {
+          const cm = colorMap[cat.color] || colorMap.blue;
+          return `
+          <div class="rounded-xl border-2 ${cm.border} ${cm.bg} p-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="w-2.5 h-2.5 rounded-full ${cm.dot}"></span>
+              <span class="text-sm font-bold ${cm.text}">${cat.name}</span>
+            </div>
+            <div class="text-[10px] text-ink-400 mb-1">${cat.tagline}</div>
+            <div class="text-[10px] text-ink-500 font-mono mb-3">${cat.workflow}</div>
+            <div class="space-y-1.5">
+              ${cat.skills.map(s => {
+                const isActive = currentSub && s.name === currentSub.installName;
+                return `
+                <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg cursor-pointer transition-all ${isActive ? cm.light + ' ' + cm.text + ' font-bold shadow-sm ring-1 ' + cm.border : 'hover:bg-white/60 text-ink-600'}"
+                     onclick="selectSubSkill('${s.name}')">
+                  <i data-lucide="${isActive ? 'chevron-right' : 'circle'}" class="w-3 h-3 shrink-0 ${isActive ? cm.text : 'text-ink-300'}"></i>
+                  <span class="text-[11px] font-mono truncate">${s.name}</span>
+                  ${s.note ? `<span class="text-[9px] text-ink-400 shrink-0">${s.note}</span>` : ''}
+                </div>`;
+              }).join('')}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
+  
+  // 构建子skill详情面板
+  const detailHtml = currentSub ? `
+    <div class="border-t-2 border-ink-200 pt-8">
+      <!-- 详情头部 -->
+      <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+        <div>
+          <div class="flex items-center gap-3 mb-1">
+            <h3 class="text-xl font-bold font-mono text-ink-900">${currentSub.installName}</h3>
+            <span class="text-[10px] px-2 py-0.5 rounded-full ${currentSub.category === '图像生成类' ? 'bg-purple-100 text-purple-700' : 'bg-sky-100 text-sky-700'}">${currentSub.category}</span>
+          </div>
+          <p class="text-sm text-ink-500">${currentSub.subtitle || ''}</p>
+        </div>
+        <div class="text-[10px] font-mono text-ink-400 bg-ink-50 px-3 py-1.5 rounded-lg border border-ink-100">
+          npx skills add ... --skill "${currentSub.installName}"
+        </div>
+      </div>
+      
+      <!-- 大白话说明 -->
+      ${currentSub.plainDesc ? `
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 mb-6">
+        <div class="text-[10px] font-bold text-amber-600 uppercase tracking-wider mb-1">大白话说明</div>
+        <p class="text-sm text-ink-700 leading-relaxed">${currentSub.plainDesc}</p>
+      </div>` : ''}
+      
+      <!-- 工作步骤 -->
+      ${currentSub.steps && currentSub.steps.length > 0 ? `
+      <div class="mb-6">
+        <h4 class="text-sm font-semibold text-ink-700 mb-3 flex items-center gap-2">
+          <i data-lucide="list-ordered" class="w-4 h-4"></i>工作流程
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          ${currentSub.steps.map((step, i) => `
+            <div class="flex items-start gap-2 bg-white rounded-lg border border-ink-100 px-3 py-2">
+              <span class="text-xs font-bold text-ink-400 shrink-0 mt-0.5">${String(i+1).padStart(2,'0')}</span>
+              <span class="text-xs text-ink-600 leading-relaxed">${step}</span>
+            </div>`).join('')}
+        </div>
+      </div>` : ''}
+      
+      <!-- 提示词和模型信息 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+        <div class="md:col-span-2 bg-sky-50 border border-sky-200 rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="message-square" class="w-4 h-4 text-sky-600"></i>
+            <span class="text-xs font-bold text-sky-700">使用的提示词</span>
+          </div>
+          <p class="text-xs text-ink-700 leading-relaxed">${currentSub.prompt || '暂无提示词信息'}</p>
+        </div>
+        <div class="space-y-3">
+          <div class="bg-violet-50 border border-violet-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-1">
+              <i data-lucide="cpu" class="w-4 h-4 text-violet-600"></i>
+              <span class="text-xs font-bold text-violet-700">生成模型</span>
+            </div>
+            <p class="text-xs text-ink-700">${currentSub.model || '暂无模型信息'}</p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-1">
+              <i data-lucide="layout" class="w-4 h-4 text-emerald-600"></i>
+              <span class="text-xs font-bold text-emerald-700">项目类型</span>
+            </div>
+            <p class="text-xs text-ink-700">${currentSub.projectType || '暂无项目类型'}</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Before/After 效果 -->
+      <div class="mb-4">
+        <h4 class="text-sm font-semibold text-ink-700 mb-3 flex items-center gap-2">
+          <i data-lucide="compare" class="w-4 h-4"></i>Before / After 效果对比
+          <span class="text-[10px] text-ink-400 font-normal">（上下排列，展示完整页面）</span>
+        </h4>
+      </div>
+      
+      <!-- Before -->
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-red-500"></span>
+          <span class="text-xs font-bold text-red-600">Before — 普通模板感设计</span>
+        </div>
+        <div class="rounded-xl overflow-hidden border-2 border-red-200 shadow-sm">
+          ${isImageType 
+            ? `<img src="previews/subskills/${currentSub.installName}/before.${previewExt}" class="w-full" alt="before" loading="lazy">`
+            : `<iframe src="previews/subskills/${currentSub.installName}/before.${previewExt}" class="w-full h-[500px] border-0" loading="lazy"></iframe>`
+          }
+        </div>
+      </div>
+      
+      <!-- 分隔箭头 -->
+      <div class="flex justify-center my-4">
+        <div class="flex items-center gap-2 text-ink-400">
+          <div class="w-12 h-px bg-ink-200"></div>
+          <i data-lucide="arrow-down" class="w-4 h-4"></i>
+          <span class="text-[10px] font-medium">使用 ${currentSub.installName} 重新设计</span>
+          <i data-lucide="arrow-down" class="w-4 h-4"></i>
+          <div class="w-12 h-px bg-ink-200"></div>
+        </div>
+      </div>
+      
+      <!-- After -->
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span class="text-xs font-bold text-emerald-600">After — ${currentSub.installName} 设计</span>
+        </div>
+        <div class="rounded-xl overflow-hidden border-2 border-emerald-200 shadow-sm">
+          ${isImageType 
+            ? `<img src="previews/subskills/${currentSub.installName}/after.${previewExt}" class="w-full" alt="after" loading="lazy">`
+            : `<iframe src="previews/subskills/${currentSub.installName}/after.${previewExt}" class="w-full h-[500px] border-0" loading="lazy"></iframe>`
+          }
+        </div>
+      </div>
+    </div>
+  ` : '<p class="text-ink-500">暂无子 Skill 数据</p>';
+  
+  return `<div class="animate-fade-in">${treeHtml}${detailHtml}</div>`;
+}
+
+function selectSubSkill(installName) {
+  window._selectedSubSkill = installName;
+  renderTabContent();
+  lucide.createIcons();
+  // 滚动到详情区域
+  setTimeout(() => {
+    const detailEl = document.querySelector('.border-t-2.border-ink-200');
+    if (detailEl) detailEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function renderReviews() {
+  const r = currentSkill.userReviews;
+  const full = Math.floor(r.rating), half = r.rating % 1 >= 0.5;
+  return `<div class="animate-fade-in max-w-4xl">
+    <div class="flex flex-col sm:flex-row gap-8 mb-8">
+      <div class="text-center sm:text-left shrink-0">
+        <div class="text-5xl font-bold tracking-tight mb-1">${r.rating}</div>
+        <div class="flex items-center gap-0.5 justify-center sm:justify-start mb-1">
+          ${Array.from({length:5},(_,i)=>`<svg class="w-4 h-4 ${i<full?'gh-star':(i===full&&half?'gh-star opacity-60':'text-ink-200')}" style="${i>=full&&!(i===full&&half)?'fill:#e7e5e4':''}" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`).join('')}
+        </div>
+        <div class="text-xs text-ink-400 font-mono">${r.count.toLocaleString()} 条评价</div>
+      </div>
+      <div class="flex-1"><p class="text-sm text-ink-600 leading-relaxed">${r.summary}</p></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+      <div class="bg-white rounded-xl2 border border-ink-200 p-5">
+        <h4 class="text-sm font-semibold flex items-center gap-2 mb-3 text-ink-800"><i data-lucide="thumbs-up" class="w-4 h-4 text-emerald-600"></i>优点</h4>
+        <ul class="space-y-2">${r.pros.map(p=>`<li class="flex gap-2 text-sm text-ink-600"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5"></i>${p}</li>`).join('')}</ul>
+      </div>
+      <div class="bg-white rounded-xl2 border border-ink-200 p-5">
+        <h4 class="text-sm font-semibold flex items-center gap-2 mb-3 text-ink-800"><i data-lucide="thumbs-down" class="w-4 h-4 text-red-500"></i>不足</h4>
+        <ul class="space-y-2">${r.cons.map(c=>`<li class="flex gap-2 text-sm text-ink-600"><i data-lucide="x" class="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5"></i>${c}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div><h4 class="text-sm font-semibold flex items-center gap-2 mb-3 text-ink-800"><i data-lucide="newspaper" class="w-4 h-4 text-ink-500"></i>相关评测文章</h4>
+      <div class="space-y-2">${r.articles.map(a=>{
+  const p = a.platform || 'website';
+  const icons = {
+    xiaohongshu: '<svg width="14" height="14" viewBox="0 0 24 24" fill="#FF2442"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 13.5c-.3.3-.8.3-1.1 0l-1.4-1.4c-.8.5-1.7.8-2.7.8-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5c0 .9-.2 1.8-.6 2.5l1.4 1.4c.3.3.3.8 0 1.2z"/></svg>',
+    wechat: '<svg width="14" height="14" viewBox="0 0 24 24" fill="#07C160"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.032zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>',
+    github: '<svg width="14" height="14" viewBox="0 0 24 24" fill="#24292e"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>',
+    zhihu: '<svg width="14" height="14" viewBox="0 0 24 24" fill="#0066FF"><path d="M5.721 0C2.251 0 0 2.25 0 5.719V18.28C0 21.751 2.252 24 5.721 24h12.56C21.751 24 24 21.75 24 18.281V5.72C24 2.249 21.75 0 18.281 0H5.72zm1.964 4.078c-.271.68-.591 1.36-.958 2.04h4.118v11.56h-2.43V10.22H6.285v7.458H3.855V6.118h5.83zm8.486 0v13.625h-2.167l-.326-1.82h-.082c-.61 1.252-1.653 2.048-3.047 2.048-1.074 0-1.88-.366-2.375-1.074-.453-.62-.663-1.468-.663-2.503 0-1.986 1.281-3.047 3.31-3.047.476 0 .952.07 1.428.187V4.078h2.516zm-4.59 6.04c-1.074 0-1.727.545-1.727 1.516 0 .97.653 1.486 1.727 1.486.968 0 1.61-.516 1.61-1.486 0-.97-.642-1.516-1.61-1.516z"/></svg>',
+    website: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+  };
+  const icon = icons[p] || icons.website;
+  return `<a href="${a.url}" target="_blank" class="flex items-center justify-between gap-4 bg-white rounded-lg border border-ink-200 px-4 py-3 hover:border-ink-300 hover:bg-ink-50 transition-colors group"><span class="flex items-center gap-2 min-w-0"><span class="shrink-0">${icon}</span><span class="text-sm text-ink-700 group-hover:text-ink-900 truncate">${a.title}</span></span><span class="text-[11px] font-mono text-ink-400 shrink-0">${a.source}</span></a>`;
+}).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function renderComponents() {
+  return `<div class="animate-fade-in">
+    <p class="text-sm text-ink-500 mb-5">${currentSkill.components.length} 个核心组件 · 真实实现效果</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      ${currentSkill.components.map(comp => `
+        <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+          <div class="px-4 py-3 border-b border-ink-100 flex items-center justify-between">
+            <span class="text-sm font-medium text-ink-800">${comp.name}</span>
+            <span class="text-[10px] font-mono text-ink-400">${comp.type}</span>
+          </div>
+          <div class="p-5 min-h-[160px] flex items-center justify-center bg-ink-50/50">
+            ${renderRealComponent(comp.type)}
+          </div>
+          <div class="px-4 py-2.5 border-t border-ink-100"><p class="text-xs text-ink-500">${comp.desc}</p></div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderDemos() {
+  const hasBeforeAfter = ['shadcn-ui','ui-ux-pro-max','taste-skill','impeccable','remotion','awesome-design-md-jp'].includes(currentSkill.id);
+  const preview = previewPrompts[currentSkill.id] || { type: '示例项目', prompt: '创建一个现代化的网站首页' };
+  return `<div class="animate-fade-in">
+    ${hasBeforeAfter ? `
+    <div class="mb-10">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-semibold text-ink-800 flex items-center gap-2"><i data-lucide="git-compare" class="w-4 h-4 text-ink-500"></i>Before / After 效果对比</h3>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-md bg-ink-100 text-ink-600">${preview.type}</span>
+      </div>
+      <div class="bg-ink-50/80 border border-ink-200 rounded-xl2 p-4 mb-5">
+        <div class="flex items-start gap-3 mb-3">
+          <i data-lucide="message-square" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>
+          <div>
+            <div class="text-[10px] font-semibold uppercase tracking-wider text-ink-400 mb-1">使用的提示词（Before / After 完全相同）</div>
+            <p class="text-xs text-ink-600 leading-relaxed">${preview.prompt}</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-ink-200">
+          <div class="flex items-start gap-2">
+            <span class="w-2 h-2 rounded-full bg-red-500 shrink-0 mt-1"></span>
+            <div>
+              <div class="text-[10px] font-semibold uppercase tracking-wider text-red-500 mb-0.5">Before 生成方式</div>
+              <p class="text-[11px] text-ink-600 leading-relaxed">豆包 2.1 Turbo 直接生成，不使用任何 Skill</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-500 shrink-0 mt-1"></span>
+            <div>
+              <div class="text-[10px] font-semibold uppercase tracking-wider text-green-600 mb-0.5">After 生成方式</div>
+              <p class="text-[11px] text-ink-600 leading-relaxed">豆包 2.1 Turbo + ${currentSkill.name} Skill 生成</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-ink-100 flex items-center justify-between bg-red-50/60">
+            <span class="text-xs font-semibold text-red-600 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span>Before — 普通模板感设计</span>
+            <a href="previews/${currentSkill.id}/before.html" target="_blank" class="text-[10px] text-ink-400 hover:text-ink-600 flex items-center gap-1">完整页面 <i data-lucide="external-link" class="w-3 h-3"></i></a>
+          </div>
+          <a href="previews/${currentSkill.id}/before.html" target="_blank" class="block">
+            <iframe src="previews/${currentSkill.id}/before.html" class="w-full h-[560px] border-0 pointer-events-none" loading="lazy"></iframe>
+          </a>
+        </div>
+        <div class="flex justify-center">
+          <div class="flex items-center gap-2 text-[11px] text-ink-400">
+            <div class="w-8 h-px bg-ink-200"></div>
+            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+            <span class="font-medium">使用 ${currentSkill.name} 重新设计</span>
+            <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+            <div class="w-8 h-px bg-ink-200"></div>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-ink-100 flex items-center justify-between bg-green-50/60">
+            <span class="text-xs font-semibold text-green-600 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500"></span>After — ${currentSkill.name} 设计</span>
+            <a href="previews/${currentSkill.id}/after.html" target="_blank" class="text-[10px] text-ink-400 hover:text-ink-600 flex items-center gap-1">完整页面 <i data-lucide="external-link" class="w-3 h-3"></i></a>
+          </div>
+          <a href="previews/${currentSkill.id}/after.html" target="_blank" class="block">
+            <iframe src="previews/${currentSkill.id}/after.html" class="w-full h-[560px] border-0 pointer-events-none" loading="lazy"></iframe>
+          </a>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+  </div>`;
+}
+
+function renderWorkflow() {
+  const steps = currentSkill.workflow || [];
+  return `<div class="animate-fade-in max-w-4xl">
+    <div class="mb-4">
+      <h3 class="text-lg font-bold text-ink-900 mb-1">${currentSkill.name} · 工作流程</h3>
+      <p class="text-sm text-ink-500">从开始到完成的 ${steps.length} 个核心步骤，了解这个 Skill 是如何工作的</p>
+    </div>
+    <div class="bg-white rounded-xl2 border border-ink-200 p-6">
+      <div class="space-y-0">
+        ${steps.map((s,i)=>`
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="shrink-0 w-9 h-9 rounded-full ${i === 0 ? 'bg-ink-900' : i === steps.length-1 ? 'bg-emerald-600' : 'bg-ink-700'} text-white text-sm font-bold flex items-center justify-center shadow-sm">${s.step}</div>
+              ${i < steps.length - 1 ? '<div class="w-px flex-1 bg-ink-200 my-1.5 min-h-[24px]"></div>' : ''}
+            </div>
+            <div class="flex-1 pb-6 ${i === steps.length-1 ? 'pb-0' : ''}">
+              <div class="text-base font-semibold text-ink-900 mb-1.5">${s.title}</div>
+              <div class="text-sm text-ink-600 leading-relaxed">${s.desc}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="mt-4 flex items-center gap-2 text-xs text-ink-400">
+      <i data-lucide="info" class="w-3.5 h-3.5"></i>
+      <span>以上工作流程基于 ${currentSkill.name} 的官方文档和实际使用场景分析整理</span>
+    </div>
+  </div>`;
+}
+
+function renderUsage() {
+  return `<div class="animate-fade-in max-w-4xl">
+    <div class="bg-white rounded-xl2 border border-ink-200 p-5 mb-6">
+      <h4 class="text-[11px] font-semibold uppercase tracking-wider text-ink-400 mb-2">什么时候调用</h4>
+      <p class="text-sm text-ink-700 leading-relaxed">${currentSkill.triggerSummary}</p>
+    </div>
+    </div>
+    <div class="mb-6">
+      <h4 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2"><i data-lucide="terminal" class="w-4 h-4 text-ink-500"></i>提示词方案</h4>
+      <div class="space-y-2.5">
+        ${currentSkill.prompts.map((p,i)=>`
+          <div class="bg-white rounded-xl2 border border-ink-200 p-4">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <div class="flex items-center gap-2"><span class="w-5 h-5 rounded-md bg-ink-900 text-white text-[10px] font-bold flex items-center justify-center shrink-0">${i+1}</span><span class="text-sm font-medium text-ink-800">${p.title}</span></div>
+              <button onclick="copyPrompt(${i})" class="shrink-0 flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium text-ink-500 bg-ink-100 rounded-md hover:bg-ink-200 transition-colors" id="promptBtn${i}"><i data-lucide="copy" class="w-3 h-3"></i>复制</button>
+            </div>
+            <p class="text-xs text-ink-500 leading-relaxed pl-7">${p.text}</p>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div>
+      <h4 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2"><i data-lucide="messages-square" class="w-4 h-4 text-ink-500"></i>AI 对话场景示例</h4>
+      <div class="space-y-3">
+        ${currentSkill.conversations.map((c,i)=>`
+          <div class="bg-white rounded-xl2 border border-ink-200 overflow-hidden">
+            <div class="px-4 py-2.5 bg-ink-50 border-b border-ink-100 flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-ink-100 flex items-center justify-center shrink-0"><i data-lucide="user" class="w-3 h-3 text-ink-500"></i></span><span class="text-xs font-medium text-ink-700">场景 ${i+1}</span></div>
+            <div class="p-4 space-y-3">
+              <div class="flex gap-2.5"><div class="w-6 h-6 rounded-full bg-ink-100 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[9px] font-bold text-ink-500">U</span></div><div class="flex-1"><p class="text-[11px] font-semibold text-ink-400 mb-0.5">用户提问</p><p class="text-xs text-ink-700 leading-relaxed">${c.q}</p></div></div>
+              <div class="flex gap-2.5"><div class="w-6 h-6 rounded-full bg-accent-100 flex items-center justify-center shrink-0 mt-0.5"><span class="text-[9px] font-bold text-accent-600">AI</span></div><div class="flex-1"><p class="text-[11px] font-semibold text-ink-400 mb-0.5">AI 回答</p><p class="text-xs text-ink-600 leading-relaxed">${c.a}</p></div></div>
+              <div class="ml-8.5"><div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-100 rounded-md"><i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-600"></i><span class="text-[11px] font-medium text-emerald-700">产出：${c.output}</span></div></div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function copyPrompt(i) {
+  copyToClipboard(currentSkill.prompts[i].text, '提示词已复制到剪贴板');
+  const btn = document.getElementById('promptBtn'+i), orig = btn.innerHTML;
+  btn.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i>已复制';
+  btn.classList.add('bg-emerald-100','text-emerald-700'); btn.classList.remove('bg-ink-100','text-ink-500');
+  lucide.createIcons();
+  setTimeout(()=>{btn.innerHTML=orig;btn.classList.remove('bg-emerald-100','text-emerald-700');btn.classList.add('bg-ink-100','text-ink-500');lucide.createIcons();},2000);
+}
+
+function renderPractice() {
+  let records = getSkillRecords(currentSkill.id);
+  
+  // 如果没有记录，使用预置的演示记录（仅用于展示，不保存到localStorage）
+  const demoRecords = [
+    {
+      rating: 5,
+      text: '用了这个 DESIGN.md 集合后，AI 生成的日本语页面排版终于正常了！之前字体总是不对，行间距也太窄，现在用 Mercari 的 DESIGN.md，生成的页面跟真的日本网站一模一样。禁则处理和字间距这些细节都到位了，强烈推荐做日本市场的产品经理使用。',
+      images: [
+        'https://picsum.photos/seed/jp-design-1/400/300',
+        'https://picsum.photos/seed/jp-design-2/400/300'
+      ],
+      date: new Date(Date.now() - 86400000 * 3).toISOString()
+    },
+    {
+      rating: 4,
+      text: '480+ 网站的设计规范太全了，从 Apple Japan 到无印良品都有。每个 DESIGN.md 都有 preview.html 可以直接看效果，很方便。唯一的不足是需要自己手动选对应的 DESIGN.md，没有智能推荐功能。整体来说对 AI 生成日本语 UI 的帮助非常大。',
+      images: [
+        'https://picsum.photos/seed/jp-design-3/400/300'
+      ],
+      date: new Date(Date.now() - 86400000 * 7).toISOString()
+    },
+    {
+      rating: 5,
+      text: '作为一个经常做日本客户项目的前端工程师，这个集合简直是神器。之前每次都要手动调整字体和行间距，现在直接把对应的 DESIGN.md 丢给 AI，生成的代码直接能用。和文フォントチェーン和混植规则这些细节都处理得很好，客户都以为我专门研究过日本语排版。',
+      images: [],
+      date: new Date(Date.now() - 86400000 * 14).toISOString()
+    }
+  ];
+  
+  if (records.length === 0 && currentSkill.id === 'awesome-design-md-jp') {
+    records = demoRecords;
+  }
+  
+  const avg = records.length > 0 ? (records.reduce((s,r)=>s+r.rating,0)/records.length).toFixed(1) : '—';
+  return `<div class="animate-fade-in max-w-4xl">
+    ${records.length===0 ? `
+      <div class="text-center py-12">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-ink-100 flex items-center justify-center"><i data-lucide="star" class="w-6 h-6 text-ink-400"></i></div>
+        <h4 class="text-base font-semibold text-ink-800 mb-1.5">还没有实践记录</h4>
+        <p class="text-sm text-ink-500 mb-5">使用过这个技能后，来打个分并记录你的体验吧</p>
+        <button onclick="scrollToRating()" class="inline-flex items-center gap-2 px-4 py-2 bg-ink-900 text-white text-sm font-medium rounded-lg hover:bg-ink-800 transition-colors"><i data-lucide="edit-3" class="w-4 h-4"></i>开始打分</button>
+      </div>` : `
+      <div class="flex items-center gap-6 mb-6 bg-white rounded-xl2 border border-ink-200 p-4">
+        <div class="text-center"><div class="text-3xl font-bold">${records.length}</div><div class="text-[11px] text-ink-400">记录总数</div></div>
+        <div class="w-px h-10 bg-ink-200"></div>
+        <div class="text-center">
+          <div class="text-3xl font-bold flex items-center gap-2">${avg}
+            <div class="flex items-center gap-0.5">
+              ${Array.from({length:5},(_,i)=>`<svg class="w-4 h-4 ${i<Math.round(avg)?'gh-star':''}" style="${i>=Math.round(avg)?'fill:#e7e5e4':''}" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`).join('')}
+            </div>
+          </div>
+          <div class="text-[11px] text-ink-400">平均评分</div>
+        </div>
+      </div>
+      <div class="space-y-3 mb-8">
+        ${records.map((r,i)=>`
+          <div class="bg-white rounded-xl2 border border-ink-200 p-4 hover:border-ink-300 transition-colors">
+            <div class="flex gap-4">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-3 mb-2">
+                  <div class="flex items-center gap-1.5">
+                    ${Array.from({length:5},(_,si)=>`<svg class="w-3.5 h-3.5 ${si<r.rating?'gh-star':''}" style="${si>=r.rating?'fill:#e7e5e4':''}" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`).join('')}
+                    <span class="text-[11px] text-ink-400 ml-1">${relativeTime(r.date)}</span>
+                  </div>
+                  <button onclick="deleteRecord(${i})" class="text-ink-300 hover:text-red-500 transition-colors p-1 shrink-0"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                </div>
+                ${r.text?`<p class="text-sm text-ink-600 leading-relaxed">${r.text}</p>`:'<p class="text-sm text-ink-400 italic">未填写评价内容</p>'}
+              </div>
+              ${r.images&&r.images.length>0?`<div class="shrink-0 flex flex-col gap-2">${r.images.filter(Boolean).map(img=>`<img src="${img}" alt="实践截图" class="w-24 h-24 object-cover rounded-lg border border-ink-200 cursor-pointer hover:opacity-80 hover:scale-[1.02] transition-all" onclick="openLightbox('${img}')">`).join('')}</div>`:''}
+            </div>
+          </div>`).join('')}
+      </div>`}
+    <div id="ratingForm" class="bg-white rounded-xl2 border border-ink-200 p-5">
+      <h4 class="text-sm font-semibold text-ink-800 mb-4 flex items-center gap-2"><i data-lucide="pen-line" class="w-4 h-4 text-ink-500"></i>记录你的实践</h4>
+      <div class="mb-4"><label class="text-[11px] font-semibold text-ink-500 block mb-2">评分</label>
+        <div class="flex items-center gap-1" id="starRating">
+          ${Array.from({length:5},(_,i)=>`<button onclick="setRating(${i+1})" class="star-btn p-0.5" data-star="${i+1}"><svg class="w-7 h-7 text-ink-200" style="fill:#e7e5e4" viewBox="0 0 16 16"><use href="#gh-star"/></svg></button>`).join('')}
+          <span id="ratingLabel" class="text-xs text-ink-400 ml-2">点击星星评分</span>
+        </div>
+      </div>
+      <div class="mb-4"><label class="text-[11px] font-semibold text-ink-500 block mb-2">评价（可选）</label>
+        <textarea id="reviewText" rows="3" placeholder="记录使用这个技能的体验、效果、遇到的问题..." class="w-full px-3.5 py-2.5 text-sm bg-ink-50 border border-ink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-colors resize-none"></textarea>
+      </div>
+      <div class="mb-5"><label class="text-[11px] font-semibold text-ink-500 block mb-2">添加图片（可选，支持点击、拖拽、粘贴板截图 Ctrl+V / Cmd+V，可多选）</label>
+        <div id="imageDropZone" class="relative border-2 border-dashed border-ink-200 rounded-lg p-4 cursor-pointer hover:border-ink-300 hover:bg-ink-50/50 transition-all" onclick="document.getElementById('multiFileInput').click()">
+          <input type="file" id="multiFileInput" accept="image/*" multiple class="hidden" onchange="handleMultiFileUpload(this)">
+          <div id="dropZonePlaceholder" class="text-center py-6 text-ink-400">
+            <i data-lucide="upload-cloud" class="w-8 h-8 mx-auto mb-2"></i>
+            <p class="text-xs font-medium">点击选择、拖拽图片到此处，或直接粘贴截图</p>
+            <p class="text-[10px] text-ink-400 mt-1">支持 JPG、PNG、GIF、WebP，可一次选择多张</p>
+          </div>
+          <div id="imagePreviewGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 hidden"></div>
+        </div>
+      </div>
+      <button onclick="submitReview()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-ink-900 text-white text-sm font-medium rounded-lg hover:bg-ink-800 transition-colors"><i data-lucide="send" class="w-4 h-4"></i>提交评价</button>
+    </div>
+  </div>`;
+}
+
+function initPracticeTab() {
+  document.addEventListener('paste', handlePaste);
+  
+  // 拖拽上传
+  const dropZone = document.getElementById('imageDropZone');
+  if (dropZone) {
+    ['dragenter', 'dragover'].forEach(evt => {
+      dropZone.addEventListener(evt, e => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.add('border-accent-500', 'bg-accent-50/30');
+      });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      dropZone.addEventListener(evt, e => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.remove('border-accent-500', 'bg-accent-50/30');
+      });
+    });
+    dropZone.addEventListener('drop', e => {
+      const files = Array.from(e.dataTransfer?.files || []);
+      files.forEach(f => {
+        if (!f.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          currentImages.push(ev.target.result);
+          renderImagePreview();
+        };
+        reader.readAsDataURL(f);
+      });
+      if (files.length > 0) showToast(`已添加 ${files.length} 张图片`);
+    });
+  }
+}
+function handlePaste(e) {
+  if (currentTab !== 'practice') return;
+  const items = e.clipboardData?.items; if (!items) return;
+  let pasted = false;
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      e.preventDefault();
+      pasted = true;
+      const file = item.getAsFile(), reader = new FileReader();
+      reader.onload = ev => {
+        currentImages.push(ev.target.result);
+        renderImagePreview();
+        showToast('图片已添加');
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+}
+function handleMultiFileUpload(input) {
+  const files = Array.from(input.files || []);
+  if (files.length === 0) return;
+  files.forEach(f => {
+    if (!f.type.startsWith('image/')) return;
+    const r = new FileReader();
+    r.onload = e => {
+      currentImages.push(e.target.result);
+      renderImagePreview();
+    };
+    r.readAsDataURL(f);
+  });
+  input.value = '';
+}
+function renderImagePreview() {
+  const grid = document.getElementById('imagePreviewGrid');
+  const placeholder = document.getElementById('dropZonePlaceholder');
+  if (!grid || !placeholder) return;
+  
+  if (currentImages.length === 0) {
+    grid.classList.add('hidden');
+    placeholder.classList.remove('hidden');
+    return;
+  }
+  
+  placeholder.classList.add('hidden');
+  grid.classList.remove('hidden');
+  grid.innerHTML = currentImages.map((img, idx) => `
+    <div class="relative aspect-square rounded-md overflow-hidden group border border-ink-200">
+      <img src="${img}" class="w-full h-full object-cover">
+      <button onclick="event.stopPropagation();removeImage(${idx})" class="absolute top-1 right-1 w-5 h-5 rounded-full bg-ink-900/70 text-white flex items-center justify-center hover:bg-ink-900 transition-colors z-10 opacity-0 group-hover:opacity-100">
+        <i data-lucide="x" class="w-3 h-3"></i>
+      </button>
+      <span class="absolute bottom-1 left-1 text-[9px] bg-ink-900/70 text-white px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">${idx+1}</span>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+function removeImage(idx) {
+  currentImages.splice(idx, 1);
+  renderImagePreview();
+}
+function removeImage(idx){currentImages[idx]=null;updateImageSlot(idx);}
+function setRating(rating) {
+  currentRating=rating;
+  const stars=document.querySelectorAll('#starRating .star-btn svg');
+  const labels=['很差','较差','一般','满意','非常满意'];
+  stars.forEach((s,i)=>{ if(i<rating){s.classList.remove('text-ink-200');s.classList.add('gh-star');s.style.fill='';}else{s.classList.add('text-ink-200');s.classList.remove('gh-star');s.style.fill='#e7e5e4';} });
+  document.getElementById('ratingLabel').textContent=labels[rating-1];
+}
+function submitReview() {
+  if(currentRating===0){showToast('请先选择评分','error');return;}
+  const text=document.getElementById('reviewText').value.trim();
+  const images=currentImages.filter(Boolean);
+  addSkillRecord(currentSkill.id,{rating:currentRating,text,images,date:new Date().toISOString()});
+  showToast('评价已保存');
+  currentRating=0;currentImages=[null,null];
+  renderTabContent();
+}
+function deleteRecord(idx){deleteSkillRecord(currentSkill.id,idx);showToast('记录已删除');renderTabContent();}
+function scrollToRating(){setTimeout(()=>{const f=document.getElementById('ratingForm');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});},100);}
+function openLightbox(src){document.getElementById('lightboxImg').src=src;document.getElementById('lightbox').classList.remove('hidden');document.getElementById('lightbox').classList.add('flex');}
+function closeLightbox(){document.getElementById('lightbox').classList.add('hidden');document.getElementById('lightbox').classList.remove('flex');}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  renderSkillsGrid();
+  document.getElementById('skillCount').textContent=skills.length+' skills';
+  document.getElementById('sortSelect').addEventListener('change',e=>renderSkillsGrid(e.target.value));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!document.getElementById('lightbox').classList.contains('hidden'))closeLightbox();  } });
+  lucide.createIcons();
+});
+</script>
+</body>
+</html>

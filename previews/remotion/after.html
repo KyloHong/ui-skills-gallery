@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remotion — Video as Code</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root {
+  --bg: #0a0a0f;
+  --bg-elevated: #12121a;
+  --bg-card: #16161f;
+  --border: #2a2a35;
+  --border-hover: #3a3a48;
+  --text: #f0f0f5;
+  --text-secondary: #9a9aa8;
+  --text-muted: #6a6a78;
+  --accent: #00ff88;
+  --accent-dim: rgba(0,255,136,0.12);
+  --accent-glow: rgba(0,255,136,0.3);
+  --purple: #a855f7;
+  --orange: #ff6b35;
+  --blue: #3b82f6;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+.mono { font-family: 'JetBrains Mono', monospace; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+/* Background grid */
+.bg-grid {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Nav */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(10,10,15,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-weight: 900;
+  font-size: 14px;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 24px var(--accent-glow);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-elevated); }
+
+/* Hero */
+.hero {
+  position: relative;
+  padding: 160px 0 100px;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0,255,136,0.2);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.hero h1 {
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 20px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.hero-actions { display: flex; gap: 16px; align-items: center; }
+.hero-actions .btn { padding: 14px 28px; font-size: 15px; }
+.hero-code {
+  margin-top: 60px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 700px;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+}
+.code-dot { width: 12px; height: 12px; border-radius: 50%; }
+.code-dot.red { background: #ff5f57; }
+.code-dot.yellow { background: #febc2e; }
+.code-dot.green { background: #28c840; }
+.code-title {
+  margin-left: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+.code-body {
+  padding: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+.code-body .keyword { color: var(--purple); }
+.code-body .string { color: var(--accent); }
+.code-body .comment { color: var(--text-muted); }
+.code-body .function { color: var(--blue); }
+.code-body .frame-num {
+  display: inline-block;
+  width: 32px;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+/* Frame indicator */
+.frame-indicator {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.frame-bar {
+  width: 4px;
+  height: 120px;
+  background: var(--border);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.frame-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65%;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.frame-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Sections */
+section { position: relative; z-index: 1; padding: 100px 0; }
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+.section-desc {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin-bottom: 60px;
+}
+
+/* Features */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  background: var(--bg-elevated);
+}
+.feature-card:hover::before { opacity: 1; }
+.feature-icon {
+  width: 48px; height: 48px;
+  background: var(--accent-dim);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+.feature-card p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.feature-code {
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Stats */
+.stats {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-size: 56px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -2px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+/* Workflow */
+.workflow-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.workflow-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+.workflow-item:last-child { border-bottom: none; }
+.workflow-step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 700;
+  padding-top: 4px;
+}
+.workflow-content h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+.workflow-content p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* CTA */
+.cta {
+  text-align: center;
+  padding: 120px 0;
+}
+.cta h2 {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+.cta p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+}
+.cta .btn { padding: 16px 40px; font-size: 16px; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 60px 0 40px;
+  position: relative;
+  z-index: 1;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+.footer-brand p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 16px;
+  max-width: 300px;
+}
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 12px; }
+.footer-col a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">
+      <div class="logo-mark">R</div>
+      Remotion
+    </div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a href="#docs">Docs</a></li>
+      <li><a href="#showcase">Showcase</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="btn btn-ghost">GitHub</button>
+      <button class="btn btn-primary">Get Started</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      v4.0.468 — 628 releases shipped
+    </div>
+    <h1>Make videos<br><span class="highlight">with code.</span></h1>
+    <p class="hero-sub">
+      Remotion is a framework for creating videos programmatically using React. 
+      Leverage web technologies, programming, and React components to build 
+      videos that scale.
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-primary">npx create-video@latest</button>
+      <button class="btn btn-ghost">Read the docs →</button>
+    </div>
+    
+    <div class="hero-code">
+      <div class="code-header">
+        <span class="code-dot red"></span>
+        <span class="code-dot yellow"></span>
+        <span class="code-dot green"></span>
+        <span class="code-title">MyVideo.tsx</span>
+      </div>
+      <div class="code-body">
+        <span class="frame-num">01</span><span class="keyword">import</span> { <span class="function">AbsoluteFill</span>, <span class="function">useCurrentFrame</span> } <span class="keyword">from</span> <span class="string">'remotion'</span>;<br>
+        <span class="frame-num">02</span><br>
+        <span class="frame-num">03</span><span class="keyword">export const</span> <span class="function">MyVideo</span> = () => {<br>
+        <span class="frame-num">04</span>&nbsp;&nbsp;<span class="keyword">const</span> frame = <span class="function">useCurrentFrame</span>();<br>
+        <span class="frame-num">05</span>&nbsp;&nbsp;<span class="keyword">const</span> opacity = frame / 30;<br>
+        <span class="frame-num">06</span><br>
+        <span class="frame-num">07</span>&nbsp;&nbsp;<span class="keyword">return</span> (<br>
+        <span class="frame-num">08</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"><</span><span class="function">AbsoluteFill</span> style={{ opacity }}<span class="keyword">></span><br>
+        <span class="frame-num">09</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hello, frame {frame}!<br>
+        <span class="frame-num">10</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"></</span><span class="function">AbsoluteFill</span><span class="keyword">></span><br>
+        <span class="frame-num">11</span>&nbsp;&nbsp;);<br>
+        <span class="frame-num">12</span>};<br>
+        <span class="frame-num">13</span><br>
+        <span class="frame-num">14</span><span class="comment">// Render: npx remotion render MyVideo out.mp4</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="frame-indicator">
+    <div class="frame-bar">
+      <div class="frame-fill"></div>
+    </div>
+    <div class="frame-label mono">00:42/01:00</div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">51k+</div>
+        <div class="stat-label">GitHub Stars</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">628</div>
+        <div class="stat-label">Releases</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1000+</div>
+        <div class="stat-label">Docs Pages</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">300+</div>
+        <div class="stat-label">Companies</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <div class="section-label">// Features</div>
+    <h2 class="section-title">Everything you need<br>to make videos at scale</h2>
+    <p class="section-desc">From concept to rendered MP4, Remotion gives you the tools to create, automate, and deploy video production pipelines.</p>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚛️</div>
+        <h3>React-Powered</h3>
+        <p>Every frame is a React component. Use CSS, SVG, Canvas, WebGL — anything the web can render becomes a video.</p>
+        <div class="feature-code">useCurrentFrame() → frame</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>Agent Native</h3>
+        <p>Built for AI coding agents. System prompts, skills, and templates let Codex and Claude generate production-ready videos.</p>
+        <div class="feature-code">/remotion craft</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Data-Driven</h3>
+        <p>Pass data as props, render millions of personalized videos. Connect to APIs, databases, or spreadsheets for batch generation.</p>
+        <div class="feature-code">inputProps → video</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Cloud Rendering</h3>
+        <p>Render on Lambda, Vercel, or your own infrastructure. Parallel rendering, progress tracking, and webhook callbacks built in.</p>
+        <div class="feature-code">renderMedia({ serveUrl })</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎬</div>
+        <h3>Studio Preview</h3>
+        <p>Real-time preview with timeline, frame stepping, and parameter adjustment. Iterate fast without waiting for renders.</p>
+        <div class="feature-code">npx remotion studio</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3>Design Systems</h3>
+        <p>Build reusable animated component libraries. Share motion patterns, transitions, and effects across your organization.</p>
+        <div class="feature-code"><Sequence from={30} /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="workflow">
+  <div class="container">
+    <div class="section-label">// Workflow</div>
+    <h2 class="section-title">From idea to rendered<br>video in 6 steps</h2>
+    <p class="section-desc">A production pipeline that fits into your existing development workflow.</p>
+    
+    <div class="workflow-list">
+      <div class="workflow-item">
+        <div class="workflow-step">01</div>
+        <div class="workflow-content">
+          <h3>Scaffold your project</h3>
+          <p>Run npx create-video@latest to generate a TypeScript project with Remotion configured. Choose from templates or start blank.</p>
+        </div>
+      </div>
+      <div class="workflow-item">
+        <div class="workflow-step">02</div>
+        <div class="workflow-content">
+          <h3>Define your composition</h3>
+          <p>Set width, height, fps, and durationInFrames. Register your root component and configure output settings.</p>
+        </div>
+      </div>
+      <div class="workflow-item">
+        <div class="workflow-step">03</div>
+        <div class="workflow-content">
+          <h3>Build with React components</h3>
+          <p>Use useCurrentFrame, interpolate, spring, and Sequence to orchestrate timing. Compose with AbsoluteFill and standard React patterns.</p>
+        </div>
+      </div>
+      <div class="workflow-item">
+        <div class="workflow-step">04</div>
+        <div class="workflow-content">
+          <h3>Preview in Studio</h3>
+          <p>Open Remotion Studio for real-time playback, frame-by-frame inspection, and parameter tweaking. See changes instantly.</p>
+        </div>
+      </div>
+      <div class="workflow-item">
+        <div class="workflow-step">05</div>
+        <div class="workflow-content">
+          <h3>Render to MP4</h3>
+          <p>Run npx remotion render or call renderMedia() programmatically. Chrome Headless captures every frame, FFmpeg encodes to video.</p>
+        </div>
+      </div>
+      <div class="workflow-item">
+        <div class="workflow-step">06</div>
+        <div class="workflow-content">
+          <h3>Deploy & automate</h3>
+          <p>Deploy to Lambda or Vercel for on-demand rendering. Build APIs, webhooks, and batch pipelines. Scale to millions of videos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>Start making videos<br>with code today.</h2>
+    <p>Free for individuals. Company license for teams of 4+.</p>
+    <div class="hero-actions" style="justify-content:center">
+      <button class="btn btn-primary">Get Started Free</button>
+      <button class="btn btn-ghost">View on GitHub →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-mark">R</div>
+          Remotion
+        </div>
+        <p>Video tools for the agent era. Make videos programmatically, interactively, and agentically.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Showcase</a></li>
+          <li><a href="#">Templates</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">Agent Skills</a></li>
+          <li><a href="#">Discord</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">License</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Remotion. Made with React in Zürich.</span>
+      <span class="mono">v4.0.468</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

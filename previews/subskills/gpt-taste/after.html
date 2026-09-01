@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gpt-taste - Awwwards 创意站</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Courier New',monospace;background:#000;color:#fff;overflow-x:hidden;cursor:crosshair}
+  .cursor{position:fixed;width:20px;height:20px;border:2px solid #0f0;border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.1s}
+  .nav{position:fixed;top:0;left:0;right:0;padding:20px 40px;display:flex;justify-content:space-between;z-index:100;mix-blend-mode:difference}
+  .nav-logo{font-size:14px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase}
+  .nav-links{display:flex;gap:24px}
+  .nav-links a{font-size:12px;color:#fff;text-decoration:none;letter-spacing:0.1em;text-transform:uppercase}
+  .hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(0,255,0,0.1) 0%,transparent 50%)}
+  .hero h1{font-size:120px;font-weight:900;letter-spacing:-0.05em;line-height:0.9;text-align:center;z-index:1;background:linear-gradient(180deg,#fff 0%,#0f0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glitch 3s infinite}
+  @keyframes glitch{0%,90%,100%{transform:translate(0)}92%{transform:translate(-5px,2px)}94%{transform:translate(5px,-2px)}96%{transform:translate(-3px,-1px)}}
+  .hero-sub{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-size:14px;letter-spacing:0.3em;text-transform:uppercase;color:#0f0}
+  .marquee{padding:40px 0;background:#0f0;color:#000;overflow:hidden;white-space:nowrap}
+  .marquee-content{display:inline-block;animation:scroll 20s linear infinite;font-size:32px;font-weight:900;text-transform:uppercase;letter-spacing:0.1em}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .work{padding:100px 40px}
+  .work-item{padding:60px 0;border-top:1px solid #333;display:grid;grid-template-columns:1fr 2fr;gap:40px;align-items:start}
+  .work-num{font-size:64px;font-weight:900;color:#0f0}
+  .work-info h3{font-size:32px;font-weight:700;margin-bottom:12px}
+  .work-info p{font-size:14px;color:#999;line-height:1.8}
+  .footer{padding:60px 40px;border-top:1px solid #333;text-align:center}
+  .footer h2{font-size:48px;font-weight:900;margin-bottom:16px}
+  .footer a{color:#0f0;text-decoration:none;font-size:18px}
+</style>
+</head>
+<body>
+  <div class="cursor"></div>
+  <nav class="nav"><div class="nav-logo">NEON//LAB</div><div class="nav-links"><a href="#">Work</a><a href="#">About</a><a href="#">Contact</a></div></nav>
+  <section class="hero"><div class="hero-bg"></div><h1>CREATE<br>THE<br>FUTURE</h1><div class="hero-sub">// Digital Experience Studio</div></section>
+  <div class="marquee"><div class="marquee-content">AWARD WINNING DESIGN × INNOVATIVE TECHNOLOGY × BOUNDARY PUSHING × AWARD WINNING DESIGN × INNOVATIVE TECHNOLOGY × BOUNDARY PUSHING × </div></div>
+  <section class="work">
+    <div class="work-item"><div class="work-num">01</div><div class="work-info"><h3>沉浸式电商体验</h3><p>为高端时尚品牌打造的 WebGL 电商体验，用户可以在 3D 空间中浏览和试穿产品。获得 Awwwards Site of the Day。</p></div></div>
+    <div class="work-item"><div class="work-num">02</div><div class="work-info"><h3>AI 音乐可视化</h3><p>实时音频分析驱动的生成艺术装置，每一次播放都是独一无二的视觉体验。已在全球 5 个音乐节展出。</p></div></div>
+    <div class="work-item"><div class="work-num">03</div><div class="work-info"><h3>元宇宙社交平台</h3><p>基于 WebXR 的虚拟社交空间，用户可以创建虚拟形象、参加活动、与全球用户互动。</p></div></div>
+  </section>
+  <footer class="footer"><h2>LET'S CREATE</h2><a href="mailto:hello@neonlab.studio">hello@neonlab.studio</a></footer>
+  <script>document.addEventListener('mousemove',e=>{const c=document.querySelector('.cursor');c.style.left=e.clientX-10+'px';c.style.top=e.clientY-10+'px'})</script>
+</body>
+</html>

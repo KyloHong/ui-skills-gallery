@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone 13 Pro 256GB シルバー - メルカリ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mercari-red: #ff4d4d;
+  --mercari-red-dark: #e63e3e;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666;
+  --text-muted: #999;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f7;
+  --border-light: #eee;
+  --border-medium: #ddd;
+  --accent-orange: #ff9500;
+  --success-green: #4cd964;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+body {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+/* Header */
+.header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--mercari-red);
+  letter-spacing: -0.02em;
+}
+.nav { display: flex; gap: 24px; align-items: center; }
+.nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav a:hover { color: var(--text-primary); }
+.sell-btn {
+  background: var(--mercari-red);
+  color: #fff !important;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 700 !important;
+}
+.sell-btn:hover { background: var(--mercari-red-dark); }
+
+/* Product Layout */
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+@media (max-width: 768px) {
+  .product-layout { grid-template-columns: 1fr; }
+}
+
+/* Product Images */
+.product-images {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 16px;
+}
+.main-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.thumbnails {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.thumbnail {
+  aspect-ratio: 1;
+  background: #f0f0f0;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.thumbnail.active { border-color: var(--mercari-red); }
+
+/* Product Info */
+.product-info {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 20px;
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+.product-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+.product-price {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.product-price .yen { font-size: 20px; margin-right: 2px; }
+.shipping-info {
+  font-size: 12px;
+  color: var(--success-green);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.seller-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.seller-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9500, #ff6b6b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+.seller-details { flex: 1; }
+.seller-name {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.seller-rating {
+  font-size: 12px;
+  color: var(--accent-orange);
+  font-weight: 500;
+}
+.buy-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--mercari-red);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+}
+.buy-btn:hover { background: var(--mercari-red-dark); }
+.fav-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.fav-btn:hover { border-color: var(--mercari-red); color: var(--mercari-red); }
+
+/* Product Details */
+.product-details {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+  letter-spacing: 0.02em;
+}
+.tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.tag {
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.desc-text {
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+}
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+.spec-table th, .spec-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 13px;
+}
+.spec-table th {
+  width: 120px;
+  color: var(--text-muted);
+  font-weight: 500;
+  background: var(--bg-secondary);
+}
+.spec-table td { color: var(--text-primary); font-weight: 500; }
+
+/* Comments */
+.comments {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+.comment {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.comment:last-child { border-bottom: none; }
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.comment-user {
+  font-size: 13px;
+  font-weight: 700;
+}
+.comment-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+.comment-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  padding-left: 42px;
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">メルカリ</div>
+    <nav class="nav">
+      <a href="#">ホーム</a>
+      <a href="#">カテゴリ</a>
+      <a href="#">マイページ</a>
+      <a href="#" class="sell-btn">出品</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="product-layout">
+    <div class="product-images">
+      <div class="main-image">📱 iPhone 13 Pro メイン画像</div>
+      <div class="thumbnails">
+        <div class="thumbnail active"></div>
+        <div class="thumbnail"></div>
+        <div class="thumbnail"></div>
+        <div class="thumbnail"></div>
+        <div class="thumbnail"></div>
+      </div>
+    </div>
+
+    <div class="product-info">
+      <h1 class="product-title">iPhone 13 Pro 256GB シルバー 中古美品</h1>
+      <div class="product-price"><span class="yen">¥</span>68,000</div>
+      <div class="shipping-info">送料込み・匿名配送</div>
+      <div class="seller-card">
+        <div class="seller-avatar">田</div>
+        <div class="seller-details">
+          <div class="seller-name">田中太郎</div>
+          <div class="seller-rating">★★★★☆ 4.2（128件の評価）</div>
+        </div>
+      </div>
+      <button class="buy-btn">購入手続きへ</button>
+      <button class="fav-btn">♡ お気に入りに追加</button>
+    </div>
+  </div>
+
+  <div class="product-details">
+    <h2 class="section-title">商品の説明</h2>
+    <div class="tags">
+      <span class="tag">iPhone</span>
+      <span class="tag">スマートフォン</span>
+      <span class="tag">中古品</span>
+      <span class="tag">美品</span>
+      <span class="tag">256GB</span>
+    </div>
+    <p class="desc-text">
+      この度は、iPhone 13 Pro 256GB シルバーを出品させていただきます。使用感は少しありますが、機能は全て正常に動作いたします。画面に傷はありません。バッテリー容量は89%です。付属品は充電ケーブルのみとなります。箱は付属しておりません。迅速に発送させていただきますので、よろしくお願いいたします。
+    </p>
+    <table class="spec-table">
+      <tr><th>カテゴリ</th><td>スマートフォン本体</td></tr>
+      <tr><th>ブランド</th><td>Apple</td></tr>
+      <tr><th>機種名</th><td>iPhone 13 Pro</td></tr>
+      <tr><th>ストレージ</th><td>256GB</td></tr>
+      <tr><th>カラー</th><td>シルバー</td></tr>
+      <tr><th>バッテリー</th><td>89%</td></tr>
+      <tr><th>発送方法</th><td>匿名配送・送料込み</td></tr>
+    </table>
+  </div>
+
+  <div class="comments">
+    <h2 class="section-title">コメント（3件）</h2>
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-avatar" style="background: linear-gradient(135deg, #667eea, #764ba2);">山</div>
+        <div class="comment-user">山田花子</div>
+        <div class="comment-time">2時間前</div>
+      </div>
+      <p class="comment-text">値下げは可能でしょうか。65,000円まででしたら、即購入させていただきます。</p>
+    </div>
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-avatar" style="background: linear-gradient(135deg, #f093fb, #f5576c);">佐</div>
+        <div class="comment-user">佐藤健</div>
+        <div class="comment-time">5時間前</div>
+      </div>
+      <p class="comment-text">バッテリーの減り具合はいかがでしょうか。1日は持ちますでしょうか。</p>
+    </div>
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-avatar" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">鈴</div>
+        <div class="comment-user">鈴木一郎</div>
+        <div class="comment-time">1日前</div>
+      </div>
+      <p class="comment-text">発送はいつ頃になりますでしょうか。土日は発送が不可でしょうか。</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

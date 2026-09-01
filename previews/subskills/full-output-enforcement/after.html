@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevKit — 让开发更高效</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Geist', 'Inter', sans-serif; background: #0d1117; color: #c9d1d9; }
+  .accent { color: #58a6ff; }
+  .bg-accent { background: #238636; }
+  .code-window { background: #161b22; border: 1px solid #30363d; border-radius: 12px; overflow: hidden; }
+  .code-header { background: #21262d; padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #30363d; }
+  .code-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .feature-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; transition: all 0.2s; }
+  .feature-card:hover { border-color: #58a6ff; background: #1c2128; }
+  .btn-primary { background: #238636; color: white; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: background 0.2s; }
+  .btn-primary:hover { background: #2ea043; }
+  .btn-secondary { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+  .btn-secondary:hover { background: #30363d; border-color: #8b949e; }
+</style>
+</head>
+<body>
+<header class="border-b border-[#30363d] bg-[#0d1117]/80 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-[#238636] flex items-center justify-center text-white font-bold">D</div>
+      <span class="text-lg font-semibold text-white">DevKit</span>
+    </div>
+    <nav class="flex items-center gap-8 text-sm text-[#8b949e]">
+      <a href="#" class="hover:text-white transition-colors">功能</a>
+      <a href="#" class="hover:text-white transition-colors">文档</a>
+      <a href="#" class="hover:text-white transition-colors">定价</a>
+      <a href="#" class="hover:text-white transition-colors">GitHub</a>
+      <button class="btn-primary">免费开始</button>
+    </nav>
+  </div>
+</header>
+
+<section class="max-w-6xl mx-auto px-6 py-24 text-center">
+  <div class="inline-flex items-center gap-2 bg-[#161b22] border border-[#30363d] px-4 py-2 rounded-full text-sm text-[#8b949e] mb-8">
+    <span class="w-2 h-2 rounded-full bg-[#238636]"></span>
+    v2.0 现已发布 · 性能提升 10 倍
+  </div>
+  <h1 class="text-5xl font-extrabold text-white tracking-tight mb-6">
+    让开发<span class="accent">更高效</span>
+  </h1>
+  <p class="text-xl text-[#8b949e] max-w-2xl mx-auto mb-10 leading-relaxed">
+    一站式开发者工具集，极速构建、智能提示、丰富插件生态，帮助您专注于创造价值。
+  </p>
+  <div class="flex justify-center gap-4 mb-16">
+    <button class="btn-primary">快速开始</button>
+    <button class="btn-secondary">查看文档</button>
+  </div>
+
+  <div class="code-window text-left max-w-3xl mx-auto">
+    <div class="code-header">
+      <div class="code-dot" style="background:#ff5f57"></div>
+      <div class="code-dot" style="background:#febc2e"></div>
+      <div class="code-dot" style="background:#28c840"></div>
+      <span class="ml-3 text-xs text-[#8b949e]">terminal</span>
+    </div>
+    <pre class="p-5 text-sm leading-relaxed font-mono"><span class="text-[#8b949e]">$</span> <span class="text-white">npm install -g devkit-cli</span>
+<span class="text-[#238636]">✓ 安装完成</span>
+
+<span class="text-[#8b949e]">$</span> <span class="text-white">devkit init my-project</span>
+<span class="text-[#238636]">✓ 项目初始化完成</span>
+<span class="text-[#238636]">✓ 依赖安装完成</span>
+<span class="text-[#238636]">✓ Git 仓库已创建</span>
+<span class="text-[#238636]">✓ VS Code 配置已生成</span>
+
+<span class="text-[#8b949e]">$</span> <span class="text-white">devkit dev</span>
+<span class="text-[#58a6ff]">🚀 开发服务器已启动</span>
+<span class="text-[#8b949e]">   → http://localhost:3000</span>
+<span class="text-[#8b949e]">   → 构建耗时: 0.4s</span></pre>
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-6 py-16">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="feature-card">
+      <div class="text-3xl mb-4">⚡</div>
+      <h3 class="text-lg font-semibold text-white mb-2">极速构建</h3>
+      <p class="text-sm text-[#8b949e] leading-relaxed">基于 Rust 的原生构建引擎，比传统工具快 10 倍，热更新毫秒级响应。</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-3xl mb-4">🔌</div>
+      <h3 class="text-lg font-semibold text-white mb-2">插件生态</h3>
+      <p class="text-sm text-[#8b949e] leading-relaxed">200+ 官方和社区插件，支持 React、Vue、Svelte 等主流框架，按需扩展。</p>
+    </div>
+    <div class="feature-card">
+      <div class="text-3xl mb-4">🤖</div>
+      <h3 class="text-lg font-semibold text-white mb-2">AI 智能提示</h3>
+      <p class="text-sm text-[#8b949e] leading-relaxed">内置 AI 代码补全和错误修复建议，学习您的编码习惯，提供个性化推荐。</p>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-6 py-16 text-center">
+  <div class="grid grid-cols-3 gap-8">
+    <div><div class="text-4xl font-bold text-white mb-2">50K+</div><div class="text-sm text-[#8b949e]">开发者使用</div></div>
+    <div><div class="text-4xl font-bold text-white mb-2">200+</div><div class="text-sm text-[#8b949e]">插件数量</div></div>
+    <div><div class="text-4xl font-bold text-white mb-2">99.9%</div><div class="text-sm text-[#8b949e]">构建成功率</div></div>
+  </div>
+</section>
+
+<footer class="border-t border-[#30363d] py-10 mt-10">
+  <div class="max-w-6xl mx-auto px-6 flex justify-between text-sm text-[#8b949e]">
+    <span>© 2024 DevKit. MIT License.</span>
+    <div class="flex gap-6"><a href="#" class="hover:text-white">GitHub</a><a href="#" class="hover:text-white">Twitter</a><a href="#" class="hover:text-white">Discord</a></div>
+  </div>
+</footer>
+</body>
+</html>

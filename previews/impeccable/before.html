@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinTech Pro - 智能金融科技</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { background: rgba(255,255,255,0.95); padding: 16px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 60px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-bottom: 24px; }
+.hero h1 { font-size: 38px; font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 16px; color: #666; margin-bottom: 24px; line-height: 1.6; }
+.hero-buttons { display: flex; gap: 12px; }
+.btn-primary { padding: 14px 32px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-secondary { padding: 14px 32px; background: #f0f0f0; color: #333; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.dashboard { background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; padding: 24px; color: white; }
+.dashboard-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.dashboard-title { font-size: 14px; color: #888; }
+.dashboard-value { font-size: 28px; font-weight: 700; }
+.chart { height: 120px; background: linear-gradient(180deg, rgba(102,126,234,0.2), transparent); border-radius: 8px; position: relative; margin-bottom: 16px; }
+.chart-bar { position: absolute; bottom: 0; width: 12%; background: linear-gradient(180deg, #667eea, #764ba2); border-radius: 4px 4px 0 0; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: rgba(255,255,255,0.95); border-radius: 12px; padding: 24px; text-align: center; }
+.stat-number { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-size: 13px; color: #999; margin-top: 4px; }
+.features { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 40px; margin-bottom: 24px; }
+.features h2 { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 32px; color: #333; }
+.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.feature { padding: 24px; background: #f8f9fa; border-radius: 12px; }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+.feature h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #333; }
+.feature p { font-size: 13px; color: #666; line-height: 1.6; }
+.security { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 40px; text-align: center; }
+.security h2 { font-size: 28px; font-weight: 700; margin-bottom: 16px; color: #333; }
+.security p { font-size: 16px; color: #666; margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.security-badges { display: flex; justify-content: center; gap: 24px; }
+.badge { padding: 8px 20px; background: #f0f0f0; border-radius: 8px; font-size: 13px; font-weight: 600; color: #666; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">FinTech Pro</div>
+    <nav style="display:flex;gap:24px;"><a href="#" style="color:#666;text-decoration:none;font-size:14px;">产品</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;">解决方案</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;">关于我们</a></nav>
+  </div>
+  <div class="hero">
+    <div>
+      <h1>智能投资，轻松理财</h1>
+      <p>基于 AI 算法的智能投顾平台，为您提供个性化的投资建议和资产配置方案，让财富增长更简单。</p>
+      <div class="hero-buttons">
+        <button class="btn-primary">立即注册</button>
+        <button class="btn-secondary">了解更多</button>
+      </div>
+    </div>
+    <div class="dashboard">
+      <div class="dashboard-header">
+        <div><div class="dashboard-title">总资产</div><div class="dashboard-value">¥1,284,560</div></div>
+        <div style="text-align:right;"><div class="dashboard-title">今日收益</div><div class="dashboard-value" style="color:#10b981;">+¥3,240</div></div>
+      </div>
+      <div class="chart">
+        <div class="chart-bar" style="left:5%;height:40%"></div>
+        <div class="chart-bar" style="left:20%;height:60%"></div>
+        <div class="chart-bar" style="left:35%;height:45%"></div>
+        <div class="chart-bar" style="left:50%;height:75%"></div>
+        <div class="chart-bar" style="left:65%;height:55%"></div>
+        <div class="chart-bar" style="left:80%;height:90%"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#888;"><span>股票 45%</span><span>基金 30%</span><span>债券 15%</span><span>现金 10%</span></div>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat-card"><div class="stat-number">50万+</div><div class="stat-label">注册用户</div></div>
+    <div class="stat-card"><div class="stat-number">¥200亿</div><div class="stat-label">管理资产</div></div>
+    <div class="stat-card"><div class="stat-number">12.5%</div><div class="stat-label">年化收益</div></div>
+    <div class="stat-card"><div class="stat-number">99.9%</div><div class="stat-label">系统稳定性</div></div>
+  </div>
+  <div class="features">
+    <h2>核心功能</h2>
+    <div class="feature-grid">
+      <div class="feature"><div class="feature-icon">🤖</div><h3>AI 智能投顾</h3><p>基于机器学习算法，根据您的风险偏好和投资目标，提供个性化的资产配置建议。</p></div>
+      <div class="feature"><div class="feature-icon">📊</div><h3>实时行情分析</h3><p>覆盖全球主要市场的实时行情数据，专业的技术分析工具和指标，助您把握投资机会。</p></div>
+      <div class="feature"><div class="feature-icon">🔒</div><h3>银行级安全</h3><p>采用银行级加密技术，资金由第三方托管，多重身份验证，保障您的资产安全。</p></div>
+    </div>
+  </div>
+  <div class="security">
+    <h2>安全可靠，值得信赖</h2>
+    <p>我们严格遵守金融监管要求，采用业界领先的安全技术，确保您的资金和信息安全。</p>
+    <div class="security-badges">
+      <span class="badge">SSL 加密</span>
+      <span class="badge">资金托管</span>
+      <span class="badge">合规运营</span>
+      <span class="badge">隐私保护</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>high-end-visual-design - 奢侈品品牌站</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@200;300;400&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Montserrat',sans-serif;background:#f8f6f3;color:#2c2c2c}
+  .nav{position:fixed;top:0;left:0;right:0;padding:32px 60px;display:flex;justify-content:space-between;align-items:center;z-index:100}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;letter-spacing:0.15em}
+  .nav-links{display:flex;gap:40px}
+  .nav-links a{font-size:11px;color:#666;text-decoration:none;letter-spacing:0.15em;text-transform:uppercase;font-weight:300}
+  .hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#f0ebe3 0%,#e8e0d5 100%)}
+  .hero-content{text-align:center;z-index:1}
+  .hero-label{font-size:10px;color:#999;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:32px}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:96px;font-weight:300;letter-spacing:0.05em;line-height:1.1;margin-bottom:32px}
+  .hero h1 em{font-style:italic;font-weight:400}
+  .hero-line{width:60px;height:1px;background:#999;margin:0 auto 32px}
+  .hero p{font-size:14px;color:#666;max-width:400px;margin:0 auto;line-height:1.8;font-weight:300;letter-spacing:0.02em}
+  .heritage{padding:160px 60px;text-align:center}
+  .heritage h2{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;margin-bottom:24px;letter-spacing:0.02em}
+  .heritage p{font-size:14px;color:#666;max-width:600px;margin:0 auto;line-height:2;font-weight:300}
+  .products{padding:100px 60px;background:#fff}
+  .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+  .product{text-align:center}
+  .product-img{aspect-ratio:3/4;background:#f0ebe3;margin-bottom:24px;position:relative;overflow:hidden}
+  .product-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.1))}
+  .product h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;margin-bottom:8px;letter-spacing:0.05em}
+  .product span{font-size:11px;color:#999;letter-spacing:0.1em}
+  .footer{padding:80px 60px;background:#2c2c2c;color:#fff;text-align:center}
+  .footer-logo{font-family:'Cormorant Garamond',serif;font-size:28px;margin-bottom:16px;letter-spacing:0.15em}
+  .footer p{font-size:11px;color:#999;letter-spacing:0.1em}
+</style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-logo">AURÉLIE</div><div class="nav-links"><a href="#">高级定制</a><a href="#">珠宝</a><a href="#">香水</a><a href="#">品牌故事</a></div></nav>
+  <section class="hero"><div class="hero-content"><div class="hero-label">Depuis 1926 · Paris</div><h1>L'art de <em>l'élégance</em></h1><div class="hero-line"></div><p>近一个世纪以来，AURÉLIE 始终致力于创造永恒的优雅，每一件作品都是对美的极致追求。</p></div></section>
+  <section class="heritage"><h2>品牌传承</h2><p>1926 年，Aurélie Dubois 在巴黎旺多姆广场创立了这家高级定制工坊。近一个世纪过去了，我们依然坚守着最初的信念：真正的奢华在于工艺的极致和细节的完美。</p></section>
+  <section class="products"><div class="products-grid">
+    <div class="product"><div class="product-img" style="background:linear-gradient(135deg,#e8e0d5,#d4c5b0)"></div><h3>高级定制系列</h3><span>Haute Couture</span></div>
+    <div class="product"><div class="product-img" style="background:linear-gradient(135deg,#f0ebe3,#e0d8d0)"></div><h3>高级珠宝</h3><span>Haute Joaillerie</span></div>
+    <div class="product"><div class="product-img" style="background:linear-gradient(135deg,#e5ddd2,#d0c5b5)"></div><h3>香水系列</h3><span>Parfums</span></div>
+    <div class="product"><div class="product-img" style="background:linear-gradient(135deg,#ede6dd,#d8cfc2)"></div><h3>皮具配饰</h3><span>Accessoires</span></div>
+  </div></section>
+  <footer class="footer"><div class="footer-logo">AURÉLIE</div><p>PARIS · MILAN · TOKYO · NEW YORK</p></footer>
+</body>
+</html>

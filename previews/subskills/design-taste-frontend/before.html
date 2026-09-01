@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUXE — 高端时装品牌</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { background: rgba(255,255,255,0.95); padding: 16px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav { display: flex; gap: 24px; }
+.card { background: rgba(255,255,255,0.95); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.btn { padding: 12px 32px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-outline { padding: 12px 32px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.gradient-text { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.feature-card { background: #f8f9fa; padding: 20px; border-radius: 12px; }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">LUXE</div>
+    <nav class="nav"><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">品牌故事</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">最新系列</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">门店信息</a><a href="#" style="color:#666;text-decoration:none;font-size:14px;font-weight:500;">会员</a></nav>
+  </div>
+  <div class="card" style="text-align:center;padding:80px 40px;">
+  <h1 class="gradient-text" style="font-size:48px;font-weight:800;margin-bottom:16px;">LUXE 2024 春夏系列</h1>
+  <p style="font-size:18px;color:#666;margin-bottom:32px;">探索全新一季的时尚杰作</p>
+  <button class="btn">立即选购</button>
+</div>
+<div class="grid-3">
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:200px;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;font-size:48px;">👗</div><div style="padding:20px;"><h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">连衣裙系列</h3><p style="font-size:13px;color:#666;">优雅与舒适的完美结合</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:200px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:48px;">👜</div><div style="padding:20px;"><h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">手袋配饰</h3><p style="font-size:13px;color:#666;">精致工艺的典范</p></div></div>
+  <div class="card" style="padding:0;overflow:hidden;"><div style="height:200px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;font-size:48px;">👠</div><div style="padding:20px;"><h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">鞋履系列</h3><p style="font-size:13px;color:#666;">每一步都是优雅</p></div></div>
+</div>
+<div class="card" style="text-align:center;">
+  <h2 class="gradient-text" style="font-size:28px;font-weight:700;margin-bottom:16px;">品牌故事</h2>
+  <p style="font-size:15px;color:#666;line-height:1.8;max-width:600px;margin:0 auto;">LUXE 创立于 1985 年，秉承法式优雅与意大利工艺的完美融合，致力于为现代女性打造 timeless 的时尚单品。</p>
+</div>
+</div>
+</body>
+</html>
