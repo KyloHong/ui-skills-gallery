@@ -148,7 +148,19 @@ tailwind.config = {
       <h2 class="text-xl font-semibold tracking-tight">技能库</h2>
       <p class="text-sm text-ink-500 mt-0.5">点击卡片查看完整详情</p>
     </div>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 flex-wrap">
+      <!-- 分类筛选按钮组 -->
+      <div class="flex items-center gap-1 bg-ink-100 rounded-lg p-1">
+        <button onclick="setFilterType('all')" id="filter-all" class="filter-btn px-3.5 py-1.5 text-xs font-medium rounded-md transition-all bg-white text-ink-900 shadow-sm">
+          全部
+        </button>
+        <button onclick="setFilterType('html')" id="filter-html" class="filter-btn px-3.5 py-1.5 text-xs font-medium rounded-md transition-all text-ink-500 hover:text-ink-700">
+          UI 型
+        </button>
+        <button onclick="setFilterType('image')" id="filter-image" class="filter-btn px-3.5 py-1.5 text-xs font-medium rounded-md transition-all text-ink-500 hover:text-ink-700">
+          图片型
+        </button>
+      </div>
       <div class="relative">
         <select id="sortSelect" class="appearance-none bg-white border border-ink-200 rounded-lg pl-3.5 pr-9 py-2 text-sm text-ink-700 font-medium cursor-pointer hover:border-ink-300 focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-colors">
           <option value="default">默认排序</option>
@@ -819,9 +831,30 @@ function wrapDevice(content, isMobile) {
 // ============================================================
 // RENDER: SKILL CARDS
 // ============================================================
+let currentFilterType = 'all';
+
+function setFilterType(type) {
+  currentFilterType = type;
+  // 更新按钮样式
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('bg-white', 'text-ink-900', 'shadow-sm');
+    btn.classList.add('text-ink-500', 'hover:text-ink-700');
+  });
+  const activeBtn = document.getElementById('filter-' + type);
+  if (activeBtn) {
+    activeBtn.classList.remove('text-ink-500', 'hover:text-ink-700');
+    activeBtn.classList.add('bg-white', 'text-ink-900', 'shadow-sm');
+  }
+  renderSkillsGrid(document.getElementById('sortSelect').value);
+}
+
 function renderSkillsGrid(sortBy = 'default') {
   const grid = document.getElementById('skillsGrid');
   let sorted = [...skills];
+  // 按类型筛选
+  if (currentFilterType !== 'all') {
+    sorted = sorted.filter(s => (s.outputType || 'html') === currentFilterType);
+  }
   if (sortBy === 'stars-desc') sorted.sort((a, b) => b.stars - a.stars);
   else if (sortBy === 'stars-asc') sorted.sort((a, b) => a.stars - b.stars);
   else if (sortBy === 'name-az') sorted.sort((a, b) => a.name.localeCompare(b.name));
@@ -835,7 +868,12 @@ function renderSkillsGrid(sortBy = 'default') {
         <span class="text-[11px] font-mono text-ink-400">${skill.version}</span>
       </div>
       <h3 class="font-semibold text-[15px] tracking-tight mb-2">${skill.name}</h3>
-      <span class="inline-block text-[11px] font-medium px-2 py-0.5 rounded-md bg-accent-50 text-accent-700 border border-accent-100 mb-3">${skill.category}</span>
+      <div class="flex items-center gap-1.5 mb-3 flex-wrap">
+        <span class="inline-block text-[11px] font-medium px-2 py-0.5 rounded-md bg-accent-50 text-accent-700 border border-accent-100">${skill.category}</span>
+        <span class="inline-block text-[10px] font-medium px-1.5 py-0.5 rounded-md ${(skill.outputType || 'html') === 'image' ? 'bg-purple-50 text-purple-700 border border-purple-100' : 'bg-blue-50 text-blue-700 border border-blue-100'}">
+          ${(skill.outputType || 'html') === 'image' ? '图片型' : 'UI 型'}
+        </span>
+      </div>
       <p class="text-xs text-ink-500 leading-relaxed mb-4 line-clamp-2">${skill.triggerSummary}</p>
       <div class="flex flex-wrap gap-1.5 mb-4">
         ${skill.capabilities.slice(0, 4).map(c => `<span class="text-[10px] font-medium px-2 py-0.5 rounded-md bg-ink-100 text-ink-600">${c}</span>`).join('')}
