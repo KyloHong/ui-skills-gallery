@@ -1904,43 +1904,13 @@ function renderPractice() {
   
   const avg = records.length > 0 ? (records.reduce((s,r)=>s+r.rating,0)/records.length).toFixed(1) : '—';
   return `<div class="animate-fade-in max-w-4xl">
-    ${records.length===0 ? `
-      <div class="text-center py-12">
-        <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-ink-100 flex items-center justify-center"><i data-lucide="star" class="w-6 h-6 text-ink-400"></i></div>
-        <h4 class="text-base font-semibold text-ink-800 mb-1.5">还没有实践记录</h4>
-        <p class="text-sm text-ink-500 mb-5">使用过这个技能后，来打个分并记录你的体验吧</p>
-        <button onclick="scrollToRating()" class="inline-flex items-center gap-2 px-4 py-2 bg-ink-900 text-white text-sm font-medium rounded-lg hover:bg-ink-800 transition-colors"><i data-lucide="edit-3" class="w-4 h-4"></i>开始打分</button>
-      </div>` : `
-      <div class="flex items-center gap-6 mb-6 bg-white rounded-xl2 border border-ink-200 p-4">
-        <div class="text-center"><div class="text-3xl font-bold">${records.length}</div><div class="text-[11px] text-ink-400">记录总数</div></div>
-        <div class="w-px h-10 bg-ink-200"></div>
-        <div class="text-center">
-          <div class="text-3xl font-bold flex items-center gap-2">${avg}
-            <div class="flex items-center gap-0.5">
-              ${Array.from({length:5},(_,i)=>`<svg class="w-4 h-4 ${i<Math.round(avg)?'gh-star':''}" style="${i>=Math.round(avg)?'fill:#e7e5e4':''}" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`).join('')}
-            </div>
-          </div>
-          <div class="text-[11px] text-ink-400">平均评分</div>
-        </div>
-      </div>
-      <div class="space-y-3 mb-8">
-        ${records.map((r,i)=>`
-          <div class="bg-white rounded-xl2 border border-ink-200 p-4 hover:border-ink-300 transition-colors">
-            <div class="flex gap-4">
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between gap-3 mb-2">
-                  <div class="flex items-center gap-1.5">
-                    ${Array.from({length:5},(_,si)=>`<svg class="w-3.5 h-3.5 ${si<r.rating?'gh-star':''}" style="${si>=r.rating?'fill:#e7e5e4':''}" viewBox="0 0 16 16"><use href="#gh-star"/></svg>`).join('')}
-                    <span class="text-[11px] text-ink-400 ml-1">${relativeTime(r.date)}</span>
-                  </div>
-                  <button onclick="deleteRecord(${i})" class="text-ink-300 hover:text-red-500 transition-colors p-1 shrink-0"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
-                </div>
-                ${r.text?`<p class="text-sm text-ink-600 leading-relaxed">${r.text}</p>`:'<p class="text-sm text-ink-400 italic">未填写评价内容</p>'}
-              </div>
-              ${r.images&&r.images.length>0?`<div class="shrink-0 flex flex-col gap-2">${r.images.filter(Boolean).map(img=>`<img src="${img}" alt="实践截图" class="w-24 h-24 object-cover rounded-lg border border-ink-200 cursor-pointer hover:opacity-80 hover:scale-[1.02] transition-all" onclick="openLightbox('${img}')">`).join('')}</div>`:''}
-            </div>
-          </div>`).join('')}
-      </div>`}
+    <!-- Giscus 评论区 -->
+    <div class="mb-6">
+      <h4 class="text-sm font-semibold text-ink-800 mb-3 flex items-center gap-2">
+        <i data-lucide="message-square" class="w-4 h-4 text-ink-500"></i>用户评论（GitHub 账号登录后可发表）
+      </h4>
+      <div class="giscus" id="giscus-container"></div>
+    </div>
     <div id="ratingForm" class="bg-white rounded-xl2 border border-ink-200 p-5">
       <h4 class="text-sm font-semibold text-ink-800 mb-4 flex items-center gap-2"><i data-lucide="pen-line" class="w-4 h-4 text-ink-500"></i>记录你的实践</h4>
       <div class="mb-4"><label class="text-[11px] font-semibold text-ink-500 block mb-2">评分</label>
@@ -1969,6 +1939,10 @@ function renderPractice() {
 }
 
 function initPracticeTab() {
+  // 动态加载 Giscus 评论系统
+  loadGiscus();
+  
+
   document.addEventListener('paste', handlePaste);
   
   // 拖拽上传
@@ -2003,6 +1977,55 @@ function initPracticeTab() {
     });
   }
 }
+// 动态加载 Giscus 评论系统
+function loadGiscus() {
+  const container = document.getElementById('giscus-container');
+  if (!container) return;
+  
+  // 如果 Giscus 已经加载过，直接返回
+  if (document.querySelector('script[src="https://giscus.app/client.js"]')) {
+    // 触发 Giscus 重新配置
+    if (window.giscus) {
+      window.giscus.emit('setConfig', {
+        repo: 'KyloHong/ui-skills-gallery',
+        repoId: 'R_kgDOULB3Fw',
+        category: 'General',
+        categoryId: 'DIC_kwDOULB3F84DEtUh',
+        mapping: 'specific',
+        term: currentSkill.name + ' - 用户评价',
+        strict: '0',
+        reactionsEnabled: '1',
+        emitMetadata: '0',
+        inputPosition: 'bottom',
+        theme: 'light',
+        lang: 'zh-CN',
+      });
+    }
+    return;
+  }
+  
+  // 动态创建 Giscus script
+  const script = document.createElement('script');
+  script.src = 'https://giscus.app/client.js';
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  script.setAttribute('data-repo', 'KyloHong/ui-skills-gallery');
+  script.setAttribute('data-repo-id', 'R_kgDOULB3Fw');
+  script.setAttribute('data-category', 'General');
+  script.setAttribute('data-category-id', 'DIC_kwDOULB3F84DEtUh');
+  script.setAttribute('data-mapping', 'specific');
+  script.setAttribute('data-term', currentSkill.name + ' - 用户评价');
+  script.setAttribute('data-strict', '0');
+  script.setAttribute('data-reactions-enabled', '1');
+  script.setAttribute('data-emit-metadata', '0');
+  script.setAttribute('data-input-position', 'bottom');
+  script.setAttribute('data-theme', 'light');
+  script.setAttribute('data-lang', 'zh-CN');
+  
+  container.appendChild(script);
+  console.log('Giscus loaded for skill:', currentSkill.name);
+}
+
 function handlePaste(e) {
   if (currentTab !== 'practice') return;
   const items = e.clipboardData?.items; if (!items) return;
