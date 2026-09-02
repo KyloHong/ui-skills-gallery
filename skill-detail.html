@@ -737,6 +737,10 @@ function copyToClipboard(text, msg = '已复制到剪贴板') {
   });
 }
 
+// 评价表单全局状态
+let currentRating = 0;
+let currentImages = [null, null];
+
 const STORAGE_KEY = 'ui_skills_gallery_practice_records';
 
 function getRecords() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } }
