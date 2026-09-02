@@ -99,6 +99,97 @@ tailwind.config = {
   .comp-label { display: block; font-size: 0.7rem; font-weight: 500; color: #44403c; margin-bottom: 0.25rem; }
   .dial-track { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; background: #e7e5e4; outline: none; }
   .dial-track::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #1c1917; cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+
+/* ============================================================
+   图片类 Skill - Before/After 滑块对比
+   ============================================================ */
+.img-compare-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f5f5f5;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.img-compare-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+.img-compare-before {
+  position: relative;
+  z-index: 1;
+}
+.img-compare-after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  clip-path: inset(0 0 0 50%);
+  -webkit-clip-path: inset(0 0 0 50%);
+}
+.img-compare-slider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: #fff;
+  z-index: 3;
+  cursor: ew-resize;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: translateX(-50%);
+}
+.img-compare-slider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.img-compare-slider::after {
+  content: '⟷';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: #333;
+  z-index: 4;
+}
+.img-compare-label {
+  position: absolute;
+  top: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+.img-compare-label.before {
+  left: 12px;
+  background: rgba(239, 68, 68, 0.9);
+  color: #fff;
+}
+.img-compare-label.after {
+  right: 12px;
+  background: rgba(34, 197, 94, 0.9);
+  color: #fff;
+}
+.img-compare-hint {
+  text-align: center;
+  font-size: 11px;
+  color: #888;
+  margin-top: 8px;
+}
 </style>
 <style>
   /* 详情页重新设计 */
@@ -440,6 +531,9 @@ function init() {
   renderSkillHero();
   switchTab('experience');
   lucide.createIcons();
+
+  // 初始化图片滑块对比（图片类 skill）
+  initImageCompare();
 }
 
 // 渲染 Skill 信息区
@@ -603,7 +697,11 @@ const previewPrompts = {
   'awesome-design-md-jp': {
     type: '日式精品咖啡品牌官网',
     prompt: '创建一个日式精品咖啡品牌的官网首页，包含导航栏、Hero区域（品牌介绍+预约CTA）、咖啡豆产品展示（4款产品，含名称、产地、风味、价格）、品牌故事、门店信息（3家门店）、顾客评价（3条）、常见问题FAQ、底部订阅CTA和页脚。日文和中文双语，响应式设计，现代美观。'
+  },  'oh-my-cover-design': {
+    type: '小红书封面（AI工具测评）',
+    prompt: '创建一个关于AI编程工具的小红书封面，深色渐变背景，大字标题，人物居中，科技感图标，1080x1440竖版，冲击力强，适合小红书平台'
   },
+
 };
 
 const tabs = [
@@ -1565,8 +1663,59 @@ function renderComponents() {
 }
 
 function renderDemos() {
-  const hasBeforeAfter = ['shadcn-ui','ui-ux-pro-max','taste-skill','impeccable','remotion','awesome-design-md-jp'].includes(currentSkill.id);
+  const isImageType = currentSkill.outputType === 'image';
   const preview = previewPrompts[currentSkill.id] || { type: '示例项目', prompt: '创建一个现代化的网站首页' };
+  
+  // 图片类 skill：使用滑块对比
+  if (isImageType) {
+    const beforeImg = `previews/${currentSkill.id}/before.${currentSkill.previewFormat || 'png'}`;
+    const afterImg = `previews/${currentSkill.id}/after.${currentSkill.previewFormat || 'png'}`;
+    
+    return `<div class="animate-fade-in">
+      <div class="mb-10">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-ink-800 flex items-center gap-2"><i data-lucide="git-compare" class="w-4 h-4 text-ink-500"></i>Before / After 效果对比</h3>
+          <span class="text-[11px] font-medium px-2.5 py-1 rounded-md bg-ink-100 text-ink-600">${preview.type}</span>
+        </div>
+        <div class="bg-ink-50/80 border border-ink-200 rounded-xl2 p-4 mb-5">
+          <div class="flex items-start gap-3 mb-3">
+            <i data-lucide="message-square" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>
+            <div>
+              <div class="text-[10px] font-semibold uppercase tracking-wider text-ink-400 mb-1">使用的提示词（Before / After 完全相同）</div>
+              <p class="text-xs text-ink-600 leading-relaxed">${preview.prompt}</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 pt-3 border-t border-ink-200">
+            <div class="flex items-start gap-2">
+              <span class="w-2 h-2 rounded-full bg-red-500 shrink-0 mt-1"></span>
+              <div>
+                <div class="text-[10px] font-semibold uppercase tracking-wider text-red-500 mb-0.5">Before 生成方式</div>
+                <p class="text-[11px] text-ink-600 leading-relaxed">豆包 2.1 Turbo 直接生成，不使用任何 Skill</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="w-2 h-2 rounded-full bg-green-500 shrink-0 mt-1"></span>
+              <div>
+                <div class="text-[10px] font-semibold uppercase tracking-wider text-green-600 mb-0.5">After 生成方式</div>
+                <p class="text-[11px] text-ink-600 leading-relaxed">豆包 2.1 Turbo + ${currentSkill.name} Skill 生成</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="img-compare-container" id="imgCompareContainer">
+          <img src="${beforeImg}" alt="Before" class="img-compare-before" loading="lazy">
+          <img src="${afterImg}" alt="After" class="img-compare-after" loading="lazy">
+          <div class="img-compare-slider" id="imgCompareSlider"></div>
+          <span class="img-compare-label before">Before</span>
+          <span class="img-compare-label after">After</span>
+        </div>
+        <p class="img-compare-hint">← 拖动中间滑块对比 Before / After 效果 →</p>
+      </div>
+    </div>`;
+  }
+  
+  // HTML 类 skill：使用 iframe 上下排列
+  const hasBeforeAfter = currentSkill.outputType !== 'image';
   return `<div class="animate-fade-in">
     ${hasBeforeAfter ? `
     <div class="mb-10">
@@ -1934,6 +2083,73 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!document.getElementById('lightbox').classList.contains('hidden'))closeLightbox();  } });
   lucide.createIcons();
 });
+
+// ============================================================
+// 图片类 Skill - Before/After 滑块对比交互
+// ============================================================
+function initImageCompare() {
+  const container = document.getElementById('imgCompareContainer');
+  const slider = document.getElementById('imgCompareSlider');
+  const afterImg = container ? container.querySelector('.img-compare-after') : null;
+  
+  if (!container || !slider || !afterImg) return;
+  
+  let isDragging = false;
+  
+  function updateSlider(clientX) {
+    const rect = container.getBoundingClientRect();
+    let x = clientX - rect.left;
+    x = Math.max(0, Math.min(x, rect.width));
+    const percent = (x / rect.width) * 100;
+    
+    slider.style.left = percent + '%';
+    afterImg.style.clipPath = 'inset(0 0 0 ' + percent + '%)';
+    afterImg.style.webkitClipPath = 'inset(0 0 0 ' + percent + '%)';
+  }
+  
+  // 鼠标事件
+  slider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    e.preventDefault();
+  });
+  
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    updateSlider(e.clientX);
+    e.preventDefault();
+  });
+  
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    updateSlider(e.clientX);
+  });
+  
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+  
+  // 触摸事件
+  slider.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    e.preventDefault();
+  }, { passive: false });
+  
+  container.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    updateSlider(e.touches[0].clientX);
+    e.preventDefault();
+  }, { passive: false });
+  
+  document.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    updateSlider(e.touches[0].clientX);
+  }, { passive: false });
+  
+  document.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+}
+
 </script>
 </body>
 </html>

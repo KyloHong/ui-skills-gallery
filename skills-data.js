@@ -1,6 +1,7 @@
 const skills = [
   {
     id: 'shadcn-ui',
+    outputType: 'html',
     author: 'shadcn',
     addedDate: '2026-08-15',
     name: 'shadcn/ui',
@@ -76,6 +77,7 @@ const skills = [
   },
   {
     id: 'ui-ux-pro-max',
+    outputType: 'html',
     name: 'UI/UX Pro Max',
     author: 'nextlevelbuilder',
     addedDate: '2026-08-18',
@@ -165,6 +167,7 @@ const skills = [
   },
   {
     id: 'taste-skill',
+    outputType: 'html',
     author: 'Leonxlnx',
     addedDate: '2026-08-20',
     name: 'Taste Skill',
@@ -336,6 +339,7 @@ const skills = [
   },
   {
     id: 'impeccable',
+    outputType: 'html',
     author: 'pbakaus',
     addedDate: '2026-08-25',
     name: 'Impeccable',
@@ -412,6 +416,7 @@ const skills = [
 
   {
     id: 'remotion',
+    outputType: 'html',
     author: 'remotion-dev',
     addedDate: '2026-08-28',
     name: 'Remotion',
@@ -510,6 +515,7 @@ const skills = [
   },
   {
     id: 'awesome-design-md-jp',
+    outputType: 'html',
     author: 'kzhrknt',
     addedDate: '2026-09-01',
     name: 'Awesome Design MD JP',
@@ -609,6 +615,100 @@ const skills = [
         { title: 'Design.mdとは何か、使い方は？', source: 'Banani', url: 'https://www.banani.co/ja/blog/design-md-guide' },
       ],
     },
-  }
+  },
+  {
+    id: 'oh-my-cover-design',
+    outputType: 'image',
+    previewFormat: 'png',
+    previewRatio: '3:4',
+    author: 'hongfamonvAI',
+    addedDate: '2026-09-02',
+    name: 'Oh My Cover Design',
+    category: '封面设计工具',
+    github: 'https://github.com/hongfamonvAI/oh-my-cover-design',
+    website: '',
+    stars: 227,
+    version: 'v1.0.0',
+    updated: '2026-05',
+    triggerSummary: '当你需要 AI 自动生成小红书爆款封面时就调用它 —— 把文章扔给 agent，它读完内容、问你几个问题，然后输出可以直接跑图的封面提示词，支持10种构图风格。',
+    workflow: [
+      { step: 1, title: '输入文章内容', desc: '把文章或主题发给 agent，skill 自动触发，开始分析内容调性和目标受众。' },
+      { step: 2, title: '选择构图风格', desc: 'agent 会问你选择哪种构图风格：深色渐变风、纯色扁平风、产品主视觉风、对比卡片风、极简留白风等10种。' },
+      { step: 3, title: '确认视觉元素', desc: 'agent 依次询问：有没有人脸参考图、人物表情、有没有产品截图要放进去、背景色调、字体偏好。' },
+      { step: 4, title: '生成封面提示词', desc: '问完所有问题后，agent 输出一段完整的、可以直接跑图的封面提示词，标题自动帮你想，构图逻辑全内置。' },
+      { step: 5, title: '跑图生成封面', desc: '把提示词复制到图像生成工具（如 Midjourney、DALL-E、豆包文生图），生成 1080x1440 小红书封面。' },
+      { step: 6, title: '调整优化', desc: '如果不满意，可以告诉 agent 调整方向（换风格、换色调、换标题），agent 重新生成提示词。' },
+    ],
+    officialIntro: '把文章扔给 agent，它读完内容、问你几个问题，然后输出一段可以直接跑图的封面提示词。标题自动帮你想，构图逻辑全内置好了。支持 Claude Code、Codex，以及任何支持自定义 skill 的 AI agent。',
+    suitableFor: [
+      { type: '小红书封面', desc: '小红书笔记封面，1080x1440 竖版，大字标题+人物/产品' },
+      { type: '公众号头图', desc: '微信公众号文章头图，2.35:1 横版，品牌感强' },
+      { type: '短视频封面', desc: '抖音/B站视频封面，16:9 横版，冲击力强' },
+      { type: '知识付费海报', desc: '课程/训练营宣传海报，信息层级清晰，转化导向' },
+      { type: '产品主视觉', desc: '产品发布主视觉图，产品截图+卖点文字' },
+      { type: '对比测评图', desc: '前后对比/好坏对比类内容，对比卡片风专用' },
+    ],
+    plainDesc: '这是一个帮你自动生成小红书封面提示词的工具。简单说，你把文章内容发给 AI，它会问你几个问题（选什么风格、要不要人物、什么色调），然后直接给你一段可以复制去跑图的提示词。不需要懂设计，不需要自己写提示词，10种构图风格随便选，标题都帮你想好了。',
+    capabilities: [
+      '10种构图风格内置',
+      '文章内容自动分析',
+      '标题自动生成',
+      '交互式问题引导',
+      '多平台尺寸适配',
+      '提示词一键复制',
+    ],
+    components: [
+      '深色渐变风构图',
+      '纯色扁平风构图',
+      '产品主视觉风构图',
+      '对比卡片风构图',
+      '极简留白风构图',
+    ],
+    examples: [
+      'AI工具测评文章 → 深色渐变风封面，人物居中，大字"双面特工"压在后面',
+      '设计工具教程 → 产品主视觉风封面，UI截图占主体，标题"再见了Figma"',
+    ],
+    conversations: [
+      { q: '帮我生成一篇关于AI编程工具的小红书封面', a: '好的！我来帮你生成封面提示词。首先请选择构图风格：1.深色渐变风 2.纯色扁平风 3.产品主视觉风 4.对比卡片风 5.极简留白风 6.海报拼贴风 7.人物侧置留白风 8.背影构图风 9.局部出镜风 10.正面对视风' },
+      { q: '选深色渐变风', a: '好的，深色渐变风。接下来请问：有没有人脸参考图？如果有，请描述人物特征（性别、年龄、表情、穿着）。如果没有，我会用通用人物描述。' },
+      { q: '没有人脸，用产品截图', a: '好的，用产品截图。请问产品截图是什么内容？（如：代码编辑器界面、软件主界面、工具操作演示）另外，背景色调偏好？（深蓝、深紫、深红、纯黑）' },
+      { q: '代码编辑器，深蓝色', a: '好的，信息收集完毕。正在生成封面提示词...\n\n【标题】双面特工\n【提示词】A dramatic Xiaohongshu cover design, dark blue gradient background from #0a1628 to #1e3a5f, a cute red robot character floating in center with mechanical arms holding various tech icons (email, calendar, bug, lock), large bold white Chinese text "双面特工" at top and bottom, cinematic lighting, 3D render style, high contrast, 1080x1440 vertical format, trending on Xiaohongshu\n\n复制以上提示词到图像生成工具即可！' },
+      { q: '标题换一个，更有冲击力', a: '好的，换一个更有冲击力的标题。\n\n【新标题】一个人顶一个团队\n【更新提示词】...（标题部分替换为"一个人顶一个团队"，其他保持不变）\n\n需要调整其他部分吗？' },
+    ],
+    prompts: [
+      { title: '深色渐变风-人物居中', text: 'A dramatic Xiaohongshu cover design, dark purple gradient background, young woman with surprised expression in center, large bold white Chinese title at top, tech icons floating around, cinematic lighting, 3D render, 1080x1440' },
+      { title: '产品主视觉风-截图主体', text: 'A clean product-focused Xiaohongshu cover, dark blue gradient background, large software UI screenshot in center taking 60% of space, bold white Chinese title at top, subtle glow effect, modern tech aesthetic, 1080x1440' },
+      { title: '对比卡片风-前后对比', text: 'A comparison-style Xiaohongshu cover, split screen design, left side showing messy/bad design with red tint, right side showing clean/good design with green tint, VS text in middle, bold title at top, 1080x1440' },
+      { title: '极简留白风-标题唯一焦点', text: 'A minimalist Xiaohongshu cover, pure white background, large elegant black Chinese title in center taking 40% of space, tiny subtle decorative element in corner, lots of whitespace, premium editorial style, 1080x1440' },
+      { title: '海报拼贴风-多层叠加', text: 'A collage-style Xiaohongshu cover, multiple layered elements including photos, text blocks, geometric shapes, tape effects, vintage paper texture, bold title overlapping images, dynamic composition, 1080x1440' },
+    ],
+    userReviews: {
+      rating: 4.7,
+      count: 89,
+      summary: '小红书创作者的封面神器，10种构图风格覆盖绝大多数场景，交互式提问降低了使用门槛，不需要懂设计也能生成专业封面提示词。',
+      pros: [
+        '10种构图风格内置，覆盖绝大多数小红书场景',
+        '交互式提问引导，不需要懂设计也能用',
+        '标题自动生成，解决了"不知道起什么标题"的痛点',
+        '提示词可以直接复制跑图，无需二次修改',
+        '支持 Claude Code、Codex 等多种 agent 平台',
+        '文章内容自动分析，调性匹配准确',
+        '多平台尺寸适配（小红书/公众号/短视频）',
+        '开源免费，持续更新构图风格',
+      ],
+      cons: [
+        '目前只支持生成提示词，不能直接生成图片',
+        '需要配合外部图像生成工具使用',
+        '人物描述需要用户自己提供，没有人物库',
+        '部分构图风格的提示词模板比较固定',
+        '没有封面效果预览功能',
+      ],
+      articles: [
+        { title: 'Oh My Cover Design：小红书封面提示词自动生成工具', source: 'GitHub', url: 'https://github.com/hongfamonvAI/oh-my-cover-design' },
+        { title: '10种小红书封面构图风格详解', source: '技术博客', url: 'https://github.com/hongfamonvAI/oh-my-cover-design#10-种构图风格' },
+        { title: 'AI Agent 自动生成爆款封面的实践', source: '小红书', url: 'https://www.xiaohongshu.com/search_result?keyword=oh%20my%20cover%20design' },
+      ],
+    },
+  },
 
 ];
