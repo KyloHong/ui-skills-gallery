@@ -268,6 +268,8 @@ const skills = [
   {
     id: 'shadcn-ui',
     name: 'shadcn/ui',
+    author: 'shadcn',
+    addedDate: '2026-08-15',
     category: '综合组件库',
     github: 'https://github.com/shadcn-ui/ui',
     website: 'https://ui.shadcn.com',
@@ -334,11 +336,13 @@ const skills = [
   {
     id: 'ui-ux-pro-max',
     name: 'UI/UX Pro Max',
+    author: 'nextlevelbuilder',
+    addedDate: '2026-08-18',
     category: '综合设计系统',
     github: 'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill',
     website: 'https://ui-ux-pro-max-skill.nextlevelbuilder.io/',
-    stars: 101000,
-    version: 'v2.15.0',
+    stars: 123917,
+    version: 'v2.5.0',
     updated: '2026-07',
     triggerSummary: '当你需要 AI 帮你做 UI/UX 设计时就调用它 —— 不管是从零做页面、选配色字体、审查现有界面、修交互 bug，还是优化响应式和无障碍。',
     officialIntro: 'UI/UX Pro Max 是一个为跨多平台和框架构建专业 UI/UX 提供设计智能的 AI 技能。它将结构化的设计知识——精选的 CSV 数据、参考文档和 Python 生成脚本——安装到 AI 编程助手中（Claude Code、Cursor、Windsurf、Copilot 等约 10 种工具），使助手能够开箱即用地生成生产级 UI。v2.0 旗舰特性是智能设计系统生成器，分析项目需求并在几秒钟内生成完整的定制化设计系统。包含 79 种可搜索风格、192 种产品配色、74 种字体搭配、119 条 UX 指南、105 个图标、17 个 GSAP 预设、25 种图表类型和 22 种技术栈。',
@@ -399,6 +403,8 @@ const skills = [
   {
     id: 'taste-skill',
     name: 'Taste Skill',
+    author: 'Leonxlnx',
+    addedDate: '2026-08-20',
     category: '设计品味审计',
     github: 'https://github.com/Leonxlnx/taste-skill',
     website: 'https://www.tasteskill.dev',
@@ -509,6 +515,8 @@ const skills = [
   {
     id: 'impeccable',
     name: 'Impeccable',
+    author: 'pbakaus',
+    addedDate: '2026-08-25',
     category: '设计质量检测',
     github: 'https://github.com/pbakaus/impeccable',
     website: 'https://impeccable.style',
@@ -575,6 +583,8 @@ const skills = [
   {
     id: 'remotion',
     name: 'Remotion',
+    author: 'remotion-dev',
+    addedDate: '2026-08-28',
     category: '前端工具',
     github: 'https://github.com/remotion-dev/remotion',
     website: 'https://www.remotion.dev',
@@ -599,6 +609,8 @@ const skills = [
   {
     id: 'awesome-design-md-jp',
     name: 'Awesome Design MD JP',
+    author: 'kzhrknt',
+    addedDate: '2026-09-01',
     category: '综合设计系统',
     github: 'https://github.com/kzhrknt/awesome-design-md-jp',
     website: 'https://github.com/kzhrknt/awesome-design-md-jp',
@@ -1221,7 +1233,8 @@ function renderSkillsGrid(sortBy = 'default') {
         </div>
         <span class="text-[11px] font-mono text-ink-400">${skill.version}</span>
       </div>
-      <h3 class="font-semibold text-[15px] tracking-tight mb-1.5">${skill.name}</h3>
+      <h3 class="font-semibold text-[15px] tracking-tight mb-1">${skill.name}</h3>
+      <p class="text-[11px] text-ink-400 mb-2 flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i>${skill.author}</p>
       <span class="inline-block text-[11px] font-medium px-2 py-0.5 rounded-md bg-accent-50 text-accent-700 border border-accent-100 mb-3">${skill.category}</span>
       <p class="text-xs text-ink-500 leading-relaxed mb-4 line-clamp-2">${skill.triggerSummary}</p>
       <div class="flex flex-wrap gap-1.5 mb-4">

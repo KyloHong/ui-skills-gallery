@@ -401,7 +401,7 @@ tailwind.config = {
   </div>
 </main>
 
-<script src="skills-data.js"></script>
+<script src="skills-data.js?v=20260902"></script>
 <script>
 // ============================================================
 // 详情页逻辑
@@ -457,6 +457,8 @@ function renderSkillHero() {
     <div class="flex items-center gap-2 mb-3">
       ${tagsHtml}
       <span class="text-[11px] text-stone-400 font-mono">v${s.version || '1.0.0'}</span>
+${s.author ? `<span class="text-[11px] text-stone-600 flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i>${s.author}</span>` : ''}
+      ${s.addedDate ? `<span class="text-[11px] text-stone-400 flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>${s.addedDate}</span>` : ''}
     </div>
     <div class="skill-title-row">
       <h1 class="skill-title">${s.name}</h1>
@@ -507,46 +509,7 @@ function init() {
   lucide.createIcons();
 }
 
-// 渲染 Skill 信息区
-function renderSkillHero() {
-  const s = currentSkill;
-  const tagsHtml = (s.tags || []).map(t => 
-    `<span class="skill-tag">${t.name || t}</span>`
-  ).join('');
-  
-  const suitableForHtml = (s.suitableFor || []).map(item => 
-    `<span class="suitable-chip">${item.type || item}</span>`
-  ).join('');
-  
-  document.getElementById('skillHero').querySelector('.detail-container').innerHTML = `
-    <div class="skill-meta-row">
-      ${tagsHtml}
-      <span class="skill-version">${s.version || '1.0.0'}</span>
-    </div>
-    <div class="skill-title-row">
-      <h1 class="skill-title">${s.name}</h1>
-      <div class="skill-links">
-        ${s.github ? `<a href="${s.github}" target="_blank" class="skill-link-btn skill-link-github">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          ${parseStars(s.stars) || 'Star'}
-        </a>` : ''}
-        ${s.website ? `<a href="${s.website}" target="_blank" class="skill-link-btn skill-link-website">
-          <i data-lucide="external-link" class="w-4 h-4"></i>
-          官网
-        </a>` : ''}
-      </div>
-    </div>
-    ${s.officialIntro ? `<p class="skill-desc">${s.officialIntro}</p>` : ''}
-    ${s.plainDesc ? `<div class="plain-desc-box">
-      <div class="plain-desc-label">大白话</div>
-      <p class="plain-desc-text">${s.plainDesc}</p>
-    </div>` : ''}
-    ${suitableForHtml ? `<div class="suitable-row">
-      <span class="suitable-label">适合做什么</span>
-      ${suitableForHtml}
-    </div>` : ''}
-  `;
-}
+
 
 document.addEventListener('DOMContentLoaded', function() {
   init();
