@@ -3,133 +3,1291 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CodeMaster — 从零到全栈工程师</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>CodePath - 专业在线编程学习平台</title>
 <style>
-  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0f; color: #e4e4e7; overflow-x: hidden; }
-  .gradient-text { background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #fb923c 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
-  .glow { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; }
-  .btn-primary { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; padding: 0.875rem 2rem; border-radius: 0.75rem; font-size: 0.95rem; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 20px rgba(139,92,246,0.3); }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(139,92,246,0.4); }
-  .course-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 1rem; padding: 1.5rem; transition: all 0.3s; }
-  .course-card:hover { border-color: rgba(167,139,250,0.3); background: rgba(255,255,255,0.04); transform: translateY(-4px); }
-  .avatar { width: 3.5rem; height: 3.5rem; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
-  .stat-number { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #a78bfa, #f472b6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .code-window { background: #111118; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; overflow: hidden; }
-  .code-header { background: rgba(255,255,255,0.03); padding: 0.75rem 1rem; display: flex; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .code-dot { width: 0.75rem; height: 0.75rem; border-radius: 50%; }
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+  --secondary: #0891b2;
+  --secondary-dark: #0e7490;
+  --bg: #f8fafc;
+  --bg-white: #ffffff;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: inherit; }
+ul { list-style: none; }
+
+/* ========== 导航栏 ========== */
+nav {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.nav-inner { display: flex; justify-content: space-between; align-items: center; }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-links a {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.nav-links a:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.nav-actions { display: flex; gap: 12px; align-items: center; }
+.btn-login {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.btn-login:hover { color: var(--primary); }
+.btn-primary {
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ========== Hero ========== */
+.hero {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0891b2 100%);
+  color: white;
+  padding: 100px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  background: #34d399;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.hero h1 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+.hero h1 span {
+  background: linear-gradient(90deg, #7dd3fc, #a5f3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: 19px;
+  line-height: 1.7;
+  opacity: 0.9;
+  margin-bottom: 36px;
+  max-width: 600px;
+}
+.hero-cta { display: flex; gap: 16px; align-items: center; margin-bottom: 48px; }
+.btn-hero-primary {
+  padding: 16px 36px;
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-lg);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+.btn-hero-secondary {
+  padding: 16px 32px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-hero-secondary:hover {
+  border-color: white;
+  background: rgba(255,255,255,0.1);
+}
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+.hero-stat-num {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.hero-stat-label {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ========== 信任标识条 ========== */
+.trust-bar {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+}
+.trust-bar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+.trust-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--success);
+}
+
+/* ========== 通用 Section ========== */
+section { padding: 80px 0; }
+.section-header { text-align: center; margin-bottom: 56px; }
+.section-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+.section-subtitle {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ========== 课程卡片 ========== */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.course-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-light);
+}
+.course-thumb {
+  height: 180px;
+  background: linear-gradient(135deg, var(--primary-light) 0%, #cffafe 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.course-thumb-icon {
+  width: 64px;
+  height: 64px;
+  background: white;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: var(--shadow-md);
+}
+.course-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 4px 12px;
+  background: var(--primary);
+  color: white;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.course-info { padding: 24px; }
+.course-category {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.course-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.course-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.course-meta-item { display: flex; align-items: center; gap: 4px; }
+.course-rating { display: flex; align-items: center; gap: 4px; color: var(--warning); font-weight: 600; }
+.course-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.course-price { font-size: 24px; font-weight: 800; color: var(--primary); }
+.course-price span { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+.btn-enroll {
+  padding: 8px 20px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-enroll:hover { background: var(--primary); color: white; }
+
+/* ========== 学习路径 ========== */
+.paths-section { background: var(--bg-white); }
+.paths-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.path-card {
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.path-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary);
+}
+.path-card:nth-child(2)::before { background: var(--secondary); }
+.path-card:nth-child(3)::before { background: var(--warning); }
+.path-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.path-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.path-card:nth-child(2) .path-icon { background: #cffafe; }
+.path-card:nth-child(3) .path-icon { background: #fef3c7; }
+.path-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.path-desc { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
+.path-courses li {
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.path-courses li:last-child { border-bottom: none; }
+.path-courses li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.path-card:nth-child(2) .path-courses li::before { background: var(--secondary); }
+.path-card:nth-child(3) .path-courses li::before { background: var(--warning); }
+
+/* ========== 讲师 ========== */
+.teachers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.teacher-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.teacher-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+.teacher-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+.teacher-name { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.teacher-title {
+  font-size: 13px;
+  color: var(--secondary);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.teacher-desc { color: var(--text-secondary); font-size: 14px; line-height: 1.7; }
+.teacher-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.teacher-stat-num { font-size: 18px; font-weight: 700; color: var(--primary); }
+.teacher-stat-label { font-size: 12px; color: var(--text-muted); }
+
+/* ========== 学员评价 ========== */
+.reviews-section { background: var(--bg-white); }
+.reviews-summary {
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 32px;
+  background: linear-gradient(135deg, var(--primary-light), #cffafe);
+  border-radius: var(--radius-xl);
+}
+.reviews-summary-score {
+  font-size: 56px;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+.reviews-summary-stars {
+  font-size: 24px;
+  color: var(--warning);
+  margin: 12px 0;
+}
+.reviews-summary-text { color: var(--text-secondary); font-size: 15px; }
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.review-card {
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.review-card:hover { box-shadow: var(--shadow-md); }
+.review-header { display: flex; align-items: center; margin-bottom: 16px; }
+.review-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 18px;
+}
+.review-info { flex: 1; }
+.review-name { font-weight: 700; font-size: 16px; margin-bottom: 2px; }
+.review-meta { font-size: 12px; color: var(--text-muted); }
+.review-rating { color: var(--warning); font-size: 14px; }
+.review-text { color: var(--text-secondary); font-size: 15px; line-height: 1.8; }
+.review-course {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.review-course-tag {
+  padding: 2px 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* ========== FAQ ========== */
+.faq-list { max-width: 800px; margin: 0 auto; }
+.faq-item {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.faq-item:hover { border-color: var(--primary-light); }
+.faq-q {
+  padding: 20px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s;
+}
+.faq-q:hover { color: var(--primary); }
+.faq-q-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  color: var(--text-muted);
+}
+.faq-item.active .faq-q-icon { transform: rotate(45deg); color: var(--primary); }
+.faq-a {
+  padding: 0 24px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.8;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.faq-item.active .faq-a { padding: 0 24px 20px; max-height: 200px; }
+
+/* ========== CTA ========== */
+.cta-section {
+  background: linear-gradient(135deg, #1e3a8a 0%, var(--primary) 50%, var(--secondary) 100%);
+  color: white;
+  text-align: center;
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cta-content { position: relative; z-index: 1; }
+.cta-section h2 { font-size: 40px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
+.cta-section p { font-size: 18px; opacity: 0.9; margin-bottom: 36px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.btn-cta {
+  padding: 18px 48px;
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--primary);
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-lg);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-xl); }
+.cta-note { margin-top: 20px; font-size: 13px; opacity: 0.7; }
+
+/* ========== 页脚 ========== */
+footer { background: #0f172a; color: #94a3b8; padding: 64px 0 32px; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-brand h3 { color: white; font-size: 22px; font-weight: 800; margin-bottom: 16px; }
+.footer-brand p { font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.footer-social a:hover { background: var(--primary); color: white; }
+.footer-col h4 { color: white; font-size: 15px; font-weight: 700; margin-bottom: 20px; }
+.footer-col li { margin-bottom: 12px; }
+.footer-col a { font-size: 14px; transition: color 0.2s; cursor: pointer; }
+.footer-col a:hover { color: white; }
+.footer-bottom {
+  text-align: center;
+  padding-top: 32px;
+  border-top: 1px solid #1e293b;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { cursor: pointer; transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+
+/* ========== 响应式 ========== */
+@media (max-width: 1024px) {
+  .courses-grid, .teachers-grid, .paths-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hero h1 { font-size: 36px; }
+  .hero p { font-size: 16px; }
+  .hero-stats { flex-wrap: wrap; gap: 24px; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .section-title { font-size: 28px; }
+  .courses-grid, .teachers-grid, .paths-grid, .reviews-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .trust-bar-inner { justify-content: center; }
+}
 </style>
 </head>
 <body>
-<div class="glow" style="width:600px;height:600px;background:#8b5cf6;top:-200px;left:-100px;"></div>
-<div class="glow" style="width:500px;height:500px;background:#ec4899;top:100px;right:-150px;"></div>
 
-<header class="relative z-10 border-b border-white/5">
-  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <span class="text-xl font-bold gradient-text">CodeMaster</span>
-    <nav class="flex items-center gap-8 text-sm text-zinc-400">
-      <a href="#" class="hover:text-white transition-colors">课程</a>
-      <a href="#" class="hover:text-white transition-colors">学习路径</a>
-      <a href="#" class="hover:text-white transition-colors">讲师</a>
-      <a href="#" class="hover:text-white transition-colors">社区</a>
-      <button class="btn-primary" style="padding:0.5rem 1.25rem;font-size:0.85rem;">免费试学</button>
-    </nav>
-  </div>
-</header>
-
-<section class="relative z-10 max-w-7xl mx-auto px-6 py-24 text-center">
-  <div class="inline-flex items-center gap-2 glass px-4 py-2 rounded-full text-sm text-zinc-300 mb-8">
-    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-    已有 100,000+ 学员加入学习
-  </div>
-  <h1 class="text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-    从零开始<br><span class="gradient-text">成为全栈工程师</span>
-  </h1>
-  <p class="text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-    100+ 精品课程 · 50+ 资深讲师 · 项目驱动学习<br>从第一行代码到独立开发产品
-  </p>
-  <div class="flex justify-center gap-4">
-    <button class="btn-primary">开始免费学习</button>
-    <button class="glass px-8 py-3.5 rounded-xl text-sm font-medium text-zinc-300 hover:text-white transition-colors">浏览课程</button>
-  </div>
-</section>
-
-<section class="relative z-10 max-w-7xl mx-auto px-6 pb-20">
-  <h2 class="text-2xl font-bold mb-8">精选课程</h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="course-card">
-      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-2xl mb-4">🐍</div>
-      <h3 class="text-lg font-semibold mb-2">Python 从入门到精通</h3>
-      <p class="text-sm text-zinc-400 mb-4 leading-relaxed">系统学习 Python 编程，涵盖基础语法、数据分析、Web 开发和自动化脚本。</p>
-      <div class="flex items-center justify-between text-xs text-zinc-500">
-        <span>48 课时 · 12 个项目</span>
-        <span class="text-amber-400">★ 4.9</span>
-      </div>
+<!-- 导航栏 -->
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">
+      <div class="logo-icon">&lt;/&gt;</div>
+      CodePath
     </div>
-    <div class="course-card">
-      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-2xl mb-4">⚛️</div>
-      <h3 class="text-lg font-semibold mb-2">React 实战开发</h3>
-      <p class="text-sm text-zinc-400 mb-4 leading-relaxed">掌握 React 核心概念，构建现代化单页应用，包含 Hooks、状态管理和性能优化。</p>
-      <div class="flex items-center justify-between text-xs text-zinc-500">
-        <span>36 课时 · 8 个项目</span>
-        <span class="text-amber-400">★ 4.8</span>
-      </div>
+    <ul class="nav-links">
+      <li><a href="#courses">精选课程</a></li>
+      <li><a href="#paths">学习路径</a></li>
+      <li><a href="#teachers">讲师团队</a></li>
+      <li><a href="#reviews">学员评价</a></li>
+      <li><a href="#faq">常见问题</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-login">登录</button>
+      <button class="btn-primary">免费试学</button>
     </div>
-    <div class="course-card">
-      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-2xl mb-4">☕</div>
-      <h3 class="text-lg font-semibold mb-2">Java 后端开发</h3>
-      <p class="text-sm text-zinc-400 mb-4 leading-relaxed">深入学习 Java 后端技术栈，Spring Boot、微服务架构和数据库设计。</p>
-      <div class="flex items-center justify-between text-xs text-zinc-500">
-        <span>60 课时 · 15 个项目</span>
-        <span class="text-amber-400">★ 4.7</span>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        2026 年度最受欢迎编程学习平台
+      </div>
+      <h1>从零到全栈工程师<br><span>开启你的编程之旅</span></h1>
+      <p>500+ 精品课程，100+ 行业资深讲师，10万+ 学员的共同选择。系统化学习路径，让你从零基础到独立开发，少走90%的弯路。</p>
+      <div class="hero-cta">
+        <button class="btn-hero-primary">
+          免费试学 7 天
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-hero-secondary">浏览全部课程</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-label">精品课程</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">100+</div>
+          <div class="hero-stat-label">资深讲师</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">10万+</div>
+          <div class="hero-stat-label">学员数量</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">98%</div>
+          <div class="hero-stat-label">学员好评率</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="relative z-10 max-w-7xl mx-auto px-6 pb-20">
-  <div class="glass rounded-2xl p-12">
-    <h2 class="text-2xl font-bold text-center mb-10">资深讲师团队</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      <div class="text-center">
-        <div class="avatar mx-auto mb-3">👨‍💻</div>
-        <h4 class="font-semibold">张老师</h4>
-        <p class="text-xs text-zinc-500 mt-1">前阿里高级工程师</p>
+<!-- 信任标识条 -->
+<div class="trust-bar">
+  <div class="container trust-bar-inner">
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      课程永久有效
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      每天 12 小时答疑
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      学完不满意全额退款
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      85% 学员成功就业
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      大厂讲师亲授
+    </div>
+  </div>
+</div>
+
+<!-- 精选课程 -->
+<section id="courses">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">精选课程</div>
+      <h2 class="section-title">行业专家精心打造</h2>
+      <p class="section-subtitle">每门课程都经过严格审核，从入门到进阶，覆盖全栈开发各个领域</p>
+    </div>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="course-thumb">
+          <span class="course-badge">热门</span>
+          <div class="course-thumb-icon">⚡</div>
+        </div>
+        <div class="course-info">
+          <div class="course-category">前端开发</div>
+          <div class="course-title">JavaScript 全栈开发实战</div>
+          <div class="course-meta">
+            <span class="course-meta-item">👤 张明远</span>
+            <span class="course-meta-item">⏱ 48课时</span>
+            <span class="course-rating">★ 4.9</span>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">¥299 <span>/ 永久</span></div>
+            <button class="btn-enroll">立即报名</button>
+          </div>
+        </div>
       </div>
-      <div class="text-center">
-        <div class="avatar mx-auto mb-3" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">👩‍💻</div>
-        <h4 class="font-semibold">李老师</h4>
-        <p class="text-xs text-zinc-500 mt-1">前腾讯技术专家</p>
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);">
+          <span class="course-badge" style="background:var(--warning);">推荐</span>
+          <div class="course-thumb-icon">📊</div>
+        </div>
+        <div class="course-info">
+          <div class="course-category" style="color:var(--warning);">数据分析</div>
+          <div class="course-title">Python 数据分析与可视化</div>
+          <div class="course-meta">
+            <span class="course-meta-item">👤 李思琪</span>
+            <span class="course-meta-item">⏱ 36课时</span>
+            <span class="course-rating">★ 4.8</span>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">¥259 <span>/ 永久</span></div>
+            <button class="btn-enroll">立即报名</button>
+          </div>
+        </div>
       </div>
-      <div class="text-center">
-        <div class="avatar mx-auto mb-3" style="background:linear-gradient(135deg,#10b981,#06b6d4)">👨‍🏫</div>
-        <h4 class="font-semibold">王老师</h4>
-        <p class="text-xs text-zinc-500 mt-1">前字节架构师</p>
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);">
+          <span class="course-badge">新课</span>
+          <div class="course-thumb-icon">⚛️</div>
+        </div>
+        <div class="course-info">
+          <div class="course-category">前端框架</div>
+          <div class="course-title">React 高级前端开发</div>
+          <div class="course-meta">
+            <span class="course-meta-item">👤 王浩然</span>
+            <span class="course-meta-item">⏱ 42课时</span>
+            <span class="course-rating">★ 4.9</span>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">¥329 <span>/ 永久</span></div>
+            <button class="btn-enroll">立即报名</button>
+          </div>
+        </div>
       </div>
-      <div class="text-center">
-        <div class="avatar mx-auto mb-3" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">👩‍🏫</div>
-        <h4 class="font-semibold">陈老师</h4>
-        <p class="text-xs text-zinc-500 mt-1">前美团技术总监</p>
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#d1fae5 0%,#a7f3d0 100%);">
+          <div class="course-thumb-icon">🔷</div>
+        </div>
+        <div class="course-info">
+          <div class="course-category" style="color:var(--success);">后端开发</div>
+          <div class="course-title">Go 语言后端开发</div>
+          <div class="course-meta">
+            <span class="course-meta-item">👤 赵建华</span>
+            <span class="course-meta-item">⏱ 30课时</span>
+            <span class="course-rating">★ 4.7</span>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">¥279 <span>/ 永久</span></div>
+            <button class="btn-enroll">立即报名</button>
+          </div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#fce7f3 0%,#fbcfe8 100%);">
+          <span class="course-badge" style="background:var(--danger);">必学</span>
+          <div class="course-thumb-icon">🧮</div>
+        </div>
+        <div class="course-info">
+          <div class="course-category" style="color:var(--danger);">计算机基础</div>
+          <div class="course-title">算法与数据结构精讲</div>
+          <div class="course-meta">
+            <span class="course-meta-item">👤 陈志强</span>
+            <span class="course-meta-item">⏱ 52课时</span>
+            <span class="course-rating">★ 4.9</span>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">¥399 <span>/ 永久</span></div>
+            <button class="btn-enroll">立即报名</button>
+          </div>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-thumb" style="background:linear-gradient(135deg,#e0e7ff 0%,#c7d2fe 100%);">
+          <div class="course-thumb-icon">🚀</div>
+        </div>
+        <div class="course-info">
+          <div class="course-category">DevOps</div>
+          <div class="course-title">DevOps 与 CI/CD 实战</div>
+          <div class="course-meta">
+            <span class="course-meta-item">👤 刘天宇</span>
+            <span class="course-meta-item">⏱ 28课时</span>
+            <span class="course-rating">★ 4.6</span>
+          </div>
+          <div class="course-footer">
+            <div class="course-price">¥249 <span>/ 永久</span></div>
+            <button class="btn-enroll">立即报名</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="relative z-10 max-w-7xl mx-auto px-6 pb-20">
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-    <div><div class="stat-number">100+</div><div class="text-sm text-zinc-500 mt-1">精品课程</div></div>
-    <div><div class="stat-number">50+</div><div class="text-sm text-zinc-500 mt-1">资深讲师</div></div>
-    <div><div class="stat-number">10万+</div><div class="text-sm text-zinc-500 mt-1">注册学员</div></div>
-    <div><div class="stat-number">98%</div><div class="text-sm text-zinc-500 mt-1">好评率</div></div>
+<!-- 学习路径 -->
+<section id="paths" class="paths-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">学习路径</div>
+      <h2 class="section-title">系统化学习路线</h2>
+      <p class="section-subtitle">根据你的目标，选择最适合的学习路径，循序渐进，少走弯路</p>
+    </div>
+    <div class="paths-grid">
+      <div class="path-card">
+        <div class="path-icon">🎨</div>
+        <div class="path-title">前端开发工程师</div>
+        <div class="path-desc">从 HTML/CSS 基础到 React/Vue 框架，成为专业前端工程师，独立完成复杂交互页面开发</div>
+        <ul class="path-courses">
+          <li>HTML5 + CSS3 基础与进阶</li>
+          <li>JavaScript 核心语法与 ES6+</li>
+          <li>React 框架实战与状态管理</li>
+          <li>前端工程化与性能优化</li>
+          <li>项目实战：企业级后台管理系统</li>
+        </ul>
+      </div>
+      <div class="path-card">
+        <div class="path-icon">⚙️</div>
+        <div class="path-title">后端开发工程师</div>
+        <div class="path-desc">掌握服务端开发、数据库设计和 API 架构，构建高可用、高性能的后端服务</div>
+        <ul class="path-courses">
+          <li>Node.js 服务端开发实战</li>
+          <li>MySQL + Redis 数据库设计</li>
+          <li>RESTful API 设计与鉴权</li>
+          <li>微服务架构与分布式系统</li>
+          <li>项目实战：电商平台后端系统</li>
+        </ul>
+      </div>
+      <div class="path-card">
+        <div class="path-icon">🚀</div>
+        <div class="path-title">全栈开发工程师</div>
+        <div class="path-desc">前后端通吃，独立完成从数据库到用户界面的完整产品开发，创业团队首选</div>
+        <ul class="path-courses">
+          <li>前端 + 后端核心课程全覆盖</li>
+          <li>全栈项目架构设计</li>
+          <li>部署运维与云服务基础</li>
+          <li>性能优化与安全防护</li>
+          <li>综合项目：SaaS 产品全栈开发</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
-<footer class="relative z-10 border-t border-white/5 mt-10">
-  <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between text-sm text-zinc-600">
-    <span>© 2024 CodeMaster. 让编程学习更高效。</span>
-    <div class="flex gap-6"><a href="#" class="hover:text-zinc-400">关于我们</a><a href="#" class="hover:text-zinc-400">联系我们</a></div>
+<!-- 讲师团队 -->
+<section id="teachers">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">讲师团队</div>
+      <h2 class="section-title">来自一线大厂的技术专家</h2>
+      <p class="section-subtitle">每位讲师都拥有 8 年以上开发经验，手把手带你掌握核心技能</p>
+    </div>
+    <div class="teachers-grid">
+      <div class="teacher-card">
+        <div class="teacher-avatar">张</div>
+        <div class="teacher-name">张明远</div>
+        <div class="teacher-title">前阿里巴巴高级前端工程师</div>
+        <div class="teacher-desc">10年前端开发经验，主导过多个亿级用户产品的前端架构设计。擅长 React 生态、性能优化和工程化建设。</div>
+        <div class="teacher-stats">
+          <div>
+            <div class="teacher-stat-num">10年</div>
+            <div class="teacher-stat-label">开发经验</div>
+          </div>
+          <div>
+            <div class="teacher-stat-num">12门</div>
+            <div class="teacher-stat-label">主讲课程</div>
+          </div>
+          <div>
+            <div class="teacher-stat-num">4.9</div>
+            <div class="teacher-stat-label">学员评分</div>
+          </div>
+        </div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">李</div>
+        <div class="teacher-name">李思琪</div>
+        <div class="teacher-title">前字节跳动数据科学家</div>
+        <div class="teacher-desc">8年数据分析经验，擅长 Python 数据处理、机器学习应用和数据可视化。曾负责抖音推荐系统核心模块。</div>
+        <div class="teacher-stats">
+          <div>
+            <div class="teacher-stat-num">8年</div>
+            <div class="teacher-stat-label">开发经验</div>
+          </div>
+          <div>
+            <div class="teacher-stat-num">8门</div>
+            <div class="teacher-stat-label">主讲课程</div>
+          </div>
+          <div>
+            <div class="teacher-stat-num">4.8</div>
+            <div class="teacher-stat-label">学员评分</div>
+          </div>
+        </div>
+      </div>
+      <div class="teacher-card">
+        <div class="teacher-avatar">王</div>
+        <div class="teacher-name">王浩然</div>
+        <div class="teacher-title">前腾讯技术专家</div>
+        <div class="teacher-desc">12年后端开发经验，Go 语言布道者，微服务架构专家。曾主导微信支付后端系统重构。</div>
+        <div class="teacher-stats">
+          <div>
+            <div class="teacher-stat-num">12年</div>
+            <div class="teacher-stat-label">开发经验</div>
+          </div>
+          <div>
+            <div class="teacher-stat-num">15门</div>
+            <div class="teacher-stat-label">主讲课程</div>
+          </div>
+          <div>
+            <div class="teacher-stat-num">4.9</div>
+            <div class="teacher-stat-label">学员评分</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 学员评价 -->
+<section id="reviews" class="reviews-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">学员评价</div>
+      <h2 class="section-title">10万+ 学员的共同选择</h2>
+      <p class="section-subtitle">真实学员反馈，看看他们学完后的收获和变化</p>
+    </div>
+    <div class="reviews-summary">
+      <div class="reviews-summary-score">4.9</div>
+      <div class="reviews-summary-stars">★★★★★</div>
+      <div class="reviews-summary-text">基于 12,847 条真实学员评价</div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">明</div>
+          <div class="review-info">
+            <div class="review-name">小明同学</div>
+            <div class="review-meta">学习 6 个月 · 前端开发路径</div>
+          </div>
+          <div class="review-rating">★★★★★</div>
+        </div>
+        <div class="review-text">课程内容非常扎实，从基础到进阶循序渐进。张老师讲得很清楚，跟着做了几个项目后成功拿到了字节跳动的前端 offer，薪资涨了 40%！课程的项目实战部分特别有价值，面试时直接拿来当作品集。</div>
+        <div class="review-course">
+          <span class="review-course-tag">JavaScript 全栈开发</span>
+          已完成学习
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">杰</div>
+          <div class="review-info">
+            <div class="review-name">阿杰</div>
+            <div class="review-meta">学习 4 个月 · 数据分析路径</div>
+          </div>
+          <div class="review-rating">★★★★★</div>
+        </div>
+        <div class="review-text">Python 数据分析课程太实用了，学完直接用到了工作中。李老师的案例都是真实业务场景，不是那种脱离实际的玩具项目。现在我已经能独立完成公司的数据分析报告，领导对我刮目相看。</div>
+        <div class="review-course">
+          <span class="review-course-tag">Python 数据分析</span>
+          已完成学习
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">莉</div>
+          <div class="review-info">
+            <div class="review-name">莉莉安</div>
+            <div class="review-meta">学习 8 个月 · 全栈开发路径</div>
+          </div>
+          <div class="review-rating">★★★★☆</div>
+        </div>
+        <div class="review-text">全栈路径规划很合理，6 个月学完了前端和后端，又花了 2 个月做综合项目。唯一的建议是希望能增加更多的大厂面试题讲解，对找工作帮助会更大。助教答疑很及时，基本当天就能得到回复。</div>
+        <div class="review-course">
+          <span class="review-course-tag">全栈开发路径</span>
+          学习中
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">王</div>
+          <div class="review-info">
+            <div class="review-name">老王</div>
+            <div class="review-meta">学习 10 个月 · 后端开发路径</div>
+          </div>
+          <div class="review-rating">★★★★★</div>
+        </div>
+        <div class="review-text">作为一个 35 岁的转行选手，本来很担心学不会。但课程节奏把握得很好，从最基础的计算机常识讲起，循序渐进。助教也很耐心，现在已经在一家创业公司做全栈开发了，收入比之前的行业高了不少。</div>
+        <div class="review-course">
+          <span class="review-course-tag">Go 语言后端开发</span>
+          已完成学习
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">常见问题</div>
+      <h2 class="section-title">你可能想了解的问题</h2>
+      <p class="section-subtitle">如果还有其他疑问，欢迎联系客服咨询</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item active">
+        <div class="faq-q">
+          课程有效期是多久？
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">所有课程购买后永久有效，可以反复观看。课程更新也会同步给你，不需要额外付费。学习路径的学员还可以享受终身答疑服务。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          零基础能学吗？
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">完全可以！我们的课程从最基础的计算机常识讲起，循序渐进。每个学习路径都有专门的零基础入门模块，确保没有任何编程基础的同学也能跟上。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          有答疑服务吗？
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">有的。每个课程都有专属学习群，助教每天 12 小时在线答疑（9:00-21:00）。学习路径学员还可以预约讲师 1 对 1 辅导，每月 2 次免费机会。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          学完能找到工作吗？
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">我们的学员就业率达到 85% 以上。学习路径包含简历指导、模拟面试和内推机会，帮助你顺利拿到 offer。我们与 200+ 企业建立了人才合作关系。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          不满意可以退款吗？
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">购买后 7 天内，如果觉得课程不适合自己，可以申请全额退款，无需任何理由。我们对课程质量有信心，也希望你能放心学习。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container cta-content">
+    <h2>准备好开始你的编程之旅了吗？</h2>
+    <p>注册即送 7 天 VIP 体验，全部课程免费试学，不满意全额退款</p>
+    <button class="btn-cta">
+      立即免费试学
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <div class="cta-note">已有 102,847 位学员加入 · 7 天无理由退款</div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>CodePath</h3>
+        <p>专注在线编程教育，帮助每一个人掌握编程技能。我们相信，编程是这个时代最有价值的技能之一。</p>
+        <div class="footer-social">
+          <a title="微信"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348z"/></svg></a>
+          <a title="微博"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.739 5.443zM9.05 17.219c-.384.616-1.208.884-1.829.602-.612-.279-.793-.991-.406-1.593.379-.595 1.176-.861 1.793-.601.622.263.82.972.442 1.592zm1.27-1.627c-.141.237-.449.353-.689.253-.236-.09-.313-.361-.177-.586.138-.227.436-.346.672-.24.239.09.315.36.194.573zm.176-2.719c-1.893-.493-4.033.45-4.857 2.118-.836 1.704-.026 3.591 1.886 4.21 1.983.64 4.318-.341 5.132-2.179.8-1.793-.201-3.642-2.161-4.149zm7.563-1.224c-.346-.105-.579-.18-.402-.649.385-1.018.424-1.894.008-2.521-.781-1.177-2.925-1.118-5.388-.034 0 0-.774.341-.576-.275.379-1.213.318-2.239-.273-2.821-1.344-1.313-3.748.182-5.426 1.734-1.639 4.252-1.938 6.563-.784 0 0 .29.13.243-.105-.096-.486-.038-.943.174-1.279.43-.686 1.217-.908 1.959-.606.742.302 1.133 1.051.977 1.855-.066.337-.014.651.155.858.17.207.441.276.744.212.579-.121 1.169.194 1.435.75.265.556.131 1.204-.331 1.627-.467.428-1.121.563-1.75.375z"/></svg></a>
+          <a title="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>课程分类</h4>
+        <ul>
+          <li><a>前端开发</a></li>
+          <li><a>后端开发</a></li>
+          <li><a>数据分析</a></li>
+          <li><a>移动开发</a></li>
+          <li><a>DevOps</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于我们</h4>
+        <ul>
+          <li><a>公司介绍</a></li>
+          <li><a>讲师团队</a></li>
+          <li><a>企业合作</a></li>
+          <li><a>加入我们</a></li>
+          <li><a>联系我们</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>帮助支持</h4>
+        <ul>
+          <li><a>帮助中心</a></li>
+          <li><a>用户协议</a></li>
+          <li><a>隐私政策</a></li>
+          <li><a>退款政策</a></li>
+          <li><a>意见反馈</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 CodePath. All rights reserved. 京ICP备12345678号</div>
+      <div class="footer-links">
+        <a>用户协议</a>
+        <a>隐私政策</a>
+        <a>帮助中心</a>
+      </div>
+    </div>
   </div>
 </footer>
+
+<script>
+// FAQ 手风琴
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const wasActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+    if (!wasActive) item.classList.add('active');
+  });
+});
+
+// 平滑滚动
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// 导航栏滚动效果
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  const currentScroll = window.pageYOffset;
+  if (currentScroll > 100) {
+    nav.style.boxShadow = '0 4px 6px -1px rgb(0 0 0 / 0.1)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+  lastScroll = currentScroll;
+});
+</script>
+
 </body>
 </html>
