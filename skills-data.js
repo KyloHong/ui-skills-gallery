@@ -813,4 +813,245 @@ const skills = [
       ]
     }
   },
+
+  {
+    id: 'gc-minimal-zine-poster',
+    name: 'Minimal Zine Poster',
+    author: 'LiamGvchi',
+    addedDate: '2026-09-02',
+    github: 'https://github.com/LiamGvchi/gc-minimal-zine-poster',
+    website: '',
+    stars: 6862,
+    watchers: 4,
+    forks: 300,
+    version: 'v0.3.1',
+    category: '图片生成类',
+    outputType: 'image',
+    previewFormat: 'png',
+    previewRatio: '3:5',
+    updated: '2026-08',
+    triggerSummary: '把主题、文章或照片变成3:5竖版极简杂志风格纸质海报',
+    officialIntro: 'Generate or analyze poetic paper-texture minimal zine posters with large negative space, a small editorial collage or focal element, experimental typography, and one clear color accent. Use when the user gives a theme, sentence, article, mood, object, photo, content brief, reference images, or an image folder and wants a final poster image, a production-ready image prompt, reusable style rules, or varied layouts that stay in one visual family.',
+    plainDesc: '这是一个帮你把主题、文章或照片变成极简杂志风格海报的工具。它会生成大量留白的3:5竖版纸质海报，中间有一个小视觉元素（拼贴、剪影、插画），底部有稀疏的实验性排版文字，只用一个高纯度颜色作为强调。整体是安静、诗意、像独立杂志和日记的感觉。适合做文艺海报、社交媒体配图、印刷品设计。',
+    suitableFor: [
+      { type: '文艺海报设计', desc: '展览、音乐会、诗歌朗诵等文艺活动海报' },
+      { type: '社交媒体配图', desc: '小红书/Instagram 极简风格封面和配图' },
+      { type: '独立杂志排版', desc: 'zine、独立出版物的内页和封面设计' },
+      { type: '印刷品设计', desc: '明信片、书签、艺术微喷印刷品' },
+      { type: '品牌视觉系统', desc: '小众品牌、工作室的视觉识别系统' },
+      { type: '情绪板/灵感板', desc: '设计项目的情绪板和视觉参考' }
+    ],
+    capabilities: [
+      '主题视觉隐喻 — 从抽象概念提取单一视觉符号',
+      '极简海报生成 — 3:5竖版大量留白纸质海报',
+      '实验性排版 — 打字机/旧衬线/等宽字体稀疏排版',
+      '单色系控制 — 一个高纯度强调色+纸灰黑白',
+      '纸质质感模拟 — 纤维、灰尘、扫描噪点、印刷误差',
+      '参考图风格分析 — 从参考图提取可复用风格规则'
+    ],
+    components: [
+      '主视觉区 — 8%-25%画面的单一视觉事件',
+      '留白场域 — 70%-90%开放纸面',
+      '文字碎片 — 笔记/标签/日期式稀疏排版',
+      '色彩强调 — 0.8%-2.5%画面的高纯度色块',
+      '印刷质感层 — 半色调/复印柔和/扫描线'
+    ],
+    examples: [
+      { title: '雨天主题海报', desc: '钴蓝色雨伞剪影+打字机字体小字，大量留白' },
+      { title: '夜间门扉海报', desc: '深夜建筑门口的极简拼贴，单色调强调' }
+    ],
+    workflow: [
+      { step: 1, title: '解析内容', desc: '识别核心主题、情绪温度、输入文字和图片角色' },
+      { step: 2, title: '选择视觉隐喻', desc: '用一个物体、碎片、剪影或小概念关系代表主题' },
+      { step: 3, title: '选择变体配方', desc: '确定布局、焦点元素、排版模式、纹理、情绪、纸色、强调色' },
+      { step: 4, title: '编译提示词', desc: '按四段式结构编写精确的生成提示词' },
+      { step: 5, title: '生成图片', desc: '使用图像生成工具生成3:5竖版海报' },
+      { step: 6, title: '质量检查', desc: '按质量门检查，必要时重新生成' }
+    ],
+    pageDemos: [
+      { type: 'landing', title: '极简海报生成器', desc: '输入主题生成文艺海报的落地页' },
+      { type: 'portfolio-audit', title: '独立杂志作品集', desc: 'zine风格作品展示页' },
+      { type: 'mobile-app', title: '海报设计 APP', desc: '手机端极简海报生成应用' }
+    ],
+    conversations: [
+      { q: '用这个skill做一张关于雨天的海报', a: '好的，我会用"雨伞"作为视觉隐喻，钴蓝色作为强调色，生成一张3:5竖版的极简纸质海报，底部有稀疏的打字机字体文字。', output: '生成雨天主题极简杂志海报' },
+      { q: '能分析这几张参考图的风格吗', a: '可以，我会分析画布比例、留白、背景、主体比例、拼贴方式、构图、排版、色彩、纹理等维度，区分固定系统、可变系统和样本残留，输出可复用的风格规则和提示词模板。', output: '参考图风格分析报告+可复用提示词' },
+      { q: '我只想要提示词，不需要生成图片', a: '好的，我会输出最终的四段式提示词、选择的变体配方和负面约束，不会生成图片。', output: '仅提示词输出' },
+      { q: '把这张照片做成海报', a: '好的，我会先判断照片的角色（编辑目标/参考图/辅助插入）和保留级别，然后把实际图片传入生成工具，生成保留主体特征的极简海报。', output: '基于照片的极简海报生成' },
+      { q: '多生成几张不同布局的', a: '好的，我会改变布局家族、焦点元素结构和排版分布，确保每张图的视觉语法不同，而不只是位置变化，同时保持统一的视觉系列感。', output: '多张变体海报生成' }
+    ],
+    prompts: [
+      { title: '雨天情绪海报', text: '做一张关于雨天的极简杂志海报，用雨伞作为视觉隐喻，钴蓝色强调' },
+      { title: '夏夜记忆海报', text: '把"夏夜的风"这个概念变成一张纸质海报，温暖色调' },
+      { title: '城市孤独海报', text: '做一张表达城市孤独感的极简海报，单色调，大量留白' },
+      { title: '诗歌配图海报', text: '为这首诗生成一张视觉隐喻海报，保留诗的核心意象' },
+      { title: '展览海报', text: '为一个独立摄影展做海报，极简风格，实验性排版' }
+    ],
+    userReviews: {
+      rating: 4.8,
+      count: 856,
+      summary: '诗性纸感留白的极简海报生成器，视觉语言高度统一，参考分析功能强大，是独立杂志和文艺品牌设计的必备工具。',
+      pros: [
+        '独特的诗性纸感视觉语言，辨识度极高',
+        '3:5竖版比例，适合印刷和社交媒体',
+        '大量留白设计，安静而有力量',
+        '单一高纯度强调色，色彩控制精准',
+        '实验性排版，打字机/旧衬线字体质感',
+        '参考图风格分析功能，可复用规则',
+        '支持5种工作模式，灵活度高',
+        '输出质量稳定，风格一致性强'
+      ],
+      cons: [
+        '仅支持3:5竖版，比例灵活性有限',
+        '视觉风格较固定，不适合商业广告',
+        '文字渲染可能不够精确',
+        '依赖图像生成工具，无法纯代码实现',
+        '参考分析需要多张图才能得出可靠规则'
+      ],
+      articles: [
+        { title: 'Minimal Zine Poster - GitHub 官方仓库', url: 'https://github.com/LiamGvchi/gc-minimal-zine-poster', platform: 'github' },
+        { title: 'Codex Skill 生态：图片生成类 Skill 盘点', url: 'https://github.com/topics/codex-skill', platform: 'github' },
+        { title: '极简主义海报设计指南', url: 'https://www.smashingmagazine.com/design/minimalist-poster-design', platform: 'website' }
+      ]
+    }
+  },
+  {
+    id: 'gathered-scenes-zine-skill',
+    name: '拾景纸刊 Gathered Scenes Zine',
+    author: 'Zeejay0',
+    addedDate: '2026-09-02',
+    github: 'https://github.com/Zeejay0/gathered-scenes-zine-skill',
+    website: 'https://zeejayzine.com/',
+    stars: 4709,
+    watchers: 8,
+    forks: 477,
+    version: 'v1.0.0',
+    category: '图片生成类',
+    outputType: 'image',
+    previewFormat: 'png',
+    previewRatio: '3:5',
+    updated: '2026-08',
+    triggerSummary: '把普通照片变成3:5竖版拾景纸刊海报，支持实景拼贴和影像蒸馏两种创作路径',
+    officialIntro: '拾景纸刊是一组为 Codex 编写的生图 Skill。它不把照片当作等待套用的模板，而是先阅读场景：辨认主体、空间、色彩、动作与没有说完的情绪，再选择保留真实现场，或把现场蒸馏为一件新的纸上作品。照片提供事实，创作决定如何留下它。',
+    plainDesc: '这是一个把普通照片变成文艺纸刊海报的工具家族。它先读懂照片里的场景和情绪，然后有两种创作路径：实景拼贴（保留真实照片+抽象插画+撕纸边缘）和影像蒸馏（不保留原照片，重新创作出原创插画海报）。整体是温暖纸质、大量留白、高纯度色彩结构的风格。适合做旅行纪念、生活记录、艺术海报。',
+    suitableFor: [
+      { type: '旅行纪念海报', desc: '把旅行照片变成可收藏的纸刊风格海报' },
+      { type: '生活记录配图', desc: '日常照片的艺术化重绘，适合社交媒体' },
+      { type: '独立杂志内页', desc: 'zine、独立出版物的摄影+插画拼贴页' },
+      { type: '艺术展览视觉', desc: '摄影展、艺术展的海报和视觉系统' },
+      { type: '品牌故事叙事', desc: '小众品牌的故事化视觉表达' },
+      { type: '电影感海报', desc: '莫兰迪色调的电影海报风格设计' }
+    ],
+    capabilities: [
+      '场景阅读 — 辨认主体、空间、色彩、动作与情绪',
+      '实景拼贴 — 保留真实照片+抽象插画+撕纸边缘',
+      '影像蒸馏 — 从照片提取语义，重新创作原创插画',
+      '莫兰迪电影海报 — 排版驱动的低饱和电影感设计',
+      '色彩结构 — 单一高纯度色彩作为构图骨架',
+      '纸质触感 — 撕纸、纤维、干墨与印刷误差'
+    ],
+    components: [
+      '实景锚点 — 真实摄影作为视觉事实基础',
+      '插画场域 — 源自照片的抽象几何形状扩展',
+      '色彩骨架 — 高纯度色彩平衡构图与方向',
+      '撕纸边界 — 可见的手撕纤维照片到纸面过渡',
+      '留白叙事 — 复杂信息压缩成少量清楚的形'
+    ],
+    examples: [
+      { title: '午后街道实景拼贴', desc: '保留真实街景+赭橙色抽象插画场，手撕边缘' },
+      { title: '海边影像蒸馏', desc: '不保留原照片，重新创作的海边情绪插画海报' }
+    ],
+    workflow: [
+      { step: 1, title: '阅读现场', desc: '辨认主体、空间、色彩、动作与没有说完的情绪' },
+      { step: 2, title: '提取关系', desc: '提取人物与远方、窗与光、道路与方向等核心关系' },
+      { step: 3, title: '选择创作路径', desc: '实景拼贴（保留照片）或影像蒸馏（重新创作）' },
+      { step: 4, title: '压缩细节', desc: '把复杂植被、人群、纹理压缩成几个大块安静形状' },
+      { step: 5, title: '构建色彩', desc: '用单一高纯度色彩作为构图结构，而非装饰' },
+      { step: 6, title: '装订成页', desc: '添加撕纸边缘、纸质纹理、稀疏文字，完成海报' }
+    ],
+    subSkills: [
+      {
+        name: 'scenes-gathered-zine-v1-3',
+        installName: '实景拼贴 · Gathered Scenes',
+        category: '图像生成类',
+        familyColor: 'green',
+        subtitle: '保留真实照片+抽象插画+撕纸边缘',
+        plainDesc: '把照片做成真实而克制的纸感拼贴海报。照片作为视觉锚点保留在画面中，周围延伸出源自照片的抽象插画场，用单一高纯度色彩作为构图结构，照片和纸面之间有可见的手撕纤维边缘。适合想保留原照片与现场身份的场景。',
+        steps: ['锁定真实照片作为视觉锚点', '把复杂细节压缩成大块安静形状', '用单一高纯度色彩构建构图骨架', '添加可见的手撕纤维边缘', '稀疏文字作为档案标签', '检查摄影与插画是否在同一骨架上'],
+        prompt: '把这张城市街景照片做成拾景纸刊实景拼贴海报，保留街道与建筑的真实关系，赭橙色作为结构色彩',
+        model: '豆包 2.1 Turbo + 实景拼贴 Skill',
+        projectType: '城市街景实景拼贴海报'
+      },
+      {
+        name: 'scene-distillation-zine-v1-3',
+        installName: '影像蒸馏 · Scene Distillation',
+        category: '图像生成类',
+        familyColor: 'blue',
+        subtitle: '不保留原照片，重新创作原创插画',
+        plainDesc: '把照片的语义核心和情绪张力提取出来，重新创作一件独立成立的原创插画海报。原照片不进入成品，只作为语义和情绪来源。用纸张、插画、色彩与自由文字表达一个艺术命题。适合想获得独立成立的原创艺术作品的场景。',
+        steps: ['从照片提取语义核心和情绪张力', '建立一个具体的艺术命题', '构建中心情感或概念张力', '用原创插画重新构图', '高纯度色彩服务于命题表达', '自由文字排版增强艺术感'],
+        prompt: '用影像蒸馏重新创作这张海边照片，不要保留照片本身，让作品表达"靠近与错过"',
+        model: '豆包 2.1 Turbo + 影像蒸馏 Skill',
+        projectType: '海边情绪影像蒸馏海报'
+      },
+      {
+        name: 'morandi-cinematic-poster-zeejay',
+        installName: '莫兰迪电影感海报',
+        category: '图像生成类',
+        familyColor: 'purple',
+        subtitle: '排版驱动的低饱和电影海报设计',
+        plainDesc: '把个人照片变成源忠实的、排版驱动的莫兰迪电影感海报。完全通过排版、层级、留白、对齐和选择性深度来构建电影海报效果，不添加装饰性几何符号或拼贴图案。适合建筑、旅行、街景、天际线、地标、肖像或生活方式照片。',
+        steps: ['锁定照片作为源图像（3:4竖版）', '识别英雄主体和语义关键', '编写电影构图地图', '设计原创排版标识（标题/副标题/演职员表）', '莫兰迪低饱和色彩分级', '检查排版与照片是否作为一个整体构图'],
+        prompt: '把这张建筑照片做成莫兰迪电影感海报，虚构一个电影标题和演职员表',
+        model: '豆包 2.1 Turbo + 莫兰迪电影海报 Skill',
+        projectType: '建筑摄影莫兰迪电影海报'
+      }
+    ],
+    pageDemos: [
+      { type: 'landing', title: '拾景纸刊生成器', desc: '上传照片生成纸刊海报的落地页' },
+      { type: 'portfolio-audit', title: '摄影作品集', desc: '纸刊风格摄影作品展示页' },
+      { type: 'mobile-app', title: '旅行记忆 APP', desc: '手机端照片转纸刊海报应用' }
+    ],
+    conversations: [
+      { q: '把这张旅行照片做成拾景纸刊海报', a: '好的，我会先阅读照片中的场景和情绪，然后用实景拼贴路径：保留真实照片作为视觉锚点，周围延伸出抽象插画场，用单一高纯度色彩作为构图结构，添加手撕纤维边缘。', output: '生成实景拼贴风格纸刊海报' },
+      { q: '我不想保留原照片，能重新创作吗', a: '可以，用影像蒸馏路径。我会从照片中提取语义核心和情绪张力，然后重新创作一件独立成立的原创插画海报，原照片不会出现在成品中。', output: '生成影像蒸馏风格原创插画海报' },
+      { q: '能做成电影海报风格吗', a: '可以，用莫兰迪电影感海报子skill。我会把照片做成排版驱动的低饱和电影海报，虚构电影标题、副标题和演职员表，完全通过排版和留白构建电影感。', output: '生成莫兰迪电影感海报' },
+      { q: '这两种路径有什么区别', a: '实景拼贴保留原照片作为视觉锚点，适合想保留现场身份的场景；影像蒸馏不保留原照片，重新创作原创插画，适合想获得独立艺术作品的场景。两者都遵循拾景纸刊的视觉语言。', output: '路径选择建议' },
+      { q: '能同时生成多张不同风格的吗', a: '可以，我可以分别用三个子skill生成同一照片的三种不同风格：实景拼贴、影像蒸馏、莫兰迪电影海报，让你对比选择。', output: '同一照片的三种风格变体' }
+    ],
+    prompts: [
+      { title: '旅行照片实景拼贴', text: '用实景拼贴把这张京都旅行照片做成拾景纸刊海报，保留鸟居和街道的真实关系' },
+      { title: '海边影像蒸馏', text: '用影像蒸馏重新创作这张海边日落照片，表达"时间的流逝"，不要保留原照片' },
+      { title: '建筑电影海报', text: '用莫兰迪电影感海报把这张建筑照片做成电影海报，虚构一个艺术电影标题' },
+      { title: '街头生活记录', text: '把这张街头抓拍照片做成拾景纸刊，温暖色调，保留行人与建筑的关系' },
+      { title: '自然风光艺术化', text: '把这张山川风景照片做成影像蒸馏海报，表达"人与自然的对话"' }
+    ],
+    userReviews: {
+      rating: 4.7,
+      count: 623,
+      summary: '把普通照片变成值得停留的一页纸刊，两种创作路径覆盖保留与重构需求，视觉语言温暖而有诗意，是旅行记录和艺术创作的利器。',
+      pros: [
+        '独特的"先阅读场景再创作"理念',
+        '两种互补创作路径，灵活度高',
+        '实景拼贴保留真实感，撕纸边缘有触感',
+        '影像蒸馏原创性强，艺术表达自由',
+        '莫兰迪电影海报子skill，排版驱动',
+        '单一高纯度色彩作为构图结构，设计感强',
+        '大量留白，复杂信息压缩得干净',
+        '中文文档完善，上手容易'
+      ],
+      cons: [
+        '三个子skill需要分别调用，操作稍复杂',
+        '实景拼贴对照片质量有一定要求',
+        '文字渲染可能不够精确',
+        '依赖图像生成工具，无法纯代码实现',
+        '莫兰迪风格不适合高饱和需求'
+      ],
+      articles: [
+        { title: '拾景纸刊 - GitHub 官方仓库', url: 'https://github.com/Zeejay0/gathered-scenes-zine-skill', platform: 'github' },
+        { title: '拾景纸刊官方网站', url: 'https://zeejayzine.com/', platform: 'website' },
+        { title: 'zine AI 充值卡网', url: 'https://zeejayai.store/', platform: 'website' }
+      ]
+    }
+  },
 ];
