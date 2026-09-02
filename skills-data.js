@@ -711,4 +711,106 @@ const skills = [
     },
   },
 
+
+  {
+    id: 'travel-memory-sticker-card',
+    name: 'Travel Memory Sticker Card',
+    author: 'carolinaaafy',
+    addedDate: '2026-09-02',
+    github: 'https://github.com/carolinaaafy/travel-memory-sticker-card',
+    website: '',
+    stars: 396,
+    watchers: 0,
+    forks: 32,
+    version: 'v1.0.0',
+    category: '图片生成类',
+    outputType: 'image',
+    previewFormat: 'png',
+    previewRatio: '3:2',
+    updated: '2026-08',
+    triggerSummary: '把旅行/街景/风景/肖像/宠物照片变成 3:2 横向文艺记忆贴纸卡片',
+    officialIntro: 'A Codex skill for turning travel photos into collectible memory sticker cards. Transform a user-uploaded photograph into one horizontal collectible memory card with a large quiet editorial illustration, six integrated journaling-sticker motifs, three small English keywords beneath the left illustration, tactile paper grain, and deliberately clumsy flat color fields.',
+    plainDesc: '这是一个帮你把照片变成文艺记忆贴纸卡片的工具。你上传一张旅行或生活照片，它会重绘成 3:2 横向的明信片风格卡片：左边是大幅水粉剪纸插画，底部有3个英文关键词，右边是6个从照片里提取的小贴纸，整体是复古印刷的纸质感。适合做旅行纪念、手账素材、小红书配图。',
+    suitableFor: [
+      { type: '旅行纪念卡', desc: '把旅行照片变成可收藏的 3:2 横向记忆卡片' },
+      { type: '手账素材', desc: '生成6个主题贴纸和插画，适合手账拼贴' },
+      { type: '社交媒体配图', desc: '小红书/Instagram 文艺风格封面和配图' },
+      { type: '明信片设计', desc: '个性化明信片制作，可打印收藏' },
+      { type: '宠物肖像纪念', desc: '宠物照片的艺术化重绘，保留识别特征' },
+      { type: '街景风景艺术化', desc: '城市街景和自然风光的水粉剪纸风格处理' }
+    ],
+    capabilities: [
+      '照片艺术化重绘 — 转换为水粉剪纸风格插画',
+      '记忆卡片生成 — 3:2 横向可收藏卡片布局',
+      '智能贴纸提取 — 从源图像自动提取6个主题贴纸',
+      '关键词生成 — 自动生成3个场景相关英文关键词',
+      '纸质质感模拟 — 统一纸纹、手切边缘、复古印刷效果',
+      '地标识别保留 — 智能识别并保留关键地标文字'
+    ],
+    components: [
+      '主插画区 — 左侧 66-68% 大幅无框插画',
+      '关键词页脚 — 底部3个英文关键词，点分隔',
+      '贴纸列 — 右侧 30-32% 6个模切贴纸',
+      '纸质边框 — 4-5% 暖白色外边距',
+      '风格渲染引擎 — 水粉/剪纸/risograph 统一质感'
+    ],
+    examples: [
+      { title: '粉伞街角记忆卡', desc: '日本街景照片转换为粉色雨伞主题卡片' },
+      { title: '雪地巴士记忆卡', desc: '冬季雪景照片转换为复古巴士主题卡片' }
+    ],
+    workflow: [
+      { step: 1, title: '检查源图像', desc: '详细查看上传的照片，识别场景结构和细节' },
+      { step: 2, title: '识别核心元素', desc: '确定情感中心、主导空间姿态、一个紧凑识别锚点' },
+      { step: 3, title: '决定地标文字', desc: '判断是否保留源图像中的地标文字（默认不保留）' },
+      { step: 4, title: '选择贴纸和关键词', desc: '选6个源图像衍生贴纸图案和3个简洁英文关键词' },
+      { step: 5, title: '生成记忆卡片', desc: '按风格规范从源照片生成 3:2 横向卡片' },
+      { step: 6, title: '质量检查', desc: '检查贴纸数量、关键词、风格一致性，必要时重新生成' }
+    ],
+    pageDemos: [
+      { type: 'landing', title: '旅行纪念卡生成器', desc: '上传照片生成记忆卡片的落地页' },
+      { type: 'portfolio-audit', title: '手账素材库', desc: '贴纸卡片作品集展示页' },
+      { type: 'mobile-app', title: '旅行记忆 APP', desc: '手机端照片转卡片应用' }
+    ],
+    conversations: [
+      { q: '帮我把这张京都旅行照片变成记忆卡片', a: '好的，我来分析这张照片，提取鸟居、石板路、日式建筑等元素，生成一张 3:2 横向记忆卡片，包含6个主题贴纸和3个英文关键词。', output: '生成一张京都主题记忆贴纸卡片' },
+      { q: '这张宠物照片可以做成卡片吗', a: '可以！我会保留宠物的识别特征，把背景简化为大块色块，提取宠物玩具、食盆等元素作为贴纸，生成一张温馨的宠物纪念卡。', output: '生成宠物主题记忆卡片' },
+      { q: '我想要街景风格的卡片', a: '好的，街景照片特别适合这个风格。我会把建筑简化为几何色块，提取路灯、招牌、自行车等元素作为贴纸，整体用低饱和度的复古色调。', output: '生成城市街景记忆卡片' },
+      { q: '卡片上可以保留地标名称吗', a: '可以，但只保留一个真正能定位记忆的地标文字，比如"京都"或"Tokyo Tower"。普通广告、菜单、价格牌都会被抽象掉。', output: '生成带地标文字的记忆卡片' },
+      { q: '这个卡片能打印吗', a: '可以！3:2 横向比例适合打印成明信片或照片。输出是高分辨率位图，纸纹质感在印刷后效果更好。', output: '生成可打印的高分辨率记忆卡片' }
+    ],
+    prompts: [
+      { title: '京都旅行纪念卡', text: '把这张京都伏见稻荷大社的照片变成记忆卡片，保留千本鸟居的识别特征' },
+      { title: '海边度假记忆卡', text: '把这张冲绳海边照片变成记忆卡片，提取海浪、礁石、遮阳伞作为贴纸' },
+      { title: '城市街景卡片', text: '把这张东京涩谷街头照片变成记忆卡片，低饱和度复古色调' },
+      { title: '宠物纪念卡', text: '把这张猫咪照片变成记忆卡片，保留猫咪的识别特征，温馨色调' },
+      { title: '雪山风景卡', text: '把这张北海道雪景照片变成记忆卡片，提取雪山、缆车、松树作为贴纸' }
+    ],
+    userReviews: {
+      rating: 4.5,
+      count: 128,
+      summary: '独特的水粉剪纸记忆卡片风格，贴纸系统和关键词设计让照片变成可收藏的艺术品，手账爱好者和旅行博主的必备工具。',
+      pros: [
+        '独特的水粉剪纸风格，辨识度极高',
+        '3:2 横向卡片布局，适合打印和收藏',
+        '自动提取6个主题贴纸，手账友好',
+        '3个英文关键词增加文艺感',
+        '统一纸质质感，复古印刷效果',
+        '智能保留地标文字，记忆点清晰',
+        '支持旅行/街景/风景/肖像/宠物多种场景',
+        '输出质量稳定，风格一致性强'
+      ],
+      cons: [
+        '仅支持 3:2 横向比例，灵活性有限',
+        '个人非商业使用许可，商用需授权',
+        '依赖图像生成工具，无法纯代码实现',
+        '贴纸数量固定为6个，不可自定义',
+        '关键词仅支持英文，不支持中文'
+      ],
+      articles: [
+        { title: 'Travel Memory Sticker Card - GitHub 官方仓库', url: 'https://github.com/carolinaaafy/travel-memory-sticker-card', platform: 'github' },
+        { title: 'carolinaaafy 的小红书主页', url: 'https://www.xiaohongshu.com/user/profile/carolinaaafy', platform: 'xiaohongshu' },
+        { title: 'Codex Skill 生态：图片生成类 Skill 盘点', url: 'https://github.com/topics/codex-skill', platform: 'github' }
+      ]
+    }
+  },
 ];

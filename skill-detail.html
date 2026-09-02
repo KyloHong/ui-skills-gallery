@@ -492,7 +492,7 @@ tailwind.config = {
   </div>
 </main>
 
-<script src="skills-data.js?v=20260902"></script>
+<script src="skills-data.js?v=202609021900"></script>
 <script>
 // ============================================================
 // 详情页逻辑
@@ -702,7 +702,13 @@ const previewPrompts = {
     prompt: '创建一个关于AI编程工具的小红书封面，深色渐变背景，大字标题，人物居中，科技感图标，1080x1440竖版，冲击力强，适合小红书平台'
   },
 
-};
+
+    'travel-memory-sticker-card': {
+      prompt: '将一张日本京都街头的旅行照片变成一张记忆卡片，照片中有红色鸟居、石板路、远处的日式建筑',
+      beforeModel: '豆包 2.1 Turbo 直接生成',
+      afterModel: '豆包 2.1 Turbo + Travel Memory Sticker Card',
+      projectType: '日本京都旅行纪念卡'
+    },};
 
 const tabs = [
   { id: 'reviews', label: '文章测评', icon: 'newspaper' },
@@ -1679,7 +1685,7 @@ function renderDemos() {
       <div class="mb-10">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-sm font-semibold text-ink-800 flex items-center gap-2"><i data-lucide="git-compare" class="w-4 h-4 text-ink-500"></i>Before / After 效果对比</h3>
-          <span class="text-[11px] font-medium px-2.5 py-1 rounded-md bg-ink-100 text-ink-600">${preview.type}</span>
+          <span class="text-[11px] font-medium px-2.5 py-1 rounded-md bg-ink-100 text-ink-600">${preview.projectType || preview.type || "效果对比"}</span>
         </div>
         <div class="bg-ink-50/80 border border-ink-200 rounded-xl2 p-4 mb-5">
           <div class="flex items-start gap-3 mb-3">
@@ -1731,7 +1737,7 @@ function renderDemos() {
     <div class="mb-10">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-sm font-semibold text-ink-800 flex items-center gap-2"><i data-lucide="git-compare" class="w-4 h-4 text-ink-500"></i>Before / After 效果对比</h3>
-        <span class="text-[11px] font-medium px-2.5 py-1 rounded-md bg-ink-100 text-ink-600">${preview.type}</span>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-md bg-ink-100 text-ink-600">${preview.projectType || preview.type || "效果对比"}</span>
       </div>
       <div class="bg-ink-50/80 border border-ink-200 rounded-xl2 p-4 mb-5">
         <div class="flex items-start gap-3 mb-3">
