@@ -80,10 +80,98 @@ tailwind.config = {
   .comp-label { display: block; font-size: 0.7rem; font-weight: 500; color: #44403c; margin-bottom: 0.25rem; }
   .dial-track { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; background: #e7e5e4; outline: none; }
   .dial-track::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #1c1917; cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  
+  /* GPT Taste 高级样式 */
+  .glass-nav {
+    background: rgba(250, 250, 249, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(231, 229, 228, 0.6);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+  }
+  .hero-gradient {
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(249, 115, 22, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 30%, rgba(28, 25, 23, 0.03) 0%, transparent 50%);
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+  .bento-card {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.3s ease;
+    will-change: transform;
+  }
+  .bento-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 24px 60px -20px rgba(28, 25, 23, 0.18);
+  }
+  .bento-card .card-image {
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .bento-card:hover .card-image {
+    transform: scale(1.05);
+  }
+  .marquee-track {
+    animation: marquee 30s linear infinite;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  .filter-pill {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .filter-pill.active {
+    background: #1c1917;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(28, 25, 23, 0.2);
+  }
+  .stat-number {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(231, 229, 228, 0.8), transparent);
+  }
+  .cta-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  .cta-glow:hover::before {
+    opacity: 1;
+  }
 </style>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
 
-<script src="skills-data.js?v=202609022035"></script>
+<script src="skills-data.js?v=20260903gpttaste"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body class="bg-ink-50 text-ink-900 font-sans min-h-screen">
 
@@ -94,9 +182,9 @@ tailwind.config = {
   </symbol>
 </svg>
 
-<!-- Navigation -->
-<nav class="sticky top-0 z-40 bg-ink-50/80 modal-backdrop border-b border-ink-200">
-  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Navigation - Floating Glass -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-3xl">
+  <div class="glass-nav rounded-2xl px-5 py-3 flex items-center justify-between">
     <div class="flex items-center gap-2.5">
       <div class="w-8 h-8 rounded-lg bg-ink-900 flex items-center justify-center">
         <i data-lucide="layout-grid" class="w-4 h-4 text-white"></i>
@@ -104,8 +192,8 @@ tailwind.config = {
       <span class="font-semibold text-[15px] tracking-tight">UI Skills Gallery</span>
     </div>
     <div class="flex items-center gap-4">
-      <span class="text-xs text-ink-500 font-mono hidden sm:block" id="skillCount">5 skills</span>
-      <a href="https://github.com" target="_blank" class="flex items-center gap-1.5 text-sm text-ink-600 hover:text-ink-900 transition-colors">
+      <span class="text-xs text-ink-500 font-mono hidden sm:block stat-number" id="skillCount">10 skills</span>
+      <a href="https://github.com/KyloHong/ui-skills-gallery" target="_blank" class="flex items-center gap-1.5 text-sm text-ink-600 hover:text-ink-900 transition-colors">
         <i data-lucide="github" class="w-4 h-4"></i>
         <span class="hidden sm:inline">GitHub</span>
       </a>
@@ -113,40 +201,104 @@ tailwind.config = {
   </div>
 </nav>
 
-<!-- Hero -->
-<header class="relative overflow-hidden border-b border-ink-200">
-  <div class="absolute inset-0 noise-bg pointer-events-none"></div>
-  <div class="max-w-6xl mx-auto px-6 py-20 md:py-28 relative">
-    <div class="max-w-2xl">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ink-100 border border-ink-200 text-xs font-medium text-ink-600 mb-6">
-        <span class="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse"></span>
-        UI 技能预览与实践平台
+<!-- Hero - Cinematic Center -->
+<header class="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+  <div class="absolute inset-0 hero-gradient pointer-events-none"></div>
+  <div class="absolute inset-0 noise-bg pointer-events-none opacity-50"></div>
+  <div class="relative max-w-5xl mx-auto px-6 text-center">
+    <div class="reveal-up inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/60 border border-ink-200/60 mb-8">
+      <span class="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse"></span>
+      <span class="text-xs font-medium text-ink-600">UI 技能预览与实践平台</span>
+    </div>
+    <h1 class="hero-title reveal-up text-ink-900 mb-6">
+      预览每个 UI Skill<br>
+      <span class="gradient-text">能生成什么样的网站</span>
+    </h1>
+    <p class="reveal-up text-base md:text-lg text-ink-500 max-w-2xl mx-auto leading-relaxed mb-10">
+      不再靠猜测。浏览技能详情、效果演示、打分记录你的实践经验——一切在一个页面里完成。
+    </p>
+    <div class="reveal-up flex items-center justify-center gap-3">
+      <a href="#gallery" class="cta-glow inline-flex items-center gap-2 px-6 py-3 bg-ink-900 text-white text-sm font-medium rounded-xl hover:bg-ink-800 transition-all hover:-translate-y-0.5 shadow-lg shadow-ink-900/10">
+        浏览技能
+        <i data-lucide="arrow-down" class="w-4 h-4"></i>
+      </a>
+      <a href="#about" class="inline-flex items-center gap-2 px-6 py-3 bg-white/70 text-ink-700 text-sm font-medium rounded-xl border border-ink-200/60 hover:bg-white hover:border-ink-300 transition-all hover:-translate-y-0.5">
+        关于项目
+      </a>
+    </div>
+    <!-- 统计数据 -->
+    <div class="reveal-up mt-16 flex items-center justify-center gap-12">
+      <div class="text-center">
+        <div class="text-3xl font-bold stat-number text-ink-900">10</div>
+        <div class="text-xs text-ink-400 mt-1">精选技能</div>
       </div>
-      <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-5">
-        预览每个 UI Skill<br>
-        <span class="gradient-text">能生成什么样的网站</span>
-      </h1>
-      <p class="text-lg text-ink-500 leading-relaxed max-w-xl mb-8">
-        不再靠猜测。浏览技能详情、组件预览、APP/WEB 效果演示，打分记录你的实践经验——一切在一个页面里完成。
-      </p>
-      <div class="flex items-center gap-3">
-        <a href="#gallery" class="inline-flex items-center gap-2 px-5 py-2.5 bg-ink-900 text-white text-sm font-medium rounded-lg hover:bg-ink-800 transition-colors">
-          浏览技能 <i data-lucide="arrow-down" class="w-4 h-4"></i>
-        </a>
-        <a href="#about" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-ink-700 text-sm font-medium rounded-lg border border-ink-200 hover:border-ink-300 hover:bg-ink-50 transition-colors">
-          关于项目
-        </a>
+      <div class="w-px h-10 bg-ink-200"></div>
+      <div class="text-center">
+        <div class="text-3xl font-bold stat-number text-ink-900">352k+</div>
+        <div class="text-xs text-ink-400 mt-1">GitHub Stars</div>
+      </div>
+      <div class="w-px h-10 bg-ink-200"></div>
+      <div class="text-center">
+        <div class="text-3xl font-bold stat-number text-ink-900">2</div>
+        <div class="text-xs text-ink-400 mt-1">技能类型</div>
       </div>
     </div>
   </div>
 </header>
 
+<!-- Infinite Marquee -->
+<div class="border-y border-ink-200/60 py-5 overflow-hidden bg-white/40">
+  <div class="marquee-track flex items-center gap-12 whitespace-nowrap">
+    <span class="text-sm font-medium text-ink-400">shadcn/ui</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">UI/UX Pro Max</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Taste Skill</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Impeccable</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Remotion</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Awesome Design MD JP</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Oh My Cover Design</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Travel Memory Sticker Card</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Minimal Zine Poster</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">拾景纸刊</span>
+    <span class="text-ink-200">·</span>
+    <!-- 重复一遍实现无缝滚动 -->
+    <span class="text-sm font-medium text-ink-400">shadcn/ui</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">UI/UX Pro Max</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Taste Skill</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Impeccable</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Remotion</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Awesome Design MD JP</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Oh My Cover Design</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Travel Memory Sticker Card</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">Minimal Zine Poster</span>
+    <span class="text-ink-200">·</span>
+    <span class="text-sm font-medium text-ink-400">拾景纸刊</span>
+    <span class="text-ink-200">·</span>
+  </div>
+</div>
+
 <!-- Filter & Sort Bar -->
-<section id="gallery" class="max-w-6xl mx-auto px-6 py-8">
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-    <div>
-      <h2 class="text-xl font-semibold tracking-tight">技能库</h2>
-      <p class="text-sm text-ink-500 mt-0.5">点击卡片查看完整详情</p>
+<section id="gallery" class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+    <div class="reveal-up">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">技能库</h2>
+      <p class="text-sm text-ink-500 mt-2">点击卡片查看完整详情、效果演示与实践评价</p>
     </div>
     <div class="flex items-center gap-3 flex-wrap">
       <!-- 分类筛选按钮组 -->
@@ -176,44 +328,56 @@ tailwind.config = {
 </section>
 
 <!-- About Section -->
-<section id="about" class="border-t border-ink-200 mt-16">
-  <div class="max-w-6xl mx-auto px-6 py-16">
-    <h2 class="text-2xl font-bold tracking-tight mb-8">关于项目</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bg-white rounded-xl2 border border-ink-200 p-6">
-        <div class="flex items-center gap-2.5 mb-4">
-          <div class="w-8 h-8 rounded-lg bg-accent-50 flex items-center justify-center"><i data-lucide="sparkles" class="w-4 h-4 text-accent-600"></i></div>
-          <h3 class="font-semibold text-[15px]">我可以用它来干嘛？</h3>
+<section id="about" class="border-t border-ink-200/60 mt-24">
+  <div class="max-w-6xl mx-auto px-6 py-20 md:py-32">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="reveal-up">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-6">关于这个项目</h2>
+        <p class="text-ink-500 leading-relaxed mb-6">
+          UI Skills Gallery 是一个专注于 UI 设计技能的预览与实践平台。我们收集优质的 AI 设计技能，
+          提供真实的效果对比、详细的使用指南和用户实践评价，帮助你在使用前就能了解每个技能的真实能力。
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <span class="px-3 py-1.5 rounded-lg bg-ink-100 text-ink-600 text-xs font-medium">纯原生 JavaScript</span>
+          <span class="px-3 py-1.5 rounded-lg bg-ink-100 text-ink-600 text-xs font-medium">Tailwind CSS</span>
+          <span class="px-3 py-1.5 rounded-lg bg-ink-100 text-ink-600 text-xs font-medium">GSAP 动画</span>
+          <span class="px-3 py-1.5 rounded-lg bg-ink-100 text-ink-600 text-xs font-medium">GitHub Pages</span>
         </div>
-        <ul class="space-y-2.5 text-sm text-ink-600 leading-relaxed">
-          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>快速预览每个 UI Skill 能生成的组件和页面效果</li>
-          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>查看 APP / WEB 双端完整界面演示</li>
-          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>学习 AI 对话场景，复制提示词直接使用</li>
-          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-accent-600 shrink-0 mt-0.5"></i>打分并记录你的实践经验，本地持久化保存</li>
-        </ul>
       </div>
-      <div class="bg-white rounded-xl2 border border-ink-200 p-6">
-        <div class="flex items-center gap-2.5 mb-4">
-          <div class="w-8 h-8 rounded-lg bg-ink-100 flex items-center justify-center"><i data-lucide="folder-open" class="w-4 h-4 text-ink-600"></i></div>
-          <h3 class="font-semibold text-[15px]">项目里是什么东西？</h3>
+      <div class="reveal-up">
+        <div class="bg-white rounded-2xl border border-ink-200/80 p-8 shadow-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-ink-900 flex items-center justify-center">
+              <i data-lucide="github" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-sm">开源项目</div>
+              <div class="text-xs text-ink-400">欢迎贡献与反馈</div>
+            </div>
+          </div>
+          <a href="https://github.com/KyloHong/ui-skills-gallery" target="_blank" class="cta-glow w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-ink-900 text-white text-sm font-medium rounded-xl hover:bg-ink-800 transition-all">
+            <i data-lucide="star" class="w-4 h-4"></i>
+            在 GitHub 上 Star
+          </a>
         </div>
-        <ul class="space-y-2.5 text-sm text-ink-600 leading-relaxed">
-          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>单文件 HTML，所有 CSS/JS 内联，无构建依赖</li>
-          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>纯原生 JavaScript 驱动，skills 数据数组渲染全部内容</li>
-          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>localStorage 持久化实践打分与截图记录</li>
-          <li class="flex gap-2.5"><i data-lucide="file-code" class="w-4 h-4 text-ink-400 shrink-0 mt-0.5"></i>包含 3 个技能的完整数据：组件、示例、页面演示、对话场景</li>
-        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<footer class="border-t border-ink-200">
+<!-- Footer -->
+<footer class="border-t border-ink-200/60">
   <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-xs text-ink-400">UI Skills Gallery · 单文件构建 · 数据本地存储</p>
-    <p class="text-xs text-ink-400 font-mono">v2.1 · taste-skill rebuilt</p>
+    <div class="flex items-center gap-2">
+      <div class="w-6 h-6 rounded-md bg-ink-900 flex items-center justify-center">
+        <span class="text-white text-[10px] font-bold">UI</span>
+      </div>
+      <span class="text-sm font-medium text-ink-600">UI Skills Gallery</span>
+    </div>
+    <p class="text-xs text-ink-400">用 Awwwards 级别的设计，展示每个技能的真实能力</p>
   </div>
 </footer>
+
 
 <!-- Detail Modal -->
 <div id="detailModal" class="fixed inset-0 z-50 hidden">
@@ -833,6 +997,7 @@ function wrapDevice(content, isMobile) {
 // ============================================================
 let currentFilterType = 'all';
 
+
 function setFilterType(type) {
   currentFilterType = type;
   // 更新按钮样式
@@ -860,7 +1025,7 @@ function renderSkillsGrid(sortBy = 'default') {
   else if (sortBy === 'name-az') sorted.sort((a, b) => a.name.localeCompare(b.name));
 
   grid.innerHTML = sorted.map(skill => `
-    <div class="card-hover bg-white rounded-xl2 border border-ink-200 p-5 cursor-pointer animate-fade-in" onclick="window.location.href='skill-detail.html?id=${skill.id}'">
+    <div class="bento-card bg-white rounded-2xl border border-ink-200/80 p-5 cursor-pointer overflow-hidden group" onclick="window.location.href='skill-detail.html?id=${skill.id}'">
       <div class="flex items-start justify-between mb-3">
         <div class="w-10 h-10 rounded-xl bg-ink-900 flex items-center justify-center shrink-0">
           <i data-lucide="${skill.id === 'shadcn-ui' ? 'layers' : skill.id === 'ui-ux-pro-max' ? 'palette' : 'sparkles'}" class="w-5 h-5 text-white"></i>
@@ -1340,6 +1505,37 @@ function closeLightbox(){document.getElementById('lightbox').classList.add('hidd
 document.addEventListener('DOMContentLoaded',()=>{
   renderSkillsGrid();
   document.getElementById('skillCount').textContent=skills.length+' skills';
+  
+  // GSAP 滚动动画初始化
+  if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Hero 区域动画 - 依次淡入上移
+    gsap.to('.reveal-up', {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'power3.out',
+      delay: 0.1
+    });
+    
+    // 卡片滚动动画
+    gsap.utils.toArray('.bento-card').forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 88%',
+          toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.6,
+        delay: (i % 3) * 0.08,
+        ease: 'power3.out'
+      });
+    });
+  }
   document.getElementById('sortSelect').addEventListener('change',e=>renderSkillsGrid(e.target.value));
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!document.getElementById('lightbox').classList.contains('hidden'))closeLightbox(); else if(!document.getElementById('detailModal').classList.contains('hidden'))closeModal(); } });
   lucide.createIcons();
