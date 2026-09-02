@@ -190,6 +190,67 @@ tailwind.config = {
   color: #888;
   margin-top: 8px;
 }
+
+  /* GPT Taste 高级样式 */
+  .glass-nav {
+    background: rgba(250, 250, 249, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(231, 229, 228, 0.6);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+  }
+  .hero-gradient {
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(249, 115, 22, 0.06) 0%, transparent 60%);
+  }
+  .detail-title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+  .bento-card {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.3s ease;
+    will-change: transform;
+  }
+  .bento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px -15px rgba(28, 25, 23, 0.12);
+  }
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  .stat-number {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .cta-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  .cta-glow:hover::before { opacity: 1; }
+  .tab-pill {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tab-pill.active {
+    background: #1c1917;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(28, 25, 23, 0.15);
+  }
 </style>
 <style>
   /* 详情页重新设计 */
@@ -456,17 +517,17 @@ tailwind.config = {
 
 
 <!-- 顶部导航 -->
-<header class="detail-header">
-  <div class="detail-container flex items-center justify-between h-14">
-    <a href="index.html" class="back-btn">
+<header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-3xl">
+  <div class="glass-nav rounded-2xl px-5 py-3 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2 text-sm font-medium text-ink-600 hover:text-ink-900 transition-colors">
       <i data-lucide="arrow-left" class="w-4 h-4"></i>
       返回技能库
     </a>
     <div class="flex items-center gap-2">
-      <div class="w-7 h-7 rounded-lg bg-stone-900 flex items-center justify-center">
+      <div class="w-7 h-7 rounded-lg bg-ink-900 flex items-center justify-center">
         <span class="text-white text-[10px] font-bold">UI</span>
       </div>
-      <span class="text-sm font-semibold text-stone-800">UI Skills Gallery</span>
+      <span class="text-sm font-semibold text-ink-800">UI Skills Gallery</span>
     </div>
   </div>
 </header>
@@ -492,7 +553,9 @@ tailwind.config = {
   </div>
 </main>
 
-<script src="skills-data.js?v=202609022035"></script>
+<script src="skills-data.js?v=20260903gpttaste"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 // ============================================================
 // 详情页逻辑
@@ -529,11 +592,40 @@ function init() {
   
   document.title = currentSkill.name + ' - UI Skills Gallery';
   renderSkillHero();
-  switchTab('experience');
+  switchTab('reviews');
   lucide.createIcons();
 
   // 初始化图片滑块对比（图片类 skill）
   initImageCompare();
+  // GSAP 滚动动画初始化
+  if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Hero 区域动画
+    gsap.to('.reveal-up', {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.1,
+      ease: 'power3.out',
+      delay: 0.1
+    });
+    
+    // 内容卡片滚动动画
+    gsap.utils.toArray('.bento-card, .bg-white.rounded-xl2, .bg-white.rounded-2xl').forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 88%',
+          toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        ease: 'power3.out'
+      });
+    });
+  }
 }
 
 // 渲染 Skill 信息区
@@ -548,60 +640,42 @@ function renderSkillHero() {
   ).join('');
   
   document.getElementById('skillHero').querySelector('.detail-container').innerHTML = `
-    <div class="flex flex-col gap-1.5 mb-3">
-      ${tagsHtml ? `<div class="flex items-center gap-2">${tagsHtml}</div>` : ''}
-      <span class="text-[11px] text-stone-400 font-mono">${s.version ? (s.version.startsWith('v') ? s.version : 'v' + s.version) : 'v1.0.0'}</span>
-      ${s.author ? `<div class="text-[11px] text-stone-600 flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i>${s.author}</div>` : ''}
-      ${s.addedDate ? `<div class="text-[11px] text-stone-400 flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>上传日期：${s.addedDate}</div>` : ''}
-    </div>
-    <div class="skill-title-row">
-      <h1 class="skill-title">${s.name}</h1>
-      <div class="skill-links">
-        ${s.github ? `<a href="${s.github}" target="_blank" class="skill-link-btn skill-link-github">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          ${parseStars(s.stars) || 'Star'}
-        </a>` : ''}
-        ${s.website ? `<a href="${s.website}" target="_blank" class="skill-link-btn skill-link-website">
-          <i data-lucide="external-link" class="w-4 h-4"></i>
-          官网
-        </a>` : ''}
+    <div class="reveal-up pt-24 pb-8">
+      <div class="flex flex-col gap-1.5 mb-4">
+        ${tagsHtml ? `<div class="flex items-center gap-2">${tagsHtml}</div>` : ''}
+        <div class="flex items-center gap-3 text-[11px]">
+          <span class="text-stone-400 font-mono stat-number">${s.version ? (s.version.startsWith('v') ? s.version : 'v' + s.version) : 'v1.0.0'}</span>
+          ${s.author ? `<span class="text-stone-500 flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i>${s.author}</span>` : ''}
+          ${s.addedDate ? `<span class="text-stone-400 flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>上传日期：${s.addedDate}</span>` : ''}
+        </div>
       </div>
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
+        <h1 class="detail-title text-stone-900">${s.name}</h1>
+        <div class="flex items-center gap-2 shrink-0">
+          ${s.github ? `<a href="${s.github}" target="_blank" class="cta-glow inline-flex items-center gap-1.5 px-4 py-2 bg-stone-900 text-white text-xs font-medium rounded-xl hover:bg-stone-800 transition-all hover:-translate-y-0.5 shadow-md">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span class="font-mono stat-number">${parseStars(s.stars) || 'Star'}</span>
+          </a>` : ''}
+          ${s.website ? `<a href="${s.website}" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-stone-700 text-xs font-medium rounded-xl border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all hover:-translate-y-0.5">
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            官网
+          </a>` : ''}
+        </div>
+      </div>
+      ${s.officialIntro ? `<p class="reveal-up text-sm md:text-base text-stone-600 leading-relaxed mb-5 max-w-3xl">${s.officialIntro}</p>` : ''}
+      ${s.plainDesc ? `<div class="reveal-up bg-orange-50/80 border border-orange-100 rounded-xl p-4 mb-5 max-w-3xl">
+        <span class="text-[11px] font-semibold text-orange-600 uppercase tracking-wider">大白话</span>
+        <p class="text-sm text-stone-700 mt-1.5 leading-relaxed">${s.plainDesc}</p>
+      </div>` : ''}
+      ${suitableForHtml ? `<div class="reveal-up flex flex-wrap items-center gap-2">
+        <span class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">适合做什么</span>
+        ${suitableForHtml}
+      </div>` : ''}
     </div>
-    ${s.officialIntro ? `<p class="text-sm text-stone-600 leading-relaxed mb-4 max-w-4xl">${s.officialIntro}</p>` : ''}
-    ${s.plainDesc ? `<div class="bg-orange-50 border border-orange-100 rounded-lg p-3 mb-4 max-w-4xl">
-      <span class="text-[11px] font-semibold text-orange-600">大白话</span>
-      <p class="text-sm text-stone-700 mt-1">${s.plainDesc}</p>
-    </div>` : ''}
-    ${suitableForHtml ? `<div class="flex flex-wrap gap-2">
-      <span class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider py-1">适合做什么</span>
-      ${suitableForHtml}
-    </div>` : ''}
   `;
 }
 
 // 初始化
-function init() {
-  const skillId = getSkillIdFromUrl();
-  if (!skillId) {
-    document.getElementById('skillHero').querySelector('.detail-container').innerHTML = 
-      '<p class="text-stone-500">未指定 skill</p><a href="index.html" class="text-orange-600 underline">返回首页</a>';
-    return;
-  }
-  
-  currentSkill = skills.find(s => s.id === skillId);
-  if (!currentSkill) {
-    document.getElementById('skillHero').querySelector('.detail-container').innerHTML = 
-      '<p class="text-stone-500">未找到 skill: ' + skillId + '</p><a href="index.html" class="text-orange-600 underline">返回首页</a>';
-    return;
-  }
-  
-  document.title = currentSkill.name + ' - UI Skills Gallery';
-  renderSkillHero();
-  currentTab = 'reviews';
-  renderTabs();
-  renderTabContent();
-  lucide.createIcons();
-}
 
 
 
@@ -1399,10 +1473,10 @@ function renderTabs() {
   const visibleTabs = tabs.filter(t => t.id !== 'subskills' || (currentSkill && currentSkill.subSkills && currentSkill.subSkills.length > 0));
   const inner = document.querySelector('#tabsBar .tabs-inner');
   if (inner) {
-    inner.innerHTML = visibleTabs.map(tab => `
-      <button onclick="switchTab('${tab.id}')" class="tab-btn ${currentTab === tab.id ? 'active' : ''}">
+    inner.innerHTML = `<div class="flex items-center gap-1 p-1 bg-stone-100/80 rounded-xl overflow-x-auto scrollbar-thin">` + visibleTabs.map(tab => `
+      <button onclick="switchTab('${tab.id}')" class="tab-pill ${currentTab === tab.id ? 'active' : ''} flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium rounded-lg whitespace-nowrap transition-all ${currentTab === tab.id ? '' : 'text-stone-500 hover:text-stone-700'}">
         <i data-lucide="${tab.icon}" class="w-3.5 h-3.5"></i>${tab.label}
-      </button>`).join('');
+      </button>`).join('') + `</div>`;
   }
 }
 function switchTab(tabId) { currentTab = tabId; renderTabs(); renderTabContent(); lucide.createIcons(); }
