@@ -3,90 +3,269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>商品詳細 - 中古スマホ</title>
+<title>珈琲庵 - 精品咖啡</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #333;
-  line-height: 1.4;
-  font-size: 14px;
-}
-.container { max-width: 800px; margin: 0 auto; padding: 20px; }
-.header { background: #fff; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
-.header h1 { font-size: 18px; color: #333; }
-.header .nav { display: flex; gap: 15px; }
-.header .nav a { color: #666; text-decoration: none; font-size: 13px; }
-.product-card { background: #fff; border-radius: 8px; padding: 20px; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.product-image { width: 100%; height: 300px; background: linear-gradient(135deg, #e0e0e0, #f5f5f5); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 16px; margin-bottom: 20px; }
-.product-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; color: #222; }
-.product-price { font-size: 28px; color: #e53935; font-weight: bold; margin-bottom: 15px; }
-.product-price .original { font-size: 14px; color: #999; text-decoration: line-through; margin-left: 10px; }
-.seller-info { display: flex; align-items: center; gap: 10px; padding: 15px; background: #fafafa; border-radius: 6px; margin-bottom: 15px; }
-.seller-avatar { width: 40px; height: 40px; border-radius: 50%; background: #ccc; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
-.seller-name { font-weight: bold; font-size: 14px; }
-.seller-rating { color: #ff9800; font-size: 12px; }
-.product-desc { margin: 15px 0; line-height: 1.4; color: #555; }
-.product-desc h3 { font-size: 16px; margin-bottom: 8px; color: #333; }
-.buy-btn { width: 100%; padding: 15px; background: #e53935; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-.buy-btn:hover { background: #d32f2f; }
-.comments { margin-top: 20px; }
-.comment { background: #fff; padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid #e53935; }
-.comment-user { font-weight: bold; font-size: 13px; margin-bottom: 5px; }
-.comment-text { font-size: 13px; color: #666; line-height: 1.4; }
-.tags { display: flex; gap: 8px; margin: 15px 0; flex-wrap: wrap; }
-.tag { padding: 4px 10px; background: #eee; border-radius: 4px; font-size: 12px; color: #666; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+.logo { font-size: 24px; font-weight: bold; color: #6F4E37; }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; }
+.nav-links a:hover { color: #6F4E37; }
+.btn { padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s; display: inline-block; }
+.btn-primary { background: linear-gradient(135deg, #6F4E37, #A0522D); color: #fff; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(111,78,55,0.4); }
+.btn-outline { border: 2px solid #6F4E37; color: #6F4E37; }
+.btn-outline:hover { background: #6F4E37; color: #fff; }
+.hero { background: linear-gradient(135deg, #6F4E37 0%, #A0522D 50%, #CD853F 100%); color: #fff; padding: 100px 0; text-align: center; }
+.hero h1 { font-size: 48px; margin-bottom: 20px; }
+.hero p { font-size: 20px; margin-bottom: 30px; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto; }
+.hero-buttons { display: flex; gap: 20px; justify-content: center; }
+.hero .btn-primary { background: #fff; color: #6F4E37; }
+.hero .btn-outline { border-color: #fff; color: #fff; }
+.products { padding: 80px 0; background: #f9f9f9; }
+.section-title { text-align: center; font-size: 36px; margin-bottom: 50px; color: #333; }
+.product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+.product-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
+.product-card:hover { transform: translateY(-5px); }
+.product-img { height: 200px; background: linear-gradient(135deg, #D2B48C, #8B7355); display: flex; align-items: center; justify-content: center; font-size: 60px; }
+.product-info { padding: 20px; }
+.product-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+.product-origin { font-size: 14px; color: #888; margin-bottom: 10px; }
+.product-flavor { font-size: 13px; color: #666; margin-bottom: 15px; }
+.product-price { font-size: 20px; font-weight: bold; color: #6F4E37; }
+.story { padding: 80px 0; }
+.story-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+.story-img { height: 400px; background: linear-gradient(135deg, #8B7355, #6F4E37); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+.story-text h2 { font-size: 32px; margin-bottom: 20px; color: #333; }
+.story-text p { margin-bottom: 15px; color: #666; }
+.stores { padding: 80px 0; background: #f9f9f9; }
+.store-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+.store-card { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.store-name { font-size: 20px; font-weight: bold; margin-bottom: 10px; color: #6F4E37; }
+.store-address { font-size: 14px; color: #666; margin-bottom: 10px; }
+.store-hours { font-size: 14px; color: #888; }
+.reviews { padding: 80px 0; }
+.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+.review-card { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.review-stars { color: #FFD700; font-size: 20px; margin-bottom: 15px; }
+.review-text { font-size: 15px; color: #555; margin-bottom: 20px; font-style: italic; }
+.review-author { font-weight: bold; color: #333; }
+.faq { padding: 80px 0; background: #f9f9f9; }
+.faq-item { background: #fff; margin-bottom: 15px; border-radius: 10px; overflow: hidden; }
+.faq-question { padding: 20px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.faq-answer { padding: 0 20px 20px; color: #666; display: none; }
+.faq-item.active .faq-answer { display: block; }
+.cta { background: linear-gradient(135deg, #6F4E37, #A0522D); color: #fff; padding: 80px 0; text-align: center; }
+.cta h2 { font-size: 36px; margin-bottom: 20px; }
+.cta p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; }
+.cta-form { display: flex; gap: 10px; max-width: 500px; margin: 0 auto; }
+.cta-form input { flex: 1; padding: 15px; border: none; border-radius: 25px; font-size: 16px; }
+.cta-form button { padding: 15px 30px; border: none; border-radius: 25px; background: #fff; color: #6F4E37; font-weight: bold; cursor: pointer; font-size: 16px; }
+footer { background: #2c2c2c; color: #fff; padding: 50px 0 20px; }
+.footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 30px; }
+.footer-col h4 { margin-bottom: 15px; color: #D2B48C; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { color: #aaa; text-decoration: none; }
+.footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #444; color: #888; }
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>フリマアプリ</h1>
-  <div class="nav">
-    <a href="#">ホーム</a>
-    <a href="#">カテゴリ</a>
-    <a href="#">マイページ</a>
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">珈琲庵</div>
+      <ul class="nav-links">
+        <li><a href="#products">咖啡豆</a></li>
+        <li><a href="#story">品牌故事</a></li>
+        <li><a href="#stores">门店</a></li>
+        <li><a href="#reviews">评价</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a href="#cta" class="btn btn-primary">预约品鉴</a>
+    </nav>
   </div>
-</div>
-<div class="container">
-  <div class="product-card">
-    <div class="product-image">📱 商品画像</div>
-    <h2 class="product-title">iPhone 13 Pro 256GB シルバー 中古美品！！！</h2>
-    <div class="product-price">¥68,000 <span class="original">¥85,000</span></div>
-    <div class="tags">
-      <span class="tag">iPhone</span>
-      <span class="tag">スマホ</span>
-      <span class="tag">中古</span>
-      <span class="tag">美品</span>
+</header>
+<section class="hero">
+  <div class="container">
+    <h1>一杯咖啡，一段时光</h1>
+    <p>来自日本各地的精选咖啡豆，每一颗都经过严格筛选和精心烘焙，为您带来最纯正的日式咖啡体验。</p>
+    <div class="hero-buttons">
+      <a href="#products" class="btn btn-primary">探索咖啡豆</a>
+      <a href="#stores" class="btn btn-outline">查找门店</a>
     </div>
-    <div class="seller-info">
-      <div class="seller-avatar">田</div>
-      <div>
-        <div class="seller-name">田中太郎</div>
-        <div class="seller-rating">★★★★☆ 4.2 (128件)</div>
+  </div>
+</section>
+<section class="products" id="products">
+  <div class="container">
+    <h2 class="section-title">精选咖啡豆</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-img">☕</div>
+        <div class="product-info">
+          <div class="product-name">京都深煎</div>
+          <div class="product-origin">产地：京都府</div>
+          <div class="product-flavor">风味：焦糖、黑巧克力、烟熏</div>
+          <div class="product-price">¥1,800</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">☕</div>
+        <div class="product-info">
+          <div class="product-name">富士山麓</div>
+          <div class="product-origin">产地：静冈县</div>
+          <div class="product-flavor">风味：柑橘、茉莉、蜂蜜</div>
+          <div class="product-price">¥2,200</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">☕</div>
+        <div class="product-info">
+          <div class="product-name">濑户内海</div>
+          <div class="product-origin">产地：香川县</div>
+          <div class="product-flavor">风味：海盐、坚果、奶油</div>
+          <div class="product-price">¥1,950</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">☕</div>
+        <div class="product-info">
+          <div class="product-name">北海道雪</div>
+          <div class="product-origin">产地：北海道</div>
+          <div class="product-flavor">风味：香草、白巧克力、莓果</div>
+          <div class="product-price">¥2,500</div>
+        </div>
       </div>
     </div>
-    <div class="product-desc">
-      <h3>商品説明</h3>
-      <p>この度はiPhone 13 Pro 256GB シルバーを出品します！！使用感は少しありますが、機能は全て正常です。画面に傷はありません。バッテリー容量は89%です。付属品は充電ケーブルのみです。箱はありません。迅速に発送しますので、よろしくお願いします！！！</p>
-    </div>
-    <button class="buy-btn">購入する</button>
   </div>
-  <div class="comments">
-    <h3 style="margin-bottom: 15px; font-size: 16px;">コメント (3)</h3>
-    <div class="comment">
-      <div class="comment-user">山田花子</div>
-      <div class="comment-text">値下げ可能でしょうか？？65,000円までなら即購入します！</div>
-    </div>
-    <div class="comment">
-      <div class="comment-user">佐藤健</div>
-      <div class="comment-text">バッテリーの減り具合はどうですか？1日持ちますか？</div>
-    </div>
-    <div class="comment">
-      <div class="comment-user">鈴木一郎</div>
-      <div class="comment-text">発送はいつ頃になりますか？？土日は発送不可でしょうか？</div>
+</section>
+<section class="story" id="story">
+  <div class="container">
+    <div class="story-content">
+      <div class="story-img">🏔️</div>
+      <div class="story-text">
+        <h2>我们的故事</h2>
+        <p>珈琲庵创立于2015年，源于对日本传统咖啡文化的热爱。我们的创始人在京都学习了十年的咖啡烘焙技艺，将传统的日式烘焙方法与现代精品咖啡理念相结合。</p>
+        <p>每一颗咖啡豆都来自日本各地的精选农场，我们与当地农民建立了长期合作关系，确保每一批咖啡豆的品质和可持续性。</p>
+        <p>我们相信，一杯好的咖啡不仅仅是饮品，更是一种生活方式，一段与自己对话的时光。</p>
+      </div>
     </div>
   </div>
-</div>
+</section>
+<section class="stores" id="stores">
+  <div class="container">
+    <h2 class="section-title">门店信息</h2>
+    <div class="store-grid">
+      <div class="store-card">
+        <div class="store-name">京都本店</div>
+        <div class="store-address">📍 京都市东山区祇园町南侧570-2</div>
+        <div class="store-hours">🕐 营业时间：8:00 - 20:00</div>
+      </div>
+      <div class="store-card">
+        <div class="store-name">东京涩谷店</div>
+        <div class="store-address">📍 东京都涩谷区神宫前4-12-10</div>
+        <div class="store-hours">🕐 营业时间：9:00 - 21:00</div>
+      </div>
+      <div class="store-card">
+        <div class="store-name">大阪难波店</div>
+        <div class="store-address">📍 大阪府大阪市中央区难波1-1-2</div>
+        <div class="store-hours">🕐 营业时间：8:30 - 20:30</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="reviews" id="reviews">
+  <div class="container">
+    <h2 class="section-title">顾客评价</h2>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"京都深煎的味道太惊艳了！焦糖和黑巧克力的风味完美融合，是我喝过最好的日式深煎咖啡。"</p>
+        <div class="review-author">— 田中さん</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"门店氛围非常好，安静舒适，很适合一个人看书或者工作。店员的服务也很贴心。"</p>
+        <div class="review-author">— 佐藤さん</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">"咖啡豆的品质很高，包装也很精美，作为礼物送人非常合适。价格虽然不便宜，但物有所值。"</p>
+        <div class="review-author">— 山田さん</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="faq" id="faq">
+  <div class="container">
+    <h2 class="section-title">常见问题</h2>
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">咖啡豆的保质期是多久？<span>+</span></div>
+      <div class="faq-answer">我们的咖啡豆烘焙后保质期为3个月，建议在开封后1个月内饮用完毕，以保证最佳风味。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">可以在线订购吗？<span>+</span></div>
+      <div class="faq-answer">可以，我们支持全国配送，订单满3000日元免运费。通常下单后2-3个工作日内发货。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">门店可以预约品鉴会吗？<span>+</span></div>
+      <div class="faq-answer">可以，我们每月定期举办咖啡品鉴会，您可以通过官网或电话预约。品鉴会包含4款不同咖啡豆的品尝和专业讲解。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">有咖啡课程吗？<span>+</span></div>
+      <div class="faq-answer">有，我们提供从入门到进阶的咖啡课程，包括手冲咖啡、拉花艺术、杯测品鉴等。课程详情请咨询门店。</div>
+    </div>
+  </div>
+</section>
+<section class="cta" id="cta">
+  <div class="container">
+    <h2>订阅我们的咖啡通讯</h2>
+    <p>获取最新产品信息、品鉴会通知和专属优惠</p>
+    <form class="cta-form" onsubmit="event.preventDefault(); alert('感谢订阅！')">
+      <input type="email" placeholder="输入您的邮箱地址" required>
+      <button type="submit">订阅</button>
+    </form>
+  </div>
+</section>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>珈琲庵</h4>
+        <p style="color:#aaa; font-size:14px;">一杯咖啡，一段时光</p>
+      </div>
+      <div class="footer-col">
+        <h4>产品</h4>
+        <ul>
+          <li><a href="#">咖啡豆</a></li>
+          <li><a href="#">咖啡器具</a></li>
+          <li><a href="#">礼品套装</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于</h4>
+        <ul>
+          <li><a href="#">品牌故事</a></li>
+          <li><a href="#">门店信息</a></li>
+          <li><a href="#">加入我们</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>支持</h4>
+        <ul>
+          <li><a href="#">常见问题</a></li>
+          <li><a href="#">配送说明</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 珈琲庵. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

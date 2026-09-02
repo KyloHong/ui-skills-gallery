@@ -3,413 +3,929 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iPhone 13 Pro 256GB シルバー - メルカリ</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<title>珈琲庵 | 京都発・精品珈琲</title>
 <style>
+/* ============================================================
+   Awesome Design MD JP 规范应用
+   1. 和文フォントフォールバックチェーン
+   2. OpenType プロポーショナル組版 (palt/pkna)
+   3. 禁則処理 (line-break: strict; overflow-wrap: anywhere)
+   4. 混植ルール (和文+欧文の字間調整)
+   5. 日本的レイアウト (余白・グリッド・縦書き)
+   ============================================================ */
+
 :root {
-  --mercari-red: #ff4d4d;
-  --mercari-red-dark: #e63e3e;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666;
-  --text-muted: #999;
-  --bg-primary: #ffffff;
-  --bg-secondary: #f7f7f7;
-  --border-light: #eee;
-  --border-medium: #ddd;
-  --accent-orange: #ff9500;
-  --success-green: #4cd964;
+  /* デザイントークン */
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #4a4a4a;
+  --color-ink-muted: #8a8a8a;
+  --color-paper: #faf8f5;
+  --color-paper-warm: #f5f1ea;
+  --color-line: #e0dbd3;
+  --color-accent: #8b4513;
+  --color-accent-soft: #a0522d;
+  --color-gold: #b8860b;
+
+  /* フォントサイズ・スケール (日本的な小さめ設定) */
+  --fs-hero: 3.5rem;
+  --fs-h2: 2rem;
+  --fs-h3: 1.25rem;
+  --fs-body: 0.9375rem;
+  --fs-small: 0.8125rem;
+  --fs-caption: 0.6875rem;
+
+  /* スペーシング (8pxグリッド) */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2rem;
+  --sp-5: 3rem;
+  --sp-6: 4rem;
+  --sp-8: 6rem;
+  --sp-12: 9rem;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { font-size: 16px; }
-body {
-  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  line-height: 1.7;
-  letter-spacing: 0.03em;
-  font-size: 14px;
-  font-weight: 400;
+
+html {
+  /* 禁則処理：厳格モード */
+  line-break: strict;
+  overflow-wrap: anywhere;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
-.container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
 
-/* Header */
-.header {
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-light);
+body {
+  /* 和文フォントフォールバックチェーン */
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", "Noto Sans JP", sans-serif;
+  /* OpenType プロポーショナル組版 */
+  font-feature-settings: "palt" 1, "pkna" 1;
+  font-size: var(--fs-body);
+  color: var(--color-ink);
+  background: var(--color-paper);
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+}
+
+/* 明朝体クラス（見出しなど） */
+.font-mincho {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "MS Mincho", "Noto Serif JP", serif;
+  font-feature-settings: "palt" 1, "pkna" 1;
+}
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+}
+
+/* ============================================================
+   ヘッダー（日本的なシンプルさ）
+   ============================================================ */
+header {
+  background: rgba(250, 248, 245, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-line);
   position: sticky;
   top: 0;
   z-index: 100;
 }
-.header-inner {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 16px;
-  height: 56px;
+nav {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-3) 0;
 }
 .logo {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--mercari-red);
-  letter-spacing: -0.02em;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: 0.15em;
 }
-.nav { display: flex; gap: 24px; align-items: center; }
-.nav a {
-  color: var(--text-secondary);
+.logo small {
+  display: block;
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.3em;
+  margin-top: 2px;
+}
+.nav-links {
+  display: flex;
+  gap: var(--sp-5);
+  list-style: none;
+}
+.nav-links a {
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  transition: color 0.2s;
+  color: var(--color-ink-soft);
+  font-size: var(--fs-small);
+  letter-spacing: 0.1em;
+  transition: color 0.3s;
+  position: relative;
 }
-.nav a:hover { color: var(--text-primary); }
-.sell-btn {
-  background: var(--mercari-red);
-  color: #fff !important;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-weight: 700 !important;
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-accent);
+  transition: width 0.3s;
 }
-.sell-btn:hover { background: var(--mercari-red-dark); }
+.nav-links a:hover { color: var(--color-accent); }
+.nav-links a:hover::after { width: 100%; }
 
-/* Product Layout */
-.product-layout {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
-  margin-top: 24px;
-  margin-bottom: 32px;
-}
-@media (max-width: 768px) {
-  .product-layout { grid-template-columns: 1fr; }
-}
-
-/* Product Images */
-.product-images {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: 16px;
-}
-.main-image {
-  width: 100%;
-  aspect-ratio: 1;
-  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  font-size: 16px;
-  margin-bottom: 12px;
-}
-.thumbnails {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
-.thumbnail {
-  aspect-ratio: 1;
-  background: #f0f0f0;
-  border-radius: 6px;
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-.thumbnail.active { border-color: var(--mercari-red); }
-
-/* Product Info */
-.product-info {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: 20px;
-  position: sticky;
-  top: 80px;
-  align-self: start;
-}
-.product-title {
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-  margin-bottom: 12px;
-  color: var(--text-primary);
-}
-.product-price {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-  letter-spacing: -0.01em;
-}
-.product-price .yen { font-size: 20px; margin-right: 2px; }
-.shipping-info {
-  font-size: 12px;
-  color: var(--success-green);
-  font-weight: 500;
-  margin-bottom: 16px;
-}
-.seller-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  margin-bottom: 16px;
-}
-.seller-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff9500, #ff6b6b);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-}
-.seller-details { flex: 1; }
-.seller-name {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-.seller-rating {
-  font-size: 12px;
-  color: var(--accent-orange);
-  font-weight: 500;
-}
-.buy-btn {
-  width: 100%;
-  padding: 14px;
-  background: var(--mercari-red);
-  color: #fff;
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  text-decoration: none;
+  font-size: var(--fs-small);
+  letter-spacing: 0.15em;
+  transition: all 0.3s;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
-  font-family: inherit;
-  letter-spacing: 0.05em;
 }
-.buy-btn:hover { background: var(--mercari-red-dark); }
-.fav-btn {
-  width: 100%;
-  padding: 12px;
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.btn-primary:hover {
+  background: var(--color-accent);
+}
+.btn-outline {
   background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-medium);
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.2s;
-  font-family: inherit;
+  color: var(--color-ink);
+  border: 1px solid var(--color-ink);
 }
-.fav-btn:hover { border-color: var(--mercari-red); color: var(--mercari-red); }
+.btn-outline:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
 
-/* Product Details */
-.product-details {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 24px;
+/* ============================================================
+   ヒーロー（日本的な余白と縦書き）
+   ============================================================ */
+.hero {
+  padding: var(--sp-12) 0 var(--sp-8);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  right: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(139, 69, 19, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-6);
+  align-items: start;
+}
+.hero-content { max-width: 600px; }
+.hero-eyebrow {
+  font-size: var(--fs-caption);
+  color: var(--color-accent);
+  letter-spacing: 0.4em;
+  margin-bottom: var(--sp-3);
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: var(--fs-hero);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--sp-4);
+  color: var(--color-ink);
+}
+.hero h1 .accent {
+  color: var(--color-accent);
+  position: relative;
+}
+.hero p {
+  font-size: var(--fs-body);
+  color: var(--color-ink-soft);
+  line-height: 2;
+  margin-bottom: var(--sp-5);
+  max-width: 480px;
+}
+.hero-buttons {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+/* 縦書きサイドテキスト（日本的な要素） */
+.hero-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: var(--fs-small);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.3em;
+  line-height: 2.5;
+  padding-top: var(--sp-2);
+}
+
+/* ============================================================
+   セクション共通
+   ============================================================ */
+section { padding: var(--sp-8) 0; }
+.section-header {
+  margin-bottom: var(--sp-6);
+}
+.section-eyebrow {
+  font-size: var(--fs-caption);
+  color: var(--color-accent);
+  letter-spacing: 0.4em;
+  margin-bottom: var(--sp-2);
+  text-transform: uppercase;
 }
 .section-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-light);
-  letter-spacing: 0.02em;
-}
-.tags {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.tag {
-  padding: 6px 12px;
-  background: var(--bg-secondary);
-  border-radius: 16px;
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: var(--fs-h2);
   font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+  margin-bottom: var(--sp-2);
 }
-.desc-text {
-  font-size: 14px;
-  line-height: 1.8;
-  letter-spacing: 0.03em;
-  color: var(--text-secondary);
+.section-desc {
+  font-size: var(--fs-small);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.05em;
 }
-.spec-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-}
-.spec-table th, .spec-table td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid var(--border-light);
-  font-size: 13px;
-}
-.spec-table th {
-  width: 120px;
-  color: var(--text-muted);
-  font-weight: 500;
-  background: var(--bg-secondary);
-}
-.spec-table td { color: var(--text-primary); font-weight: 500; }
 
-/* Comments */
-.comments {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 32px;
+/* ============================================================
+   プロダクト（日本的なカードデザイン）
+   ============================================================ */
+.products { background: var(--color-paper-warm); }
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--color-line);
+  border: 1px solid var(--color-line);
 }
-.comment {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border-light);
+.product-card {
+  background: var(--color-paper);
+  padding: var(--sp-4) var(--sp-3);
+  transition: background 0.3s;
+  position: relative;
 }
-.comment:last-child { border-bottom: none; }
-.comment-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+.product-card:hover {
+  background: #fff;
 }
-.comment-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #ddd;
+.product-card:hover .product-name {
+  color: var(--color-accent);
+}
+.product-num {
+  font-family: "Georgia", serif;
+  font-size: var(--fs-caption);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--sp-3);
+}
+.product-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #e8e0d5, #d4c8b8);
+  margin-bottom: var(--sp-3);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 3rem;
+  position: relative;
+  overflow: hidden;
 }
-.comment-user {
-  font-size: 13px;
-  font-weight: 700;
+.product-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.1));
 }
-.comment-time {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-left: auto;
+.product-name {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-1);
+  transition: color 0.3s;
 }
-.comment-text {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  letter-spacing: 0.02em;
-  padding-left: 42px;
+.product-origin {
+  font-size: var(--fs-caption);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--sp-2);
+}
+.product-flavor {
+  font-size: var(--fs-small);
+  color: var(--color-ink-soft);
+  line-height: 1.8;
+  margin-bottom: var(--sp-3);
+}
+.product-price {
+  font-family: "Georgia", serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--color-ink);
+  letter-spacing: 0.05em;
+}
+.product-price small {
+  font-size: var(--fs-caption);
+  color: var(--color-ink-muted);
+  margin-left: 4px;
+}
+
+/* ============================================================
+   ストーリー（日本的なレイアウト）
+   ============================================================ */
+.story-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+  align-items: center;
+}
+.story-img {
+  aspect-ratio: 4/5;
+  background: linear-gradient(160deg, #c9b896, #8b7355);
+  position: relative;
+  overflow: hidden;
+}
+.story-img::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.story-text h2 {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-4);
+  line-height: 1.5;
+}
+.story-text p {
+  font-size: var(--fs-body);
+  color: var(--color-ink-soft);
+  line-height: 2.1;
+  margin-bottom: var(--sp-3);
+  text-indent: 1em;
+}
+.story-text p:first-of-type::first-letter {
+  font-family: "Hiragino Mincho ProN", serif;
+  font-size: 2em;
+  color: var(--color-accent);
+  float: left;
+  line-height: 1;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   ストア（日本的なリスト表示）
+   ============================================================ */
+.stores { background: var(--color-paper-warm); }
+.store-list {
+  border-top: 1px solid var(--color-line);
+}
+.store-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: var(--sp-4);
+  align-items: center;
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--color-line);
+  transition: background 0.3s;
+}
+.store-item:hover {
+  background: rgba(139, 69, 19, 0.03);
+  padding-left: var(--sp-2);
+  padding-right: var(--sp-2);
+}
+.store-num {
+  font-family: "Georgia", serif;
+  font-size: var(--fs-h3);
+  color: var(--color-ink-muted);
+  font-weight: 300;
+}
+.store-info h3 {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-1);
+}
+.store-info p {
+  font-size: var(--fs-small);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.03em;
+}
+.store-hours {
+  font-size: var(--fs-small);
+  color: var(--color-ink-soft);
+  text-align: right;
+  font-family: "Georgia", serif;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   レビュー（日本的な引用スタイル）
+   ============================================================ */
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+.review-card {
+  padding: var(--sp-4);
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  position: relative;
+}
+.review-card::before {
+  content: "「";
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-family: "Hiragino Mincho ProN", serif;
+  font-size: 3rem;
+  color: var(--color-line);
+  line-height: 1;
+}
+.review-stars {
+  color: var(--color-gold);
+  font-size: var(--fs-small);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+.review-text {
+  font-size: var(--fs-small);
+  color: var(--color-ink-soft);
+  line-height: 2;
+  margin-bottom: var(--sp-3);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+}
+.review-author {
+  font-size: var(--fs-caption);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+
+/* ============================================================
+   FAQ（日本的なアコーディオン）
+   ============================================================ */
+.faq { background: var(--color-paper-warm); }
+.faq-list {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.faq-item {
+  border-bottom: 1px solid var(--color-line);
+}
+.faq-question {
+  padding: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  letter-spacing: 0.03em;
+  transition: color 0.3s;
+}
+.faq-question:hover { color: var(--color-accent); }
+.faq-question .q-mark {
+  font-family: "Georgia", serif;
+  color: var(--color-accent);
+  margin-right: var(--sp-2);
+  font-weight: 400;
+}
+.faq-question .toggle {
+  font-size: 1.25rem;
+  color: var(--color-ink-muted);
+  transition: transform 0.3s;
+  font-weight: 300;
+}
+.faq-item.active .toggle { transform: rotate(45deg); }
+.faq-answer {
+  padding: 0 0 var(--sp-3) 2rem;
+  font-size: var(--fs-small);
+  color: var(--color-ink-soft);
+  line-height: 2;
+  display: none;
+}
+.faq-item.active .faq-answer { display: block; }
+
+/* ============================================================
+   CTA（日本的なシンプルさ）
+   ============================================================ */
+.cta {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: var(--sp-8) 0;
+  text-align: center;
+  position: relative;
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(184, 134, 11, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cta h2 {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--sp-3);
+  position: relative;
+}
+.cta p {
+  font-size: var(--fs-small);
+  color: rgba(250, 248, 245, 0.6);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--sp-5);
+  position: relative;
+}
+.cta-form {
+  display: flex;
+  gap: var(--sp-2);
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+.cta-form input {
+  flex: 1;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid rgba(250, 248, 245, 0.2);
+  background: rgba(250, 248, 245, 0.05);
+  color: var(--color-paper);
+  font-size: var(--fs-small);
+  letter-spacing: 0.05em;
+  font-family: inherit;
+}
+.cta-form input::placeholder {
+  color: rgba(250, 248, 245, 0.4);
+}
+.cta-form input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+.cta-form button {
+  padding: 0.875rem 2rem;
+  border: none;
+  background: var(--color-gold);
+  color: var(--color-ink);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: inherit;
+}
+.cta-form button:hover {
+  background: #d4a017;
+}
+
+/* ============================================================
+   フッター（日本的なシンプルさ）
+   ============================================================ */
+footer {
+  background: var(--color-paper);
+  border-top: 1px solid var(--color-line);
+  padding: var(--sp-6) 0 var(--sp-3);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--sp-5);
+  margin-bottom: var(--sp-5);
+}
+.footer-brand .logo {
+  margin-bottom: var(--sp-2);
+}
+.footer-brand p {
+  font-size: var(--fs-small);
+  color: var(--color-ink-muted);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+}
+.footer-col h4 {
+  font-size: var(--fs-caption);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-3);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: var(--sp-1); }
+.footer-col a {
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  font-size: var(--fs-small);
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--color-accent); }
+.footer-bottom {
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--color-line);
+  text-align: center;
+  font-size: var(--fs-caption);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.1em;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-vertical { display: none; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .story-content { grid-template-columns: 1fr; }
+  .store-item { grid-template-columns: 1fr; gap: var(--sp-2); }
+  .store-hours { text-align: left; }
+  .review-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
 }
 </style>
 </head>
 <body>
-<header class="header">
-  <div class="header-inner">
-    <div class="logo">メルカリ</div>
-    <nav class="nav">
-      <a href="#">ホーム</a>
-      <a href="#">カテゴリ</a>
-      <a href="#">マイページ</a>
-      <a href="#" class="sell-btn">出品</a>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">
+        珈琲庵
+        <small>COFFEEAN KYOTO</small>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#products">珈琲豆</a></li>
+        <li><a href="#story">物語</a></li>
+        <li><a href="#stores">店舗</a></li>
+        <li><a href="#reviews">声</a></li>
+        <li><a href="#faq">質問</a></li>
+      </ul>
+      <a href="#cta" class="btn btn-primary">予約する</a>
     </nav>
   </div>
 </header>
 
-<div class="container">
-  <div class="product-layout">
-    <div class="product-images">
-      <div class="main-image">📱 iPhone 13 Pro メイン画像</div>
-      <div class="thumbnails">
-        <div class="thumbnail active"></div>
-        <div class="thumbnail"></div>
-        <div class="thumbnail"></div>
-        <div class="thumbnail"></div>
-        <div class="thumbnail"></div>
-      </div>
-    </div>
-
-    <div class="product-info">
-      <h1 class="product-title">iPhone 13 Pro 256GB シルバー 中古美品</h1>
-      <div class="product-price"><span class="yen">¥</span>68,000</div>
-      <div class="shipping-info">送料込み・匿名配送</div>
-      <div class="seller-card">
-        <div class="seller-avatar">田</div>
-        <div class="seller-details">
-          <div class="seller-name">田中太郎</div>
-          <div class="seller-rating">★★★★☆ 4.2（128件の評価）</div>
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">EST. 2015 / KYOTO</div>
+        <h1>一杯の珈琲が、<br><span class="accent">日常を変える</span></h1>
+        <p>日本各地の厳選された珈琲豆を、伝統的な焙煎技術で丁寧に仕上げました。一口ごとに広がる豊かな風味と、静かな時間の流れをお楽しみください。</p>
+        <div class="hero-buttons">
+          <a href="#products" class="btn btn-primary">珈琲豆を見る</a>
+          <a href="#stores" class="btn btn-outline">店舗を探す</a>
         </div>
       </div>
-      <button class="buy-btn">購入手続きへ</button>
-      <button class="fav-btn">♡ お気に入りに追加</button>
+      <div class="hero-vertical">
+        京都・祇園より、お届けします
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="product-details">
-    <h2 class="section-title">商品の説明</h2>
-    <div class="tags">
-      <span class="tag">iPhone</span>
-      <span class="tag">スマートフォン</span>
-      <span class="tag">中古品</span>
-      <span class="tag">美品</span>
-      <span class="tag">256GB</span>
+<section class="products" id="products">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">SELECTION</div>
+      <h2 class="section-title">厳選珈琲豆</h2>
+      <p class="section-desc">日本各地の生産者と直接契約、一期一会の味わい</p>
     </div>
-    <p class="desc-text">
-      この度は、iPhone 13 Pro 256GB シルバーを出品させていただきます。使用感は少しありますが、機能は全て正常に動作いたします。画面に傷はありません。バッテリー容量は89%です。付属品は充電ケーブルのみとなります。箱は付属しておりません。迅速に発送させていただきますので、よろしくお願いいたします。
-    </p>
-    <table class="spec-table">
-      <tr><th>カテゴリ</th><td>スマートフォン本体</td></tr>
-      <tr><th>ブランド</th><td>Apple</td></tr>
-      <tr><th>機種名</th><td>iPhone 13 Pro</td></tr>
-      <tr><th>ストレージ</th><td>256GB</td></tr>
-      <tr><th>カラー</th><td>シルバー</td></tr>
-      <tr><th>バッテリー</th><td>89%</td></tr>
-      <tr><th>発送方法</th><td>匿名配送・送料込み</td></tr>
-    </table>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-num">01</div>
+        <div class="product-img">☕</div>
+        <div class="product-name">京都深煎</div>
+        <div class="product-origin">京都府・宇治</div>
+        <div class="product-flavor">キャラメル、ダークチョコレート、スモーキー</div>
+        <div class="product-price">¥1,800<small>/ 200g</small></div>
+      </div>
+      <div class="product-card">
+        <div class="product-num">02</div>
+        <div class="product-img">☕</div>
+        <div class="product-name">富士山麓</div>
+        <div class="product-origin">静岡県・富士宮</div>
+        <div class="product-flavor">シトラス、ジャスミン、ハチミツ</div>
+        <div class="product-price">¥2,200<small>/ 200g</small></div>
+      </div>
+      <div class="product-card">
+        <div class="product-num">03</div>
+        <div class="product-img">☕</div>
+        <div class="product-name">瀬戸内海</div>
+        <div class="product-origin">香川県・小豆島</div>
+        <div class="product-flavor">海塩、ナッツ、クリーム</div>
+        <div class="product-price">¥1,950<small>/ 200g</small></div>
+      </div>
+      <div class="product-card">
+        <div class="product-num">04</div>
+        <div class="product-img">☕</div>
+        <div class="product-name">北海道雪</div>
+        <div class="product-origin">北海道・富良野</div>
+        <div class="product-flavor">バニラ、ホワイトチョコ、ベリー</div>
+        <div class="product-price">¥2,500<small>/ 200g</small></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="comments">
-    <h2 class="section-title">コメント（3件）</h2>
-    <div class="comment">
-      <div class="comment-header">
-        <div class="comment-avatar" style="background: linear-gradient(135deg, #667eea, #764ba2);">山</div>
-        <div class="comment-user">山田花子</div>
-        <div class="comment-time">2時間前</div>
+<section class="story" id="story">
+  <div class="container">
+    <div class="story-content">
+      <div class="story-img"></div>
+      <div class="story-text">
+        <div class="section-eyebrow">OUR STORY</div>
+        <h2>珈琲庵の物語</h2>
+        <p>珈琲庵は2015年、京都・祇園の小さな町家から始まりました。創業者は京都で十年間、伝統的な珈琲焙煎の技を学び、日本の珈琲文化の深さと可能性に魅了されました。</p>
+        <p>私たちは、日本各地の生産者と直接契約を結び、土壌・気候・品種に至るまで、こだわり抜いた珈琲豆だけを使用しています。</p>
+        <p>一杯の珈琲は、ただの飲み物ではありません。日常の喧騒から離れ、自分自身と向き合う、大切な時間なのです。</p>
       </div>
-      <p class="comment-text">値下げは可能でしょうか。65,000円まででしたら、即購入させていただきます。</p>
-    </div>
-    <div class="comment">
-      <div class="comment-header">
-        <div class="comment-avatar" style="background: linear-gradient(135deg, #f093fb, #f5576c);">佐</div>
-        <div class="comment-user">佐藤健</div>
-        <div class="comment-time">5時間前</div>
-      </div>
-      <p class="comment-text">バッテリーの減り具合はいかがでしょうか。1日は持ちますでしょうか。</p>
-    </div>
-    <div class="comment">
-      <div class="comment-header">
-        <div class="comment-avatar" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">鈴</div>
-        <div class="comment-user">鈴木一郎</div>
-        <div class="comment-time">1日前</div>
-      </div>
-      <p class="comment-text">発送はいつ頃になりますでしょうか。土日は発送が不可でしょうか。</p>
     </div>
   </div>
-</div>
+</section>
+
+<section class="stores" id="stores">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">LOCATIONS</div>
+      <h2 class="section-title">店舗案内</h2>
+      <p class="section-desc">京都・東京・大阪、三つの店舗でお待ちしております</p>
+    </div>
+    <div class="store-list">
+      <div class="store-item">
+        <div class="store-num">01</div>
+        <div class="store-info">
+          <h3>京都本店</h3>
+          <p>京都市東山区祇園町南側570-2</p>
+        </div>
+        <div class="store-hours">8:00 — 20:00</div>
+      </div>
+      <div class="store-item">
+        <div class="store-num">02</div>
+        <div class="store-info">
+          <h3>東京渋谷店</h3>
+          <p>東京都渋谷区神宮前4-12-10</p>
+        </div>
+        <div class="store-hours">9:00 — 21:00</div>
+      </div>
+      <div class="store-item">
+        <div class="store-num">03</div>
+        <div class="store-info">
+          <h3>大阪難波店</h3>
+          <p>大阪府大阪市中央区難波1-1-2</p>
+        </div>
+        <div class="store-hours">8:30 — 20:30</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">VOICES</div>
+      <h2 class="section-title">お客様の声</h2>
+      <p class="section-desc">日々の珈琲時間から、真実の声をお届けします</p>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <p class="review-text">京都深煎の味わいは格別です。キャラメルとダークチョコレートの風味が見事に調和し、今まで飲んだ和製深煎の中で最高の一杯でした。</p>
+        <div class="review-author">田中 様</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <p class="review-text">店舗の雰囲気がとても素晴らしく、静かで落ち着いた空間です。一人で読書をするにも最適で、店員さんの対応も丁寧で心温まります。</p>
+        <div class="review-author">佐藤 様</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★ ★ ★ ★ ☆</div>
+        <p class="review-text">珈琲豆の品質は非常に高く、パッケージも繊細で美しいため、贈り物として最適です。価格は決して安くはありませんが、その価値は十分にあります。</p>
+        <div class="review-author">山田 様</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-header" style="text-align:center;">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-title">よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+          <span><span class="q-mark">Q.</span>珈琲豆の賞味期限はどのくらいですか？</span>
+          <span class="toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          焙煎後3ヶ月を賞味期限としております。開封後は1ヶ月以内にお飲みいただくことで、最高の風味をお楽しみいただけます。
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+          <span><span class="q-mark">Q.</span>オンラインで注文できますか？</span>
+          <span class="toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          はい、全国配送に対応しております。3,000円以上のご注文で送料無料となります。通常、ご注文後2〜3営業日以内に発送いたします。
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+          <span><span class="q-mark">Q.</span>店舗でテイスティング会を予約できますか？</span>
+          <span class="toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          はい、毎月定期的に珈琲テイスティング会を開催しております。公式ウェブサイトまたはお電話にてご予約いただけます。4種類の珈琲豆のテイスティングと専門家による解説が含まれます。
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+          <span><span class="q-mark">Q.</span>珈琲教室はありますか？</span>
+          <span class="toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          はい、入門から上級まで、様々な珈琲教室をご用意しております。ハンドドリップ、ラテアート、カッピングなど、内容は多岐にわたります。詳細は各店舗までお問い合わせください。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="container">
+    <h2>珈琲便りを購読する</h2>
+    <p>新商品情報・テイスティング会のご案内・会員限定特典</p>
+    <form class="cta-form" onsubmit="event.preventDefault(); alert('ご登録ありがとうございます')">
+      <input type="email" placeholder="メールアドレスをご入力ください" required>
+      <button type="submit">登録</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          珈琲庵
+          <small>COFFEEAN KYOTO</small>
+        </div>
+        <p>一杯の珈琲が、日常を変える。<br>京都・祇園より、日本の珈琲文化をお届けします。</p>
+      </div>
+      <div class="footer-col">
+        <h4>PRODUCTS</h4>
+        <ul>
+          <li><a href="#">珈琲豆</a></li>
+          <li><a href="#">珈琲器具</a></li>
+          <li><a href="#">ギフトセット</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>ABOUT</h4>
+        <ul>
+          <li><a href="#">物語</a></li>
+          <li><a href="#">店舗案内</a></li>
+          <li><a href="#">採用情報</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="#">よくある質問</a></li>
+          <li><a href="#">配送について</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2024 珈琲庵 COFFEEAN KYOTO. All rights reserved.
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
