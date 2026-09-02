@@ -1702,14 +1702,20 @@ function renderDemos() {
             </div>
           </div>
         </div>
-        <div class="img-compare-container" id="imgCompareContainer">
-          <img src="${beforeImg}" alt="Before" class="img-compare-before" loading="lazy">
-          <img src="${afterImg}" alt="After" class="img-compare-after" loading="lazy">
-          <div class="img-compare-slider" id="imgCompareSlider"></div>
-          <span class="img-compare-label before">Before</span>
-          <span class="img-compare-label after">After</span>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-xs font-semibold text-red-600 mb-2 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red-500"></span>Before — 普通AI生成</div>
+            <a href="${beforeImg}" target="_blank" class="block">
+              <img src="${beforeImg}" alt="Before" class="w-full rounded-lg border border-ink-200 hover:shadow-lg transition-shadow" loading="lazy">
+            </a>
+          </div>
+          <div>
+            <div class="text-xs font-semibold text-green-600 mb-2 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-green-500"></span>After — ${currentSkill.name}设计</div>
+            <a href="${afterImg}" target="_blank" class="block">
+              <img src="${afterImg}" alt="After" class="w-full rounded-lg border border-ink-200 hover:shadow-lg transition-shadow" loading="lazy">
+            </a>
+          </div>
         </div>
-        <p class="img-compare-hint">← 拖动中间滑块对比 Before / After 效果 →</p>
       </div>
     </div>`;
   }
