@@ -454,11 +454,11 @@ function renderSkillHero() {
   ).join('');
   
   document.getElementById('skillHero').querySelector('.detail-container').innerHTML = `
-    <div class="flex items-center gap-2 mb-3">
-      ${tagsHtml}
-      <span class="text-[11px] text-stone-400 font-mono">v${s.version || '1.0.0'}</span>
-${s.author ? `<span class="text-[11px] text-stone-600 flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i>${s.author}</span>` : ''}
-      ${s.addedDate ? `<span class="text-[11px] text-stone-400 flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>${s.addedDate}</span>` : ''}
+    <div class="flex flex-col gap-1.5 mb-3">
+      ${tagsHtml ? `<div class="flex items-center gap-2">${tagsHtml}</div>` : ''}
+      <span class="text-[11px] text-stone-400 font-mono">${s.version ? (s.version.startsWith('v') ? s.version : 'v' + s.version) : 'v1.0.0'}</span>
+      ${s.author ? `<div class="text-[11px] text-stone-600 flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i>${s.author}</div>` : ''}
+      ${s.addedDate ? `<div class="text-[11px] text-stone-400 flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>上传日期：${s.addedDate}</div>` : ''}
     </div>
     <div class="skill-title-row">
       <h1 class="skill-title">${s.name}</h1>
